@@ -77,6 +77,9 @@ class InputManager:
                 for action, key in self.key_map.items():
                     if action in self.actions_pressed and event.key == key:
                         self.actions_pressed[action] = True
+            
+            if self.actions_pressed["quit"]:
+                self.quit_attempted = True
 
         # 3. Procesar todas las acciones "mantenidas"
         key_states = pygame.key.get_pressed()
