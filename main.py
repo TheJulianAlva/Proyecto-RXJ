@@ -2,23 +2,18 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
-import sys
 from engine import GameEngine
 from systems.camera_manager import CameraManager
 from systems.input_manager import InputManager
-
-def _setup_perspective():
-    """Configura la proyección"""
-    glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()
-    gluPerspective(45, (800 / 600), 0.1, 50.0)
 
 def main():
     pygame.init()
     display_size = (800, 600)
     pygame.display.set_mode(display_size, DOUBLEBUF | OPENGL)
     pygame.display.set_caption("Mi Juego de Puzzles 3D - Fase 2")
-    _setup_perspective()
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
+    gluPerspective(45, (800 / 600), 0.1, 100.0)
     cam_manager = CameraManager.instance()
     cam_manager.load_cameras()
     glEnable(GL_DEPTH_TEST)
