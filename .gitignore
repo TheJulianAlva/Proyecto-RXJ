@@ -1,0 +1,9 @@
+# Byte-code compilado de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos específicos del sistema operativo
+.DS_Store
+Thumbs.db
