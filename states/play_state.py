@@ -8,8 +8,6 @@ class PlayState(BaseState):
         super().__init__()
         self.player = Player(0, 0, 0)
 
-    def handle_input(self, event):
-        # Este es un manejo simple, en el futuro usa un InputManager
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
             self.player.move(self.player.movement_speed)

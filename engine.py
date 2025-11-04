@@ -1,9 +1,13 @@
-from states.play_state import PlayState
+from states.menu_state import MenuState
 
 class GameEngine:
     def __init__(self):
-        self.current_state = PlayState() # Empezar en el estado de juego
+        self.current_state = MenuState() # Empezar en el estado de juego
         # (Más adelante aquí tendrás MenuState, PauseState, etc.)
+
+    def change_state(self, new_state):
+        """Cambia de estado, por ejemplo: self.change_state(PlayState(self))"""
+        self.current_state = new_state
 
     def handle_input(self, event):
         self.current_state.handle_input(event)
