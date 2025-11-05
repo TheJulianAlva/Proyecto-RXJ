@@ -9,9 +9,6 @@ class GameEngine:
         """Cambia de estado, por ejemplo: self.change_state(PlayState(self))"""
         self.current_state = new_state
 
-    def handle_input(self, event):
-        self.current_state.handle_input(event)
-
     def update(self, delta_time):
         self.current_state.update(delta_time)
 

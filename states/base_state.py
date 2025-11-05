@@ -3,9 +3,6 @@ class BaseState:
     def __init__(self):
         pass
 
-    def handle_input(self, event):
-        pass # Cada estado manejará los eventos de forma diferente
-
     def update(self, delta_time):
         pass # Cada estado actualizará su lógica
 

@@ -8,20 +8,6 @@ class PlayState(BaseState):
         super().__init__()
         self.player = Player(0, 0, 0)
 
-    def handle_input(self, event):
-        # Este es un manejo simple, en el futuro usa un InputManager
-        '''
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_w]:
-            self.player.move(self.player.movement_speed)
-        if keys[pygame.K_s]:
-            self.player.move(-self.player.movement_speed)
-        if keys[pygame.K_a]:
-            self.player.rotate(self.player.rotate_speed)
-        if keys[pygame.K_d]:
-            self.player.rotate(-self.player.rotate_speed)
-        '''
-
     def update(self, delta_time):
         self.player.update(delta_time)
 
