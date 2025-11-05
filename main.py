@@ -34,7 +34,7 @@ def main():
 
         if input_manager.did_quit():
             running = False
-        game_engine.handle_input(events)
+        #game_engine.handle_input(events)
         
         # --- Actualización de Lógica ---
         game_engine.update(delta_time)

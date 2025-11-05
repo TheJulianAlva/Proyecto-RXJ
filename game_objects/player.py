@@ -1,13 +1,14 @@
 from OpenGL.GL import *
 from systems.input_manager import InputManager
+from assets import basic_objects as Objects
 import math
 
 class Player:
     def __init__(self, x, y, z):
         self.position = [x, y, z]
         self.rotation_y = 0.0
-        self.movement_speed = 0.05
-        self.rotate_speed = 2.5
+        self.movement_speed = 3.0
+        self.rotate_speed = 150
         self.input_manager = InputManager.instance()
 
         # Variables de estado para la animación
@@ -74,45 +75,8 @@ class Player:
         glPopMatrix()
 
     def _draw(self):
-        s = 0.5
-
-        glBegin(GL_QUADS)
-        glColor3f(1.0, 0.0, 0.0)
-        glVertex3f(-s, -s,  s)
-        glVertex3f( s, -s,  s)
-        glVertex3f( s,  s,  s)
-        glVertex3f(-s,  s,  s)
-        
-        glColor3f(0.0, 1.0, 0.0)
-        glVertex3f(-s, -s, -s)
-        glVertex3f(-s,  s, -s)
-        glVertex3f( s,  s, -s)
-        glVertex3f( s, -s, -s)
-        
-        glColor3f(0.0, 0.0, 1.0)
-        glVertex3f(-s,  s, -s)
-        glVertex3f(-s,  s,  s)
-        glVertex3f( s,  s,  s)
-        glVertex3f( s,  s, -s)
-        
-        glColor3f(1.0, 1.0, 0.0)
-        glVertex3f(-s, -s, -s)
-        glVertex3f( s, -s, -s)
-        glVertex3f( s, -s,  s)
-        glVertex3f(-s, -s,  s)
-        
-        glColor3f(1.0, 0.0, 1.0)
-        glVertex3f( s, -s, -s)
-        glVertex3f( s,  s, -s)
-        glVertex3f( s,  s,  s)
-        glVertex3f( s, -s,  s)
-        
-        glColor3f(0.0, 1.0, 1.0)
-        glVertex3f(-s, -s, -s)
-        glVertex3f(-s, -s,  s)
-        glVertex3f(-s,  s,  s)
-        glVertex3f(-s,  s, -s)
-        glEnd()
+        s = 1
+        Objects.draw_cube(size=s)
 
     def _draw_legs(self):
         """
@@ -135,7 +99,7 @@ class Player:
             glTranslatef(-0.3, -0.5, 0)
             glRotatef(leg_angle, 1, 0, 0)
             glColor3f(0.0, 0.4, 0.8)
-            self._draw_cuboid(w, h, d)
+            Objects.draw_cube(scale=[w, h, d])
         finally:
             glPopMatrix()
 
@@ -145,33 +109,6 @@ class Player:
             glTranslatef(0.3, -0.5, 0)
             glRotatef(-leg_angle, 1, 0, 0)
             glColor3f(0.0, 0.4, 0.8)
-            self._draw_cuboid(w, h, d)
+            Objects.draw_cube(scale=[w, h, d])
         finally:
             glPopMatrix()
-
-    def _draw_cuboid(self, w, h, d):
-        """
-        Método de ayuda para dibujar un cuboide (rectángulo 3D).
-        Dibuja la forma con su "top" (Y=0) en el origen de la matriz
-        y extendiéndose hacia abajo (Y=-h).
-        """
-        # Mitades para centrar en X y Z
-        w2 = w / 2.0
-        d2 = d / 2.0
-        
-        glBegin(GL_QUADS)
-        
-        # Cara Frontal (Z+)
-        glVertex3f(-w2, -h,  d2); glVertex3f( w2, -h,  d2); glVertex3f( w2,  0,  d2); glVertex3f(-w2,  0,  d2)
-        # Cara Trasera (Z-)
-        glVertex3f(-w2, -h, -d2); glVertex3f(-w2,  0, -d2); glVertex3f( w2,  0, -d2); glVertex3f( w2, -h, -d2)
-        # Cara Superior (Y=0)
-        glVertex3f(-w2,  0, -d2); glVertex3f(-w2,  0,  d2); glVertex3f( w2,  0,  d2); glVertex3f( w2,  0, -d2)
-        # Cara Inferior (Y=-h)
-        glVertex3f(-w2, -h, -d2); glVertex3f( w2, -h, -d2); glVertex3f( w2, -h,  d2); glVertex3f(-w2, -h,  d2)
-        # Cara Izquierda (X-)
-        glVertex3f(-w2, -h, -d2); glVertex3f(-w2, -h,  d2); glVertex3f(-w2,  0,  d2); glVertex3f(-w2,  0, -d2)
-        # Cara Derecha (X+)
-        glVertex3f( w2, -h, -d2); glVertex3f( w2,  0, -d2); glVertex3f( w2,  0,  d2); glVertex3f( w2, -h,  d2)
-        
-        glEnd()
