@@ -1,7 +1,8 @@
 import pygame
 from states.play_state import PlayState
+from states.play_state import BaseState
 
-class PauseState:
+class PauseState(BaseState):
     def __init__(self, game):
         self.game = game
 
