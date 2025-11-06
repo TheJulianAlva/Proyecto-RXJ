@@ -49,10 +49,11 @@ class InputManager:
         # Acciones Presionadas (para eventos únicos)
         self.key_map["interact"] = pygame.K_e
         self.key_map["quit"] = pygame.K_ESCAPE
+        self.key_map["return"] = pygame.K_RETURN
 
         # Inicializa los diccionarios de estado
         held_actions = ["move_forward", "move_backward", "rotate_left", "rotate_right"]
-        pressed_actions = ["interact", "quit"]
+        pressed_actions = ["interact", "quit", "return"]
         
         self.actions_held = {action: False for action in held_actions}
         self.actions_pressed = {action: False for action in pressed_actions}

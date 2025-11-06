@@ -1,9 +1,9 @@
 class BaseState:
     """Clase abstracta para todos los estados del juego"""
-    def __init__(self):
+    def __init__(self, engine):
         pass
 
-    def update(self, delta_time):
+    def update(self, delta_time, event_list):
         pass # Cada estado actualizará su lógica
 
     def draw(self):

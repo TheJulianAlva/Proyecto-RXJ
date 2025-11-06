@@ -24,8 +24,7 @@ def main():
 
     clock = pygame.time.Clock()
 
-    running = True
-    while running:
+    while game_engine.running:
         delta_time = clock.tick(60) / 1000.0
 
         # --- Manejo de Eventos ---
@@ -36,7 +35,7 @@ def main():
             running = False
         
         # --- Actualización de Lógica ---
-        game_engine.update(delta_time)
+        game_engine.update(delta_time, events)
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         game_engine.draw()
