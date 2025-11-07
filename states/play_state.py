@@ -12,10 +12,9 @@ class PlayState(BaseState):
         self.input_manager = InputManager.instance()
         self.cam_manager = CameraManager.instance()
 
-    def update(self, delta_time, event_list):
+    def update(self, delta_time, _event_list):
         if self.input_manager.was_action_pressed("return"):
-            from states.menu_state import MenuState
-            self.engine.change_state(MenuState(self.engine))
+            self.engine.pop_state()
             return
         self.player.update(delta_time)
 

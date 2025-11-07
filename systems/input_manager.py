@@ -47,13 +47,16 @@ class InputManager:
         self.key_map["rotate_right"] = pygame.K_d
         
         # Acciones Presionadas (para eventos únicos)
+        self.key_map["ui_up"] = pygame.K_UP
+        self.key_map["ui_down"] = pygame.K_DOWN
+        self.key_map["ui_select"] = pygame.K_RETURN
         self.key_map["interact"] = pygame.K_e
         self.key_map["quit"] = pygame.K_ESCAPE
-        self.key_map["return"] = pygame.K_RETURN
+        self.key_map["return"] = pygame.K_BACKSPACE
 
         # Inicializa los diccionarios de estado
         held_actions = ["move_forward", "move_backward", "rotate_left", "rotate_right"]
-        pressed_actions = ["interact", "quit", "return"]
+        pressed_actions = ["ui_up", "ui_down", "ui_select", "interact", "quit", "return"]
         
         self.actions_held = {action: False for action in held_actions}
         self.actions_pressed = {action: False for action in pressed_actions}
@@ -79,8 +82,8 @@ class InputManager:
                     if action in self.actions_pressed and event.key == key:
                         self.actions_pressed[action] = True
             
-            if self.actions_pressed["quit"]:
-                self.quit_attempted = True
+            #if self.actions_pressed["quit"]:
+            #    self.quit_attempted = True
 
         # 3. Procesar todas las acciones "mantenidas"
         key_states = pygame.key.get_pressed()

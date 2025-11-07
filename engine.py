@@ -36,10 +36,9 @@ class GameEngine:
         if self.state_stack:
             print(f"GameEngine: Popping state -> {self.state_stack[-1].__class__.__name__}")
             self.state_stack.pop()
-        # Corregir funcionamiento
-        # Si la pila queda vacía, salimos del juego
-        #if not self.state_stack:
-        #    self.running = False
+        
+        if not self.state_stack:
+            self.running = False
 
     def change_state(self, state_instance):
         """
