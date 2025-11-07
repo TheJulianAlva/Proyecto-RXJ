@@ -1,4 +1,24 @@
-# engine.py
+"""
+Motor Principal del Juego (GameEngine)
+
+Propósito:
+Este módulo define la clase 'GameEngine', el cerebro que gestiona
+el flujo general del juego.
+
+Arquitectura de Pila de Estados (State Stack):
+El motor no contiene lógica de juego, sino que administra una pila de
+estados; esto permite apilar estados de forma natural,
+como un 'PauseState' encima de un 'PlayState'.
+
+El comportamiento del juego (actualización y dibujado) siempre es
+delegado al estado que se encuentra en la CIMA de la pila.
+
+Métodos de Control de la Pila:
+- push_state(state):    Añade un estado a la cima (ej. pausar).
+- pop_state():          Quita el estado de la cima (ej. reanudar).
+- change_state(state):  Reemplaza el estado de la cima (ej. Menú -> Juego).
+
+"""
 from states.play_state import PlayState
 from states.menu_state import MenuState
 from OpenGL.GL import *

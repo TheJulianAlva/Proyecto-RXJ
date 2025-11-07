@@ -1,3 +1,9 @@
+"""
+Implementa el estado principal del juego (3D). 
+Gestiona la lógica del jugador (update, draw) y la 
+cámara 3D activa (apply_view) en cada fotograma.
+"""
+
 import pygame
 from states.base_state import BaseState
 from game_objects.player import Player

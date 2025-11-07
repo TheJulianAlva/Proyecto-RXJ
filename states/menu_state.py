@@ -1,3 +1,9 @@
+"""
+Implementa el estado del menú principal (UI). 
+Dibuja en 2D (usando gluOrtho2D) y maneja la navegación
+para iniciar el juego (push PlayState) o salir (pop).
+"""
+
 import pygame
 from OpenGL.GL import *
 from OpenGL.GLU import *
