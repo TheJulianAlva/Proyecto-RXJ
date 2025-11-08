@@ -68,15 +68,39 @@ class GameEngine:
         self.pop_state()
         self.push_state(state_instance)
 
+    def setup_3d_perspective(self):
+        """
+        Configura el pipeline de OpenGL para renderizado 3D
+        con perspectiva, iluminación y test de profundidad.
+        """
+        glEnable(GL_LIGHTING)
+        
+        # Materiales: Permite que glColor3f afecte el material
+        #glEnable(GL_COLOR_MATERIAL)
+        #glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
+        
+        glEnable(GL_DEPTH_TEST)
+        glDepthFunc(GL_LESS)
 
-    def setup_perspective(self):
-        """
-        Configura la proyección de perspectiva 3D.
-        (Lo llamaremos desde PlayState cuando se active)
-        """
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        gluPerspective(45, (800 / 600), 0.1, 50.0)
+        gluPerspective(45, (800 / 600), 0.1, 100.0)
+        
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+
+    def setup_2d_orthographic(self):
+        """
+        Configura el pipeline de OpenGL para renderizado 2D (UI)
+        con vista ortográfica. Desactiva iluminación y profundidad.
+        """
+        
+        glDisable(GL_LIGHTING)
+        glDisable(GL_DEPTH_TEST)
+
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        gluOrtho2D(0, 800, 600, 0)
         
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()

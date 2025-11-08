@@ -36,7 +36,7 @@ class MenuState(BaseState):
         print("  -> Haz clic en el botón ROJO para Salir.")
 
     def update(self, _delta_time, event_list):
-        from states.play_state import PlayState
+        from states.player_selection_state import PlayerSelectionState
         if self.input_manager.was_action_pressed("quit"):
             self.engine.pop_state()
         elif self.input_manager.was_action_pressed("ui_up"):
@@ -45,7 +45,7 @@ class MenuState(BaseState):
             self._toogle_button_selected()
         elif self.input_manager.was_action_pressed("ui_select"):
             if self.selected_button == self.start_button:
-                self.engine.push_state(PlayState(self.engine))
+                self.engine.push_state(PlayerSelectionState(self.engine))
             else:
                 self.engine.pop_state()
 
@@ -53,7 +53,7 @@ class MenuState(BaseState):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1: # Clic izquierdo
                     if self.start_button.collidepoint(event.pos):
-                        self.engine.push_state(PlayState(self.engine))
+                        self.engine.push_state(PlayerSelectionState(self.engine))
                         
                     elif self.exit_button.collidepoint(event.pos):
                         self.engine.pop_state()
@@ -69,17 +69,7 @@ class MenuState(BaseState):
         glClearColor(*self.clear_color)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         
-        glMatrixMode(GL_PROJECTION)
-        glPushMatrix()
-        glLoadIdentity()
-        # Coordenadas de pantalla: (0,0) es arriba-izquierda
-        gluOrtho2D(0, 800, 600, 0) 
-        
-        glMatrixMode(GL_MODELVIEW)
-        glPushMatrix()
-        glLoadIdentity()
-        
-        glDisable(GL_DEPTH_TEST) # No necesitamos profundidad para 2D
+        self.engine.setup_2d_orthographic()
         
         # Botón Iniciar
         glColor3f(*self.button_color)
@@ -94,16 +84,6 @@ class MenuState(BaseState):
             self._draw_rect_border(self.start_button)
         else:
             self._draw_rect_border(self.exit_button)
-            
-
-        # 4. Volver a la configuración 3D (buena práctica)
-        glEnable(GL_DEPTH_TEST)
-        
-        glMatrixMode(GL_PROJECTION)
-        glPopMatrix()
-        
-        glMatrixMode(GL_MODELVIEW)
-        glPopMatrix()
 
     def _draw_rect(self, rect):
         """Función para dibujar un pygame.Rect con GL_QUADS."""

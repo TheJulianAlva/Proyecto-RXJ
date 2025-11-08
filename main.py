@@ -30,9 +30,6 @@ def main():
         # --- Manejo de Eventos ---
         events = pygame.event.get()
         input_manager.process_inputs(events)
-
-        if input_manager.did_quit():
-            running = False
         
         # --- Actualización de Lógica ---
         game_engine.update(delta_time, events)

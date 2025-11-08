@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 class InputManager:
     """
@@ -49,6 +50,8 @@ class InputManager:
         # Acciones Presionadas (para eventos únicos)
         self.key_map["ui_up"] = pygame.K_UP
         self.key_map["ui_down"] = pygame.K_DOWN
+        self.key_map["ui_left"] = pygame.K_LEFT
+        self.key_map["ui_right"] = pygame.K_RIGHT
         self.key_map["ui_select"] = pygame.K_RETURN
         self.key_map["interact"] = pygame.K_e
         self.key_map["quit"] = pygame.K_ESCAPE
@@ -56,7 +59,7 @@ class InputManager:
 
         # Inicializa los diccionarios de estado
         held_actions = ["move_forward", "move_backward", "rotate_left", "rotate_right"]
-        pressed_actions = ["ui_up", "ui_down", "ui_select", "interact", "quit", "return"]
+        pressed_actions = ["ui_up", "ui_down", "ui_left", "ui_right", "ui_select", "interact", "quit", "return"]
         
         self.actions_held = {action: False for action in held_actions}
         self.actions_pressed = {action: False for action in pressed_actions}
@@ -66,7 +69,6 @@ class InputManager:
         Esta es la función principal. Debe ser llamada UNA VEZ por fotograma.
         Procesa la lista de eventos de PyGame y actualiza todos los estados de acción.
         """
-        
         # 1. Resetear todas las acciones "presionadas"
         for action in self.actions_pressed:
             self.actions_pressed[action] = False
@@ -74,7 +76,8 @@ class InputManager:
         # 2. Procesar la lista de eventos de PyGame
         for event in event_list:
             if event.type == pygame.QUIT:
-                self.quit_attempted = True
+                    pygame.quit()
+                    sys.exit()
                 
             if event.type == pygame.KEYDOWN:
                 # Comprobar si esta tecla activa una acción "presionada"
