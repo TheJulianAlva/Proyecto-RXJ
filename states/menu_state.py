@@ -30,7 +30,8 @@ class MenuState(BaseState):
         self.clear_color = (0.3, 0.3, 0.4, 1.0)
         self.button_color = (0.0, 0.5, 0.0)
         self.button_exit_color = (0.5, 0.0, 0.0)
-        
+        self.font_title = pygame.font.Font(None, 30)
+
         print("MenuState inicializado.")
         print("  -> Haz clic en el botón VERDE para Jugar.")
         print("  -> Haz clic en el botón ROJO para Salir.")
@@ -86,7 +87,12 @@ class MenuState(BaseState):
             self._draw_rect_border(self.exit_button)
 
     def _draw_rect(self, rect):
-        """Función para dibujar un pygame.Rect con GL_QUADS."""
+        """
+        Función para dibujar un pygame.Rect relleno con GL_QUADS.
+
+        :param rect: El rectángulo a dibujar.
+        :type rect: pygame.Rect
+        """
         glBegin(GL_QUADS)
         glVertex2f(rect.left, rect.top)
         glVertex2f(rect.right, rect.top)
@@ -95,7 +101,12 @@ class MenuState(BaseState):
         glEnd()
 
     def _draw_rect_border(self, rect):
-        """Función para dibujar un pygame.Rect con GL_LINES."""
+        """
+        Función para dibujar el borde de un pygame.Rect con GL_LINES.
+
+        :param rect: El rectángulo cuyo borde se va a dibujar.
+        :type rect: pygame.Rect
+        """
         glBegin(GL_LINES)
         glVertex2f(rect.left, rect.top)
         glVertex2f(rect.right, rect.top)
@@ -106,3 +117,22 @@ class MenuState(BaseState):
         glVertex2f(rect.left, rect.bottom)
         glVertex2f(rect.left, rect.top)
         glEnd()
+
+    def _draw_text(self, x, y, text_string, font):
+        """
+        Renderiza una cadena de texto de Pygame en la pantalla de OpenGL.
+
+        :param x: La coordenada X (posición raster) donde comenzará el texto.
+        :type x: int | float
+        :param y: La coordenada Y (posición raster) donde comenzará el texto.
+        :type y: int | float
+        :param text_string: La cadena de texto a renderizar.
+        :type text_string: str
+        :param font: El objeto de fuente de Pygame a utilizar.
+        :type font: pygame.font.Font
+        """
+        text_surface = font.render(text_string, True, (255, 255, 255, 255), (0, 0, 0, 0))
+        text_data = pygame.image.tostring(text_surface, "RGBA", True)
+        width, height = text_surface.get_size()
+        glRasterPos2f(x, y)
+        glDrawPixels(width, height, GL_RGBA, GL_UNSIGNED_BYTE, text_data)
