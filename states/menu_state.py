@@ -23,12 +23,12 @@ class MenuState(BaseState):
         btn_x = (self.display_width - btn_width) / 2
         
         self.start_button = pygame.Rect(btn_x, 250, btn_width, btn_height)
-        self.exit_button = pygame.Rect(btn_x, 320, btn_width, btn_height)
+        self.exit_button = pygame.Rect(btn_x, 360, btn_width, btn_height)
         self.selected_button = self.start_button
         
         # Colores
-        self.clear_color = (0.1, 0.1, 0.2, 1.0)  # Fondo más oscuro para mejor contraste
-        self.title_color = (0.9, 0.9, 0.1, 1.0)  # Color amarillo para el título
+        self.clear_color = (0.0, 0.0, 0.0 , 1.0)  # Fondo más oscuro para mejor contraste
+        self.title_color = (1.0, 1.0, 1.0, 1.0)  # Color amarillo para el título
         self.button_color = (0.0, 0.6, 0.0)      # Verde más brillante
         self.button_hover_color = (0.2, 0.8, 0.2) # Verde más claro para hover
         self.button_exit_color = (0.6, 0.0, 0.0)  # Rojo más brillante
@@ -36,8 +36,8 @@ class MenuState(BaseState):
         self.button_text_color = (1.0, 1.0, 1.0)  # Texto blanco en botones
         
         # Fuentes
-        self.font_title = pygame.font.Font(None, 48)  # Fuente más grande para el título
-        self.font_button = pygame.font.Font(None, 32) # Fuente para botones
+        self.font_title = pygame.font.Font("fonts/Montserrat-master/Montserrat-master/fonts-underline/ttf/MontserratUnderline-Bold.ttf", 56)  # Fuente más grande para el título
+        self.font_button = pygame.font.Font("fonts/Montserrat-master/Montserrat-master/fonts-underline/ttf/MontserratUnderline-Bold.ttf", 32) # Fuente para botones
         
         print("MenuState inicializado.")
         print("  -> Usa las flechas para navegar y ENTER para seleccionar.")
@@ -85,7 +85,7 @@ class MenuState(BaseState):
         self.engine.setup_2d_orthographic()
         
         # Dibujar título
-        self._draw_text(400, 200, "RIDD", self.font_title, center=True, color=self.title_color)
+        self._draw_text(400, 200, "The Mansion Riddle", self.font_title, center=True, color=self.title_color)
         
         # Dibujar botón Iniciar
         if self.selected_button == self.start_button:
@@ -107,15 +107,15 @@ class MenuState(BaseState):
         self._draw_rect_border(self.exit_button)
         
         # Dibujar texto en los botones
-        self._draw_text(self.start_button.centerx, self.start_button.centery - 10, 
+        self._draw_text(self.start_button.centerx, self.start_button.centery -10, 
                        "JUGAR", self.font_button, center=True, color=self.button_text_color)
-        self._draw_text(self.exit_button.centerx, self.exit_button.centery - 10, 
+        self._draw_text(self.exit_button.centerx, self.exit_button.centery -10, 
                        "SALIR", self.font_button, center=True, color=self.button_text_color)
         
         # Dibujar instrucciones
-        self._draw_text(400, 400, "Usa las flechas o el mouse para navegar", 
+        self._draw_text(400, 460, "Usa las flechas o el mouse para navegar", 
                        pygame.font.Font(None, 24), center=True, color=(0.8, 0.8, 0.8))
-        self._draw_text(400, 430, "Presiona ENTER o haz clic para seleccionar", 
+        self._draw_text(400, 490, "Presiona ENTER o haz clic para seleccionar", 
                        pygame.font.Font(None, 24), center=True, color=(0.8, 0.8, 0.8))
 
     def _draw_rect(self, rect):
