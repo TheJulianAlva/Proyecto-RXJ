@@ -18,7 +18,7 @@ def get_font(size=32):
             FONT_CACHE[size] = pygame.font.Font(pygame.font.get_default_font(), size)
     return FONT_CACHE[size]
 
-def draw_text_2d(x, y, text, size=32, color=(255, 255, 255, 255)):
+def draw_text_2d(x, y, text, size=32, color=(5, 255, 255, 255)):
     """
     Dibuja texto en coordenadas de pantalla 2D.
     
@@ -30,7 +30,7 @@ def draw_text_2d(x, y, text, size=32, color=(255, 255, 255, 255)):
         text_surface = font.render(text, True, color)
         text_data = pygame.image.tostring(text_surface, "RGBA", True)
         width, height = text_surface.get_size()
-        
+        #glRasterPos2f(x, 600 - y - height)
         glWindowPos2f(x, 600 - y - height) 
         glDrawPixels(width, height, GL_RGBA, GL_UNSIGNED_BYTE, text_data)
         

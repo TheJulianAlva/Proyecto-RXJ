@@ -12,6 +12,7 @@ class CharacterSelectionPlatform:
         self.target_rotation = 0.0
         self.movement_speed = 3.0
         self.rotate_speed = 120
+        self.is_moving = False
         self.input_manager = InputManager.instance()
         self.quad = gluNewQuadric()
         gluQuadricNormals(self.quad, GLU_SMOOTH)
@@ -22,32 +23,23 @@ class CharacterSelectionPlatform:
         if self.rotation_y > 360: self.rotation_y = 0
 
     def update(self, delta_time):
-        if self.rotation_y % 120 == 0:
-            self.target_rotation = self.rotation_y
-            if self.input_manager.was_action_pressed("ui_right"):
-                
-                self.selected_index = (self.selected_index + 1) % 3
-                self.target_rotation += 120.0
-                print(f"Personaje seleccionado: {self.selected_index}")
-
-            if self.input_manager.was_action_pressed("ui_left"):
-                self.selected_index = (self.selected_index - 1) % 3
-                self.target_rotation -= 120.0
-                print(f"Personaje seleccionado: {self.selected_index}")
-        
+        self.is_moving = True
+        if self.rotation_y == self.target_rotation:
+            self.is_moving = False
+            return
         if self.rotation_y < self.target_rotation:
             self.rotate(angle=self.rotate_speed*delta_time)
         else:
             self.rotate(angle=-self.rotate_speed*delta_time)
-
-        if self.rotation_y - 5 <= self.target_rotation <= self.rotation_y + 5:
-            self.rotation_y = self.target_rotation
         
-        if self.rotation_y == 360.0:
-            self.rotation_y = 0.0
-            self.target_rotation = 0.0
-        
-            
+    def get_rotation(self):
+        return self.rotation_y
+    
+    def set_rotation(self, angle):
+        self.rotation_y = angle
+    
+    def set_target_rotation(self, angle):
+        self.target_rotation = angle
     
     def _check_interaction(self):
         print("¡Jugador intentó interactuar!")
