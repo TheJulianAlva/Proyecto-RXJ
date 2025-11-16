@@ -80,7 +80,8 @@ class CharacterSelectionPlatform:
     
     def _draw_platform(self):
         glPushMatrix()
-        Materials.apply_material(material=Materials.MAT_PLAYER)
+        Materials.apply_material(material=Materials.MAT_METAL)
+        glColor3fv(Materials.C_BLUE)
         Objects.draw_cylinder(quad=self.quad, scale=[6.0, 5.0, 6.0], translate=[0.0, 0.0, 0.0])
         Objects.draw_partial_disk(quad=self.quad, scale=[6.0, 6.0, 1.0], translate=[0.0, 0.0, 0.0], rotation=[90, 1.0, 0.0, 0.0])
         glPopMatrix()
@@ -88,7 +89,8 @@ class CharacterSelectionPlatform:
 
     def _draw_character(self):
         glPushMatrix()
-        Materials.apply_material(material=Materials.MAT_GREEN)
+        Materials.apply_material(material=Materials.MAT_PLASTIC)
+        glColor3fv(Materials.C_GREEN)
         Objects.draw_sphere(quad=self.quad, scale=[1.0, 1.0, 1.0], translate=[0.0, 1.0, 5.0])
         glPopMatrix()
         pass

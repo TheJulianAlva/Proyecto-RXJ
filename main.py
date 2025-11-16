@@ -15,6 +15,9 @@ def main():
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
     gluPerspective(45, (800 / 600), 0.1, 100.0)
+    # Materiales: Permite que glColor3f afecte el material
+    glEnable(GL_COLOR_MATERIAL)
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
     cam_manager = CameraManager.instance()
     cam_manager.load_cameras()
     glEnable(GL_DEPTH_TEST)

@@ -1,6 +1,6 @@
 from OpenGL.GL import *
 from systems.input_manager import InputManager
-from assets import basic_objects as Objects
+from assets import basic_objects as Objects, materials as Materials
 import math
 
 class Player:
@@ -66,8 +66,9 @@ class Player:
         glPushMatrix()
         glTranslatef(self.position[0], self.position[1], self.position[2])
         glRotatef(self.rotation_y, 0, 1, 0)
-
-        glColor3f(0.0, 0.5, 1.0)
+        Materials.apply_material(material=Materials.MAT_PLASTIC)
+        glColor3fv(Materials.C_GREEN)
+        
         self._draw()
         
         self._draw_legs()
