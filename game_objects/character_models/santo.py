@@ -22,17 +22,18 @@ def draw():
 
 def _draw_body():
     # head
-    Materials.apply_material(Materials.MAT_METAL)
+    Materials.apply_material(Materials.MAT_FABRIC)
     glColor3fv(Materials.C_GREY)
     ob.draw_sphere(quad=quad, scale=[1.5, 1.5, 1.5], translate=[0, 4, 0], slices=12, stacks=12)
     # mask
+    Materials.apply_material(Materials.MAT_PLASTIC)
     glColor3fv(Materials.C_DARK_GREY)
     ob.draw_half_sphere(quad=quad, scale=[0.1, 0.1, 0.35], translate=[0.0, 3.3, -1.3], rotation=[-110, 1, 0, 0])
     ob.draw_half_sphere(quad=quad, scale=[0.35, 0.1, 0.1], translate=[0.0, 3.6, -1.4], rotation=[-90, 1, 0, 0])
     ob.draw_half_sphere(quad=quad, scale=[0.35, 0.1, 0.1], translate=[0.0, 3.3, -1.3], rotation=[-110, 1, 0, 0])
     
     # neck
-    Materials.apply_material(Materials.MAT_PLASTIC)
+    Materials.apply_material(Materials.MAT_FABRIC)
     glColor3fv(Materials.C_LIGHT_ORANGE)
     ob.draw_cylinder(quad=quad, scale=[0.7, 0.7, 0.5],translate=[0, 2.8, 0], slices=8)
     # body
@@ -94,14 +95,14 @@ def _draw_body():
 def _draw_face():
     # eyes
     glPushMatrix()
-    Materials.apply_material(Materials.MAT_PLASTIC)
+    Materials.apply_material(Materials.MAT_FABRIC)
     glColor3fv(Materials.C_LIGHT_ORANGE)
     glTranslatef(0.6, 4.1, 1.3)
     glRotatef(15, 0, 1, 0)
     glRotatef(-15, 0, 0, 1)
     glScalef(0.4, 0.4, 0.4)
     ob.draw_half_sphere(quad=quad, scale=[1.0, 1.2, 0.4], translate=[0.0, 0.4, 0.0], rotation=[-15, 1, 0, 0], slices=10, stacks=10)
-    Materials.apply_material(Materials.MAT_METAL)
+    Materials.apply_material(Materials.MAT_FABRIC)
     glColor3fv(Materials.C_WHITE)
     ob.draw_half_sphere(quad=quad, scale=[1.0, 1.2, 0.4], translate=[0.0, 0.4, 0.0], rotation=[-195, 1, 0, 0], slices=10, stacks=10)
     glColor3fv(Materials.C_BLACK)

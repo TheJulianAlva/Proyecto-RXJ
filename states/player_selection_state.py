@@ -23,14 +23,14 @@ class PlayerSelectionState(BaseState):
         glEnable(GL_DEPTH_TEST)
         self.character_selection_platform = CharacterSelectionPlatform(0.0, 0.0, 0.0)
         self.background_color = (0.1, 0.1, 0.1, 1.0)
-        self.camera = Camera(position=[0, 3, 12], look_at=[0, 0, 0])
+        self.camera = Camera(position=[0, 7, 20], look_at=[0, 0, 0])
         
         self.selected_index = 0
         self.platform_rotation = 0.0
         # 0 = Personaje 0, 120 = Personaje 1, 240 = Personaje 2
         self.target_rotation = 0.0 
 
-        self.character_names = ["Cazador Nocturno", "Exploradora Arcana", "Vigilante de Acero"]
+        self.character_names = ["Santo", "Alien", "Walter"]
         self.banner_color = [0.5, 0.2, 0.2, 0.7]
         self.banner_rect = pygame.Rect(0, 500, 800, 100)
         
@@ -38,11 +38,11 @@ class PlayerSelectionState(BaseState):
     def update(self, delta_time, _event_list):
         self.platform_rotation = self.character_selection_platform.get_rotation()
         if not self.character_selection_platform.is_moving:
-            if self.input_manager.was_action_pressed("ui_right"):
-                self.selected_index = (self.selected_index + 1) % 3
-                self.target_rotation += 120.0
-            elif self.input_manager.was_action_pressed("ui_left"):
+            if self.input_manager.was_action_pressed("ui_left"):
                 self.selected_index = (self.selected_index - 1) % 3
+                self.target_rotation += 120.0
+            elif self.input_manager.was_action_pressed("ui_right"):
+                self.selected_index = (self.selected_index + 1) % 3
                 self.target_rotation -= 120.0
         if self.platform_rotation - 5 <= self.target_rotation <= self.platform_rotation + 5:
             self.platform_rotation = self.target_rotation
