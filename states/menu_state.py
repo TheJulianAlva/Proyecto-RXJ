@@ -36,8 +36,8 @@ class MenuState(BaseState):
         self.button_text_color = (1.0, 1.0, 1.0)  # Texto blanco en botones
         
         # Fuentes
-        self.font_title = pygame.font.Font("fonts/Montserrat-master/Montserrat-master/fonts-underline/ttf/MontserratUnderline-Bold.ttf", 56)  # Fuente más grande para el título
-        self.font_button = pygame.font.Font("fonts/Montserrat-master/Montserrat-master/fonts-underline/ttf/MontserratUnderline-Bold.ttf", 32) # Fuente para botones
+        self.font_title = pygame.font.Font("fonts/fonts-underline/ttf/MontserratUnderline-Bold.ttf", 56)  # Fuente más grande para el título
+        self.font_button = pygame.font.Font("fonts/fonts-underline/ttf/MontserratUnderline-Bold.ttf", 32) # Fuente para botones
         
         print("MenuState inicializado.")
         print("  -> Usa las flechas para navegar y ENTER para seleccionar.")
