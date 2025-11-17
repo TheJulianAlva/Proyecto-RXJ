@@ -3,12 +3,11 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 from assets import basic_objects as ob
 from assets import materials as Materials
-import math
 
 quad = gluNewQuadric()
 gluQuadricDrawStyle(quad, GLU_FILL)
 
-posicion_actual = [0.0, 0.0, 0.0]
+posicion_actual = [0.0, 2.0, 0.0]
 
 def draw():
     global posicion_actual
@@ -70,7 +69,6 @@ def _draw_body():
     glPopMatrix()
 
 def _draw_happy_face():
-    global is_colliding
     
     Materials.apply_material(Materials.MAT_METAL)
     glColor3fv(Materials.C_BLACK)
