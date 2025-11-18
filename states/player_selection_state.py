@@ -10,6 +10,7 @@ from OpenGL.GLU import *
 from .base_state import BaseState
 from systems.input_manager import InputManager
 from utilities.text_renderer import draw_text_2d
+from utilities.basic_objects import draw_pyrect
 from game_objects.camera import Camera
 from game_objects.character_selection_platform import CharacterSelectionPlatform
 
@@ -73,26 +74,19 @@ class PlayerSelectionState(BaseState):
         self.camera.apply_view()
         self.character_selection_platform.draw()
         self.engine.setup_2d_orthographic()
-        self._draw_banner_and_text()
+        self._draw_banner()
         self.engine.setup_3d_perspective()
     
 
-    def _draw_banner_and_text(self):
+    def _draw_banner(self):
         """
         Dibuja el banner 2D y el nombre del personaje.
         """
         glColor4f(*self.banner_color)
-        glBegin(GL_QUADS)
-        glVertex2f(self.banner_rect.left, self.banner_rect.top)
-        glVertex2f(self.banner_rect.right, self.banner_rect.top)
-        glVertex2f(self.banner_rect.right, self.banner_rect.bottom)
-        glVertex2f(self.banner_rect.left, self.banner_rect.bottom)
-        glEnd()
-        
+        draw_pyrect(self.banner_rect)
         nombre_actual = self.character_names[self.selected_index]
         pos_x = 800 / 2
         pos_y = self.banner_rect.top + self.banner_rect.height / 2
-        
         if not self.character_selection_platform.is_moving:
             draw_text_2d(x=pos_x, y=pos_y, text=nombre_actual, font_name= self.montserrat_font, size=48, center=True,color=(255, 255, 255, 255))
     

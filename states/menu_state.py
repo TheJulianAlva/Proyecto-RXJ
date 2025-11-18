@@ -2,6 +2,7 @@ import pygame
 from OpenGL.GL import *
 from OpenGL.GLU import *
 import utilities.text_renderer as TextUtil
+from utilities.basic_objects import draw_pyrect, draw_pyrect_border
 from states.base_state import BaseState
 from systems.input_manager import InputManager
 
@@ -90,18 +91,18 @@ class MenuState(BaseState):
         glColor3fv(self.button_color)
         if self.selected_button == self.start_button:
             glColor3f(*self.button_hover_color)
-        self._draw_rect(self.start_button)
+        draw_pyrect(self.start_button)
         
         # Dibujar botón Salir
         glColor3f(*self.button_exit_color)
         if self.selected_button == self.exit_button:
             glColor3f(*self.button_exit_hover_color)
-        self._draw_rect(self.exit_button)
+        draw_pyrect(self.exit_button)
         
         # Dibujar bordes de los botones
         glColor3f(1.0, 1.0, 1.0)
-        self._draw_rect_border(self.start_button)
-        self._draw_rect_border(self.exit_button)
+        draw_pyrect_border(self.start_button)
+        draw_pyrect_border(self.exit_button)
         
         # Dibujar texto en los botones
         TextUtil.draw_text_2d(self.start_button.centerx, self.start_button.centery, 
@@ -114,33 +115,3 @@ class MenuState(BaseState):
                        self.default_font, size=24, center=True, color=self.button_text_color)
         TextUtil.draw_text_2d(400, 490, "Presiona ENTER o haz clic para seleccionar", 
                        self.default_font, size=24, center=True, color=self.button_text_color)
-
-    def _draw_rect(self, rect):
-        """
-        Función para dibujar un pygame.Rect relleno con GL_QUADS.
-
-        :param rect: El rectángulo a dibujar.
-        :type rect: pygame.Rect
-        """
-        glBegin(GL_QUADS)
-        glVertex2f(rect.left, rect.top)
-        glVertex2f(rect.right, rect.top)
-        glVertex2f(rect.right, rect.bottom)
-        glVertex2f(rect.left, rect.bottom)
-        glEnd()
-
-    def _draw_rect_border(self, rect):
-        """
-        Función para dibujar el borde de un pygame.Rect con GL_LINES.
-
-        :param rect: El rectángulo cuyo borde se va a dibujar.
-        :type rect: pygame.Rect
-        """
-        glLineWidth(2.0) # Hacer el borde más grueso
-        glBegin(GL_LINE_LOOP)
-        glVertex2f(rect.left, rect.top)
-        glVertex2f(rect.right, rect.top)
-        glVertex2f(rect.right, rect.bottom)
-        glVertex2f(rect.left, rect.bottom)
-        glEnd()
-        glLineWidth(1.0)
