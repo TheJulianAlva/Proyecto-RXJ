@@ -2,6 +2,63 @@ from OpenGL.GLU import *
 from OpenGL.GL import *
 
 # ================================= 3D =================================
+def draw_plane(size_x=1.0, size_z=1.0, scale=[1, 1, 1], translate=[0, 0, 0], rotation=[0, 0, 0, 1]):
+    """
+    Dibuja un plano 3D (en el plano XZ, como un suelo).
+    """
+    glPushMatrix()
+    glTranslatef(*translate)
+    glRotatef(*rotation)
+    glScalef(*scale)
+
+    sx = size_x / 2
+    sz = size_z / 2
+
+    glBegin(GL_QUADS)
+    glNormal3f(0.0, 1.0, 0.0) # Apuntando hacia arriba
+    # Esquina (-X, +Z) -> (0, 0)
+    glVertex3f(-sx, 0.0, sz)
+    # Esquina (+X, +Z) -> (1, 0)
+    glVertex3f(sx, 0.0, sz)
+    # Esquina (+X, -Z) -> (1, 1)
+    glVertex3f(sx, 0.0, -sz)
+    # Esquina (-X, -Z) -> (0, 1)
+    glVertex3f(-sx, 0.0, -sz)
+    
+    glEnd()
+    glPopMatrix()
+
+def draw_textured_plane_3d(size_x=1.0, size_z=1.0, scale=[1, 1, 1], translate=[0, 0, 0], rotation=[0, 0, 0, 1]):
+    """
+    Dibuja un plano 3D (en el plano XZ, como un suelo) con coordenadas de textura.
+    ASUME que la textura ya está bindeada (glBindTexture).
+    """
+    glPushMatrix()
+    glTranslatef(*translate)
+    glRotatef(*rotation)
+    glScalef(*scale)
+
+    sx = size_x / 2
+    sz = size_z / 2
+
+    glBegin(GL_QUADS)
+    glNormal3f(0.0, 1.0, 0.0) # Apuntando hacia arriba
+    # Esquina (-X, +Z) -> (0, 0)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(-sx, 0.0, sz)
+    # Esquina (+X, +Z) -> (1, 0)
+    glTexCoord2f(1.0, 0.0)
+    glVertex3f(sx, 0.0, sz)
+    # Esquina (+X, -Z) -> (1, 1)
+    glTexCoord2f(1.0, 1.0)
+    glVertex3f(sx, 0.0, -sz)
+    # Esquina (-X, -Z) -> (0, 1)
+    glTexCoord2f(0.0, 1.0)
+    glVertex3f(-sx, 0.0, -sz)
+    
+    glEnd()
+    glPopMatrix()
+
 def draw_cube(size=1.0, scale=[1, 1, 1], translate=[0, 0, 0], rotation=[0, 0, 0, 1]):
     """
     Dibuja un cubo usando GL.
@@ -140,3 +197,23 @@ def draw_pyrect_border(rect):
     glVertex2f(rect.left, rect.bottom)
     glEnd()
     glLineWidth(1.0)
+
+def draw_textured_pyrect(rect):
+    """
+    Dibuja un pygame.Rect relleno con una textura.
+    ASUME que la textura ya está bindeada (glBindTexture).
+    """
+    glBegin(GL_QUADS)
+    # Top-Left
+    glTexCoord2f(0.0, 0.0)
+    glVertex2f(rect.left, rect.top)
+    # Top-Right
+    glTexCoord2f(1.0, 0.0)
+    glVertex2f(rect.right, rect.top)
+    # Bottom-Right
+    glTexCoord2f(1.0, 1.0)
+    glVertex2f(rect.right, rect.bottom)
+    # Bottom-Left
+    glTexCoord2f(0.0, 1.0)
+    glVertex2f(rect.left, rect.bottom)
+    glEnd()
