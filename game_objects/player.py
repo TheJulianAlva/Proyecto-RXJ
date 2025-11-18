@@ -1,7 +1,9 @@
 from OpenGL.GL import *
 from systems.input_manager import InputManager
-from assets import basic_objects as Objects, materials as Materials
+from utilities import basic_objects as Objects
+from utilities import materials as Materials
 import math
+
 
 class Player:
     def __init__(self, x, y, z):

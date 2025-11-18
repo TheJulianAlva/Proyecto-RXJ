@@ -1,8 +1,9 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from systems.input_manager import InputManager
-from assets import basic_objects as Objects, materials as Materials
+from utilities import materials as Materials
 from game_objects.character_models import alien, santo, walter
+from utilities import basic_objects as Objects
 
 class CharacterSelectionPlatform:
     def __init__(self, x, y, z):

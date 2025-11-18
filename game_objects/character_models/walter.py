@@ -1,14 +1,12 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
-from assets import basic_objects as ob
-from assets import materials as Materials
+from utilities import basic_objects as ob
+from utilities import materials as Materials
 
-# Variables globales para el sistema de animación (igual que en tu código)
 quad = gluNewQuadric()
 gluQuadricDrawStyle(quad, GLU_FILL)
 
-# Añadido desde santo.py
 posicion_actual = [0.0, 2.0, 0.0]
 animation_clock = 0.0
 
@@ -438,7 +436,6 @@ def _draw_face(quad): # Se acepta 'quad'
     # --- Fin Cejas ---
 
 # --- FIN DE FUNCIÓN MODIFICADA ---
-
 
 def _draw_arm_right(quad): # Se acepta 'quad'
     """Dibuja el brazo derecho con animaciones"""
