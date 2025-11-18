@@ -201,8 +201,8 @@ clap_animation = [
 
 
 # (Puedes cambiar esto para probar la nueva animación)
-current_animation = idle_cycle_anim
-current_animation = worry_animation
+#current_animation = idle_cycle_anim
+#current_animation = worry_animation
 current_animation = clap_animation
 
 def lerp(val_a, val_b, t):
