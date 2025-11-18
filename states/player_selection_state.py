@@ -23,7 +23,7 @@ class PlayerSelectionState(BaseState):
         glEnable(GL_DEPTH_TEST)
         self.character_selection_platform = CharacterSelectionPlatform(0.0, 0.0, 0.0)
         self.background_color = (0.1, 0.1, 0.1, 1.0)
-        self.camera = Camera(position=[0, 7, 20], look_at=[0, 0, 0])
+        self.camera = Camera(position=[0, 7, 20], look_at=[0, 1, 0])
         
         self.selected_index = 0
         self.platform_rotation = 0.0

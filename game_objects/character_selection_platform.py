@@ -25,6 +25,7 @@ class CharacterSelectionPlatform:
 
     def update(self, delta_time):
         self.is_moving = True
+        self.characters[0].update_animation(delta_time)
         if self.rotation_y == self.target_rotation:
             self.is_moving = False
             return
@@ -32,6 +33,8 @@ class CharacterSelectionPlatform:
             self.rotate(angle=self.rotate_speed*delta_time)
         else:
             self.rotate(angle=-self.rotate_speed*delta_time)
+        
+
         
     def get_rotation(self):
         return self.rotation_y
@@ -41,6 +44,7 @@ class CharacterSelectionPlatform:
     
     def set_target_rotation(self, angle):
         self.target_rotation = angle
+
 
 
     def draw(self):
