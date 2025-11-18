@@ -26,6 +26,7 @@ class CharacterSelectionPlatform:
     def update(self, delta_time):
         self.is_moving = True
         self.characters[0].update_animation(delta_time)
+        self.characters[2].update_animation(delta_time)
         if self.rotation_y == self.target_rotation:
             self.is_moving = False
             return
