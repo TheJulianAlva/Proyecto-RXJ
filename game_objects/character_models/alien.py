@@ -62,48 +62,91 @@ walk_cycle_anim = [
 
 salute_cycle_anim = [
     {
-        'time': 0.0, # time es el momento en el que quieres que haga esa posicion, por ejemplo, que nuestro primer frame sea con las manos normales
+        'time': 0.0, 
         'pose': {
             'r_shoulder_rotate': 20.0,
             'l_shoulder_rotate': -20.0,
+            'l_shoulder_lift': 0.0,
         }
     },
+    
     {
-        'time': 1.0, # luego vamos a añadir que en el segundo 1, alce el brazo
+        'time': 0.5, 
         'pose': {
-            'l_shoulder_lift': 170.0 # 170 para que este casi alzado
+            'l_shoulder_lift': 95.0 
         }
     },
     {
-        'time': 1.4, # Un poco despues que mueva el brazo hacia un lado para saludar
+        'time': 1.0, 
         'pose': {
-            'l_shoulder_rotate': 0.0 # Estaba en -20, ahora en 0
+            'l_shoulder_lift': 115.0, 
+            'l_shoulder_rotate': 0.0 
         }
     },
+    
+   
     {
-        'time': 2.0, # Que lo mueva para el otro lado
+        'time': 1.3, 
         'pose': {
-            'l_shoulder_rotate': -30.0 # Estaba en 0, ahora en 30
+            'l_shoulder_lift': 115.0, 
+            'l_shoulder_rotate': 15.0 
         }
     },
     {
-        'time': 3.0, # finalmente que regrese a su posición inicial
+        'time': 1.6, 
         'pose': {
-            'l_shoulder_lift': 0.0, # 0 para que este abajo el brazo nuevamente
-            'r_shoulder_rotate': 20.0, # estos valores son pq los brazos originales estan como un poco abiertos hacia los lados
-            'l_shoulder_rotate': -20.0, #
+            'l_shoulder_lift': 115.0,
+            'l_shoulder_rotate': -5.0 
         }
     },
     {
-        'time': 8.0, # despues puedes simplemente hacer un frame que no haga nada como para que haya espacio entre saludo y saludo
+        'time': 1.9, 
+        'pose': {
+            'l_shoulder_lift': 115.0, 
+            'l_shoulder_rotate': 15.0 
+        }
+    },
+    {
+        'time': 2.2, 
+        'pose': {
+            'l_shoulder_lift': 115.0,
+            'l_shoulder_rotate': -5.0 
+        }
+    },
+    {
+        'time': 2.5, 
+        'pose': {
+            'l_shoulder_lift': 115.0,
+            'l_shoulder_rotate': 0.0 
+        }
+    },
+    
+    {
+        'time': 3.0, 
+        'pose': {
+            'l_shoulder_lift': 95.0, 
+            'l_shoulder_rotate': -20.0, 
+            'r_shoulder_rotate': 20.0,
+        }
+    },
+    {
+        'time': 3.5, 
+        'pose': {
+            'l_shoulder_lift': 0.0, 
+            'r_shoulder_rotate': 20.0, 
+            'l_shoulder_rotate': -20.0, 
+        }
+    },
+    {
+        'time': 8.0, 
         'pose': {
             'r_shoulder_rotate': 20.0,
             'l_shoulder_rotate': -20.0,
+            'l_shoulder_lift': 0.0,
         }
     },
 ]
-# ya para acabar, mandas llamar tu animación aqui en lugar de la de caminar
-# a ver correte
+
 current_animation = salute_cycle_anim
 
 def lerp(val_a, val_b, t):
@@ -215,8 +258,8 @@ def _draw_body():
 
     glPushMatrix()
     glTranslatef(-1.35, 2.4, 0)
-    glRotatef(current_pose['l_shoulder_rotate'], 0, 0, 1) # Rotación Z
-    glRotatef(current_pose['l_shoulder_lift'], 1, 0, 0)   # Rotación X
+    glRotatef(-current_pose['l_shoulder_lift'], 1, 0, 0)
+    glRotatef(current_pose['l_shoulder_rotate'], 0, 0, 1) # Rotación Z (lateral) - APLICADA SEGUNDO
     ob.draw_sphere(quad=quad, scale=[0.5, 1, 0.6], translate=[0, -0.85, 0])
     ob.draw_sphere(quad=quad, scale=[0.48, 0.48, 0.48], translate=[0, -1.9, 0])
     glPopMatrix()
