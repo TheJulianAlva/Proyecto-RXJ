@@ -3,18 +3,26 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from engine import GameEngine
+from systems.data_manager import DataManager
 from systems.camera_manager import CameraManager
 from systems.input_manager import InputManager
 
 def main():
     pygame.init()
-    display_size = (800, 600)
+    pygame.font.init()
+    data_manager = DataManager.instance()
+
+    config = data_manager.get_config()
+    display_config = config.get("display", {}) 
+    display_size = (
+        display_config.get("width", 800),  # 800 por defecto
+        display_config.get("height", 600)  # 600 por defecto
+    )
     pygame.display.set_mode(display_size, DOUBLEBUF | OPENGL)
     pygame.display.set_caption("Proyecto RXJ")
-    pygame.font.init()
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    gluPerspective(45, (800 / 600), 0.1, 100.0)
+    gluPerspective(45, (display_size[0] / display_size[1]), 0.1, 100.0)
     # Materiales: Permite que glColor3f afecte el material
     glEnable(GL_COLOR_MATERIAL)
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)

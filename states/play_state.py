@@ -14,6 +14,7 @@ class PlayState(BaseState):
     def __init__(self, engine):
         super().__init__(engine)
         self.engine = engine
+        self.engine.setup_3d_perspective()
         self.player = Player(0, 0, 0)
         self.input_manager = InputManager.instance()
         self.cam_manager = CameraManager.instance()

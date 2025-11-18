@@ -1,0 +1,12 @@
+{
+    "display": {
+        "width": 800,
+        "height": 600,
+        "fullscreen": false
+    },
+    "language": "es",
+    "audio": {
+        "master_volume": 0.8,
+        "music_volume": 0.5
+    }
+}

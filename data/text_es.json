@@ -1,0 +1,19 @@
+{
+    "menu_state": {
+        "title": "The Mansion Riddle",
+        "start_button": "Jugar",
+        "exit_button": "Salir"
+    },
+    "selection_state": {
+        "banner_names": [
+            "El Maskara",
+            "Marciana",
+            "Walter"
+        ],
+        "confirm_button": "Seleccionar"
+    },
+    "pause_state": {
+        "resume_button": "Reanudar",
+        "quit_to_menu": "Salir al Menú"
+    }
+}

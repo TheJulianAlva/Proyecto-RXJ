@@ -8,6 +8,7 @@ import pygame
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from .base_state import BaseState
+from systems.data_manager import DataManager
 from systems.input_manager import InputManager
 from utilities.text_renderer import draw_text_2d
 from utilities.basic_objects import draw_pyrect
@@ -18,10 +19,19 @@ class PlayerSelectionState(BaseState):
     
     def __init__(self, engine):
         super().__init__(engine)
-        self.engine.setup_3d_perspective()
         self.input_manager = InputManager.instance()
+        data_manager = DataManager.instance()
+        config = data_manager.get_config()
+
+        display_config = config.get("display", {})
+        self.display_width = display_config.get("width", 800)
+        self.display_height = display_config.get("height", 600)
+        
+        data_selection = data_manager.get_text_dict().get("selection_state", {})
+        self.character_names = data_selection.get("banner_names")
+        
+        self.engine.setup_3d_perspective()
         glEnable(GL_LIGHTING)
-        glEnable(GL_DEPTH_TEST)
         self.character_selection_platform = CharacterSelectionPlatform(0.0, 0.0, 0.0)
         self.background_color = (0.1, 0.1, 0.1, 1.0)
         self.camera = Camera(position=[0, 7, 20], look_at=[0, 1, 0])
@@ -31,9 +41,8 @@ class PlayerSelectionState(BaseState):
         # 0 = Personaje 0, 120 = Personaje 1, 240 = Personaje 2
         self.target_rotation = 0.0 
 
-        self.character_names = ["El Maskara", "Marciana", "Walter"]
         self.banner_color = [0.5, 0.2, 0.2, 0.7]
-        self.banner_rect = pygame.Rect(0, 500, 800, 100)
+        self.banner_rect = pygame.Rect(0, 500, self.display_width, 100)
         self.montserrat_font = "montserrat_bold"
         
     
@@ -69,13 +78,13 @@ class PlayerSelectionState(BaseState):
 
 
     def draw(self):
+        self.engine.setup_3d_perspective()
         glClearColor(*self.background_color)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         self.camera.apply_view()
         self.character_selection_platform.draw()
         self.engine.setup_2d_orthographic()
         self._draw_banner()
-        self.engine.setup_3d_perspective()
     
 
     def _draw_banner(self):
@@ -85,7 +94,7 @@ class PlayerSelectionState(BaseState):
         glColor4f(*self.banner_color)
         draw_pyrect(self.banner_rect)
         nombre_actual = self.character_names[self.selected_index]
-        pos_x = 800 / 2
+        pos_x = self.display_width / 2
         pos_y = self.banner_rect.top + self.banner_rect.height / 2
         if not self.character_selection_platform.is_moving:
             draw_text_2d(x=pos_x, y=pos_y, text=nombre_actual, font_name= self.montserrat_font, size=48, center=True,color=(255, 255, 255, 255))

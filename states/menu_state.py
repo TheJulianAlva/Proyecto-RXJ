@@ -1,10 +1,11 @@
 import pygame
 from OpenGL.GL import *
 from OpenGL.GLU import *
+from systems.data_manager import DataManager
+from systems.input_manager import InputManager
 import utilities.text_renderer as TextUtil
 from utilities.basic_objects import draw_pyrect, draw_pyrect_border
 from states.base_state import BaseState
-from systems.input_manager import InputManager
 
 class MenuState(BaseState):
     """
@@ -16,8 +17,17 @@ class MenuState(BaseState):
         super().__init__(engine)
         self.engine = engine
         self.input_manager = InputManager.instance()
+        data_manager = DataManager.instance()
+        config = data_manager.get_config()
+
+        display_config = config.get("display", {})
+        self.display_width = display_config.get("width", 800)
+        self.display_height = display_config.get("height", 600)
         
-        self.display_width, self.display_height = 800, 600
+        data_menu = data_manager.get_text_dict().get("menu_state", {})
+        self.text_title = data_menu.get("title", "The Mansion Riddle")
+        self.text_start_button = data_menu.get("start_button", "Jugar")
+        self.text_exit_button = data_menu.get("exit_button", "Salir")
         
         # Configuración de botones
         btn_width, btn_height = 200, 50
@@ -43,7 +53,7 @@ class MenuState(BaseState):
         print("  -> Usa las flechas para navegar y ENTER para seleccionar.")
         print("  -> Haz clic en los botones con el mouse.")
 
-    def update(self, _delta_time, event_list):
+    def update(self, _delta_time, _event_list):
         from states.player_selection_state import PlayerSelectionState
         
         # Manejo de eventos de teclado
@@ -59,23 +69,6 @@ class MenuState(BaseState):
             else:
                 self.engine.pop_state()
 
-        # Manejo de eventos de mouse
-        mouse_pos = pygame.mouse.get_pos()
-        
-        # Actualizar botón seleccionado por mouse hover
-        if self.start_button.collidepoint(mouse_pos):
-            self.selected_button = self.start_button
-        elif self.exit_button.collidepoint(mouse_pos):
-            self.selected_button = self.exit_button
-            
-        # Manejo de clics del mouse
-        for event in event_list:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:  # Clic izquierdo
-                    if self.start_button.collidepoint(event.pos):
-                        self.engine.push_state(PlayerSelectionState(self.engine))
-                    elif self.exit_button.collidepoint(event.pos):
-                        self.engine.pop_state()
 
     def draw(self):
         """Dibuja la UI en 2D."""
@@ -85,7 +78,7 @@ class MenuState(BaseState):
         self.engine.setup_2d_orthographic()
         
         # Dibujar título
-        TextUtil.draw_text_2d(400, 200, "The Mansion Riddle", self.montserrat_font, size=56, center=True, color=self.title_color)
+        TextUtil.draw_text_2d(self.display_width/2, 200, self.text_title, self.montserrat_font, size=56, center=True, color=self.title_color)
         
         # Dibujar botón Iniciar
         glColor3fv(self.button_color)
@@ -106,12 +99,12 @@ class MenuState(BaseState):
         
         # Dibujar texto en los botones
         TextUtil.draw_text_2d(self.start_button.centerx, self.start_button.centery, 
-                       "Jugar", self.montserrat_font, size=30, center=True, color=self.button_text_color)
+                       self.text_start_button, self.montserrat_font, size=30, center=True, color=self.button_text_color)
         TextUtil.draw_text_2d(self.exit_button.centerx, self.exit_button.centery, 
-                       "Salir", self.montserrat_font, size=30, center=True, color=self.button_text_color)
+                       self.text_exit_button, self.montserrat_font, size=30, center=True, color=self.button_text_color)
         
         # Dibujar instrucciones
-        TextUtil.draw_text_2d(400, 460, "Usa las flechas o el mouse para navegar", 
+        TextUtil.draw_text_2d(self.display_width/2, 460, "Usa las flechas o el mouse para navegar", 
                        self.default_font, size=24, center=True, color=self.button_text_color)
-        TextUtil.draw_text_2d(400, 490, "Presiona ENTER o haz clic para seleccionar", 
+        TextUtil.draw_text_2d(self.display_width/2, 490, "Presiona ENTER o haz clic para seleccionar", 
                        self.default_font, size=24, center=True, color=self.button_text_color)
