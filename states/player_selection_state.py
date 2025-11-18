@@ -28,7 +28,7 @@ class PlayerSelectionState(BaseState):
         self.display_height = display_config.get("height", 600)
         
         data_selection = data_manager.get_text_dict().get("selection_state", {})
-        self.character_names = data_selection.get("banner_names")
+        self.character_names = data_selection.get("banner_names", ["El Maskara", "Marciana", "Walter"])
         
         self.engine.setup_3d_perspective()
         glEnable(GL_LIGHTING)
