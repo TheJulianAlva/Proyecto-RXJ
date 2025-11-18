@@ -1,36 +1,59 @@
 import pygame
 from OpenGL.GL import *
 
-# Un caché simple para no recargar la misma fuente una y otra vez
+# --- 1. Diccionario de Fuentes ---
+FONTS = {
+    "montserrat_bold": "fonts/fonts-underline/ttf/MontserratUnderline-Bold.ttf",
+}
+
+DEFAULT_FONT_NAME = None
+
 FONT_CACHE = {}
 
-def get_font(size=32):
+def get_font(font_name=DEFAULT_FONT_NAME, size=32):
     """
-    Obtiene una fuente de Pygame del tamaño especificado.
+    Obtiene una fuente de Pygame del nombre y tamaño especificados.
     Usa un caché para evitar recargar.
     """
-    if size not in FONT_CACHE:
+    key = (font_name, size)
+    
+    if key not in FONT_CACHE:
+        font_path_to_load = None
+        
+        if font_name in FONTS:
+            font_path_to_load = FONTS[font_name]
+        else:
+            print(f"Advertencia: Fuente '{font_name}' no encontrada en FONT_PATHS. Usando default de Pygame.")
+            
         try:
-            # (Asumiendo que pygame.font.init() fue llamado en main.py)
-            FONT_CACHE[size] = pygame.font.Font(None, size)
+            loaded_font = pygame.font.Font(font_path_to_load, size)
+            FONT_CACHE[key] = loaded_font
+            
         except Exception as e:
-            print(f"Error al cargar la fuente tamaño {size}: {e}.")
-            FONT_CACHE[size] = pygame.font.Font(pygame.font.get_default_font(), size)
-    return FONT_CACHE[size]
+            print(f"Error al cargar la fuente '{font_path_to_load}': {e}.")
+            print("Usando la fuente default absoluta de Pygame como fallback.")
+            fallback_font = pygame.font.Font(pygame.font.get_default_font(), size)
+            FONT_CACHE[key] = fallback_font
 
-def draw_text_2d(x, y, text, size=32, color=(5, 255, 255, 255)):
+    return FONT_CACHE[key]
+
+def draw_text_2d(x, y, text, font_name=DEFAULT_FONT_NAME, size=32, center = False, color=(255, 255, 255, 255)):
     """
     Dibuja texto en coordenadas de pantalla 2D.
-    
-    IMPORTANTE: Esta función ASUME que ya estás en modo ortográfico 2D
-    (es decir, que ya llamaste a engine.setup_2d_orthographic()).
     """
     try:
-        font = get_font(size)
+        font = get_font(font_name, size)
+        
         text_surface = font.render(text, True, color)
         text_data = pygame.image.tostring(text_surface, "RGBA", True)
         width, height = text_surface.get_size()
-        #glRasterPos2f(x, 600 - y - height)
+        
+        # Ajustar posición si se solicita centrado
+        if center:
+            x -= width / 2
+            y -= height / 2
+        
+        # El '600' aquí asume una altura de ventana de 600px.
         glWindowPos2f(x, 600 - y - height) 
         glDrawPixels(width, height, GL_RGBA, GL_UNSIGNED_BYTE, text_data)
         
