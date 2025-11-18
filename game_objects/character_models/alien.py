@@ -8,12 +8,165 @@ quad = gluNewQuadric()
 gluQuadricDrawStyle(quad, GLU_FILL)
 
 posicion_actual = [0.0, 2.0, 0.0]
+animation_clock = 0.0
+
+# Estos son todos los tipos de movimientos que puede hacer tu monito, tipo "head_pan" hace que mueva la cabeza hacia los lados
+# Entonces por ejemplo si quieres que el monito alce el brazo, tienes que modificar el "shoulder_lift"
+# el valor que pongas son los angulos que va a rotar el brazo
+DEFAULT_POSE= {
+    'pos_x': 0.0,
+    'pos_y': 0.0,
+    'pos_z': 0.0,
+    'root_rotation_y': 0.0,
+    'head_pan': 0.0,
+    'head_tilt': 0.0,
+    'torso_twist': 0.0,
+    'torso_lean': 0.0,
+    'r_shoulder_rotate': 20.0,
+    'r_shoulder_lift': 0.0,
+    'l_shoulder_rotate': -20.0,
+    'l_shoulder_lift': 0.0,
+    'r_hip_forward': 0.0,
+    'r_hip_sideways': 0.0,
+    'l_hip_forward': 0.0,
+    'l_hip_sideways': 0.0,
+}
+
+current_pose = dict(DEFAULT_POSE)
+
+
+# Esta es la animación que tiene los puntos claves para la animación
+walk_cycle_anim = [
+    {
+        'time': 0.0,
+        'pose': {
+            'pos_y': 0.0, 'r_hip_forward': 20.0, 'l_hip_forward': -20.0,
+            'r_shoulder_lift': -15.0, 'l_shoulder_lift': 15.0, 'torso_twist': -10.0
+        }
+    },
+    {
+        'time': 0.5,
+        'pose': {
+            'pos_y': 0.1, 'r_hip_forward': -20.0, 'l_hip_forward': 20.0,
+            'r_shoulder_lift': 15.0, 'l_shoulder_lift': -15.0, 'torso_twist': 10.0
+        }
+    },
+    {
+        'time': 1.0,
+        'pose': {
+            'pos_y': 0.0, 'r_hip_forward': 20.0, 'l_hip_forward': -20.0,
+            'r_shoulder_lift': -15.0, 'l_shoulder_lift': 15.0, 'torso_twist': -10.0
+        }
+    }
+]
+
+salute_cycle_anim = [
+    {
+        'time': 0.0, # time es el momento en el que quieres que haga esa posicion, por ejemplo, que nuestro primer frame sea con las manos normales
+        'pose': {
+            'r_shoulder_rotate': 20.0,
+            'l_shoulder_rotate': -20.0,
+        }
+    },
+    {
+        'time': 1.0, # luego vamos a añadir que en el segundo 1, alce el brazo
+        'pose': {
+            'l_shoulder_lift': 170.0 # 170 para que este casi alzado
+        }
+    },
+    {
+        'time': 1.4, # Un poco despues que mueva el brazo hacia un lado para saludar
+        'pose': {
+            'l_shoulder_rotate': 0.0 # Estaba en -20, ahora en 0
+        }
+    },
+    {
+        'time': 2.0, # Que lo mueva para el otro lado
+        'pose': {
+            'l_shoulder_rotate': -30.0 # Estaba en 0, ahora en 30
+        }
+    },
+    {
+        'time': 3.0, # finalmente que regrese a su posición inicial
+        'pose': {
+            'l_shoulder_lift': 0.0, # 0 para que este abajo el brazo nuevamente
+            'r_shoulder_rotate': 20.0, # estos valores son pq los brazos originales estan como un poco abiertos hacia los lados
+            'l_shoulder_rotate': -20.0, #
+        }
+    },
+    {
+        'time': 8.0, # despues puedes simplemente hacer un frame que no haga nada como para que haya espacio entre saludo y saludo
+        'pose': {
+            'r_shoulder_rotate': 20.0,
+            'l_shoulder_rotate': -20.0,
+        }
+    },
+]
+# ya para acabar, mandas llamar tu animación aqui en lugar de la de caminar
+# a ver correte
+current_animation = salute_cycle_anim
+
+def lerp(val_a, val_b, t):
+    """
+    Interpola linealmente (LERP) entre a y b usando t (0.0 a 1.0)
+    """
+    return val_a + (val_b - val_a) * t
+
+def update_animation(delta_time):
+    """
+    Actualiza la pose interpolando entre los keyframes de la animación activa.
+    """
+    global animation_clock, current_animation, current_pose, DEFAULT_POSE
+
+    if not current_animation:
+        return
+
+    animation_clock += delta_time
+    
+    # Manejar el bucle de la animación
+    animation_duration = current_animation[-1]['time']
+    if animation_clock > animation_duration:
+        animation_clock = animation_clock % animation_duration
+
+    keyframe_prev = current_animation[0]
+    keyframe_next = current_animation[0]
+
+    for frame in current_animation:
+        if frame['time'] <= animation_clock:
+            keyframe_prev = frame
+        if frame['time'] > animation_clock:
+            keyframe_next = frame
+            break
+            
+    # Manejar el salto del último keyframe al primero
+    is_looping_segment = keyframe_next['time'] <= keyframe_prev['time']
+    
+    time_between_frames = keyframe_next['time'] - keyframe_prev['time']
+    if time_between_frames < 0:
+        time_between_frames += animation_duration
+        
+    time_into_segment = animation_clock - keyframe_prev['time']
+    t = time_into_segment / time_between_frames if time_between_frames != 0 else 0.0
+
+    # Interpolar todos los valores de la pose
+    for joint_name in current_pose.keys():
+        
+        default_val = DEFAULT_POSE[joint_name] 
+
+        val_a = keyframe_prev['pose'].get(joint_name, default_val)
+        val_b = keyframe_next['pose'].get(joint_name, val_a)
+        
+        # Corrección para el bucle (si el siguiente es el primero)
+        if is_looping_segment:
+             val_b = current_animation[0]['pose'].get(joint_name, default_val) 
+
+        current_pose[joint_name] = lerp(val_a, val_b, t)
+
 
 def draw():
     global posicion_actual
     glPushMatrix()
     glTranslatef(posicion_actual[0], posicion_actual[1], posicion_actual[2])
-    
     #body
     _draw_body()
     #face
@@ -22,10 +175,20 @@ def draw():
 
 
 def _draw_body():
+    glTranslatef(current_pose['pos_x'], current_pose['pos_y'], current_pose['pos_z'])
+    glRotatef(current_pose['root_rotation_y'], 0, 1, 0)
+    glPushMatrix()
+    glRotatef(current_pose['torso_twist'], 0, 1, 0)
+    glRotatef(current_pose['torso_lean'], 1, 0, 0)
     # head
     Materials.apply_material(Materials.MAT_PLASTIC)
     glColor3fv(Materials.C_GREEN)
-    ob.draw_sphere(quad=quad, scale=[1.5, 1.5, 1.5], translate=[0, 4, 0])
+    glPushMatrix()
+    glTranslatef(0, 4, 0)
+    glRotatef(current_pose['head_pan'], 0, 1, 0)
+    glRotatef(current_pose['head_tilt'], 1, 0, 0)
+    ob.draw_sphere(quad=quad, scale=[1.5, 1.5, 1.5], translate=[0, 0, 0])
+    glPopMatrix()
     # neck
     ob.draw_cylinder(quad=quad, scale=[0.7, 0.7, 0.5],translate=[0, 2.8, 0])
     # body
@@ -36,37 +199,45 @@ def _draw_body():
     ob.draw_cylinder(quad=quad, scale=[0.2, 1.3, 0.3], translate=[-0.8, 5, 0], rotation=[190, 0, 0, 1])
     ob.draw_sphere(quad=quad, scale=[0.3, 0.3, 0.3], translate=[1.35, 6.5, 0])
     ob.draw_sphere(quad=quad, scale=[0.3, 0.3, 0.3], translate=[-1.1, 6.55, 0])
-        
-    # arms
+    
+    # pants
+    ob.draw_sphere(quad=quad, scale=[1.2,1.0,1], translate=[0, .9, 0])
+    glPopMatrix() 
+    
+    # --- arms ---
     glPushMatrix()
     glTranslatef(1.35, 2.4, 0)
-    glRotatef(20, 0, 0, 1)
+    glRotatef(current_pose['r_shoulder_rotate'], 0, 0, 1) # Rotación Z
+    glRotatef(current_pose['r_shoulder_lift'], 1, 0, 0)   # Rotación X
     ob.draw_sphere(quad=quad, scale=[0.5, 1, 0.6], translate=[0, -0.85, 0])
     ob.draw_sphere(quad=quad, scale=[0.48, 0.48, 0.48], translate=[0, -1.9, 0])
     glPopMatrix()
 
     glPushMatrix()
     glTranslatef(-1.35, 2.4, 0)
-    glRotatef(-20, 0, 0, 1)
+    glRotatef(current_pose['l_shoulder_rotate'], 0, 0, 1) # Rotación Z
+    glRotatef(current_pose['l_shoulder_lift'], 1, 0, 0)   # Rotación X
     ob.draw_sphere(quad=quad, scale=[0.5, 1, 0.6], translate=[0, -0.85, 0])
     ob.draw_sphere(quad=quad, scale=[0.48, 0.48, 0.48], translate=[0, -1.9, 0])
     glPopMatrix()
     
-    # pants
-    ob.draw_sphere(quad=quad, scale=[1.2,1.0,1], translate=[0, .9, 0])
-
-    # legs
+    # --- legs ---
     glPushMatrix()
-    glTranslatef(0, 0.4, 0)
-    ob.draw_cylinder(quad=quad, scale=[0.4, 1.45, 0.4], translate=[0.6, -0.1, 0])
-    ob.draw_half_sphere(quad=quad, scale=[0.6, 0.6, 1], translate=[0.6, -1.8, 0.3])
+    glTranslatef(0.6, 0.4, 0)
+    glRotatef(current_pose['r_hip_forward'], 1, 0, 0) # Rotación X (adelante/atrás)
+    glRotatef(current_pose['r_hip_sideways'], 0, 0, 1) # Rotación Z (lado a lado)
+    ob.draw_cylinder(quad=quad, scale=[0.4, 1.45, 0.4], translate=[0.0, -0.1, 0.0])
+    ob.draw_half_sphere(quad=quad, scale=[0.6, 0.6, 1], translate=[0.0, -1.8, 0.3])
     glPopMatrix()
     
     glPushMatrix()
-    glTranslatef(0, 0.4, 0)
-    ob.draw_cylinder(quad=quad, scale=[0.4, 1.45, 0.4], translate=[-0.6, -0.1, 0])
-    ob.draw_half_sphere(quad=quad, scale=[0.6, 0.6, 1], translate=[-0.6, -1.8, 0.3])
+    glTranslatef(-0.6, 0.4, 0)
+    glRotatef(current_pose['l_hip_forward'], 1, 0, 0) # Rotación X (adelante/atrás)
+    glRotatef(current_pose['l_hip_sideways'], 0, 0, 1) # Rotación Z (lado a lado)
+    ob.draw_cylinder(quad=quad, scale=[0.4, 1.45, 0.4], translate=[0.0, -0.1, 0.0])
+    ob.draw_half_sphere(quad=quad, scale=[0.6, 0.6, 1], translate=[0.0, -1.8, 0.3])
     glPopMatrix()
+
 
 def _draw_happy_face():
     
