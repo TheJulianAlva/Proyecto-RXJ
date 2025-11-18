@@ -1,8 +1,8 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
-from assets import basic_objects as ob
-from assets import materials as Materials
+from utilities import basic_objects as ob
+from utilities import materials as Materials
 
 quad = gluNewQuadric()
 gluQuadricDrawStyle(quad, GLU_FILL)

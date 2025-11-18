@@ -9,7 +9,8 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from .base_state import BaseState
 from systems.input_manager import InputManager
-from utilities.text_renderer import draw_text_2d, get_font
+from utilities.text_renderer import draw_text_2d
+from utilities.basic_objects import draw_pyrect
 from game_objects.camera import Camera
 from game_objects.character_selection_platform import CharacterSelectionPlatform
 
@@ -33,6 +34,7 @@ class PlayerSelectionState(BaseState):
         self.character_names = ["El Maskara", "Marciana", "Walter"]
         self.banner_color = [0.5, 0.2, 0.2, 0.7]
         self.banner_rect = pygame.Rect(0, 500, 800, 100)
+        self.montserrat_font = "montserrat_bold"
         
     
     def update(self, delta_time, _event_list):
@@ -72,31 +74,19 @@ class PlayerSelectionState(BaseState):
         self.camera.apply_view()
         self.character_selection_platform.draw()
         self.engine.setup_2d_orthographic()
-        self._draw_banner_and_text()
+        self._draw_banner()
         self.engine.setup_3d_perspective()
     
 
-    def _draw_banner_and_text(self):
+    def _draw_banner(self):
         """
         Dibuja el banner 2D y el nombre del personaje.
         """
         glColor4f(*self.banner_color)
-        glBegin(GL_QUADS)
-        glVertex2f(self.banner_rect.left, self.banner_rect.top)
-        glVertex2f(self.banner_rect.right, self.banner_rect.top)
-        glVertex2f(self.banner_rect.right, self.banner_rect.bottom)
-        glVertex2f(self.banner_rect.left, self.banner_rect.bottom)
-        glEnd()
-        
+        draw_pyrect(self.banner_rect)
         nombre_actual = self.character_names[self.selected_index]
-        font = get_font(48)
-        text_width, text_height = font.size(nombre_actual)
-        pos_x = (800 - text_width) / 2
-        pos_y = self.banner_rect.top + (self.banner_rect.height - text_height) / 2
-        
+        pos_x = 800 / 2
+        pos_y = self.banner_rect.top + self.banner_rect.height / 2
         if not self.character_selection_platform.is_moving:
-            glEnable(GL_BLEND)
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-            draw_text_2d(x=pos_x, y=pos_y, text=nombre_actual, size=48, color=(250, 250, 250, 255))
-            glDisable(GL_BLEND)
+            draw_text_2d(x=pos_x, y=pos_y, text=nombre_actual, font_name= self.montserrat_font, size=48, center=True,color=(255, 255, 255, 255))
     

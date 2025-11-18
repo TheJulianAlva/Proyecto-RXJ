@@ -18,6 +18,8 @@ def main():
     # Materiales: Permite que glColor3f afecte el material
     glEnable(GL_COLOR_MATERIAL)
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
+    glEnable(GL_BLEND)
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
     cam_manager = CameraManager.instance()
     cam_manager.load_cameras()
     glEnable(GL_DEPTH_TEST)

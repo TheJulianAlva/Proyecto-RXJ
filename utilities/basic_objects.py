@@ -1,7 +1,7 @@
 from OpenGL.GLU import *
 from OpenGL.GL import *
 
-
+# ================================= 3D =================================
 def draw_cube(size=1.0, scale=[1, 1, 1], translate=[0, 0, 0], rotation=[0, 0, 0, 1]):
     """
     Dibuja un cubo usando GL.
@@ -107,3 +107,36 @@ def draw_partial_disk(quad, scale=[1, 1, 1], translate=[0, 0, 0], rotation=[0, 0
     glScalef(*scale)
     gluPartialDisk(quad, inner_radius, outer_radius, slices, loops, start_angle, sweep_angle)
     glPopMatrix()
+
+
+# ================================= 2D =================================
+
+def draw_pyrect(rect):
+    """
+    Función para dibujar un pygame.Rect relleno con GL_QUADS.
+
+    :param rect: El rectángulo a dibujar.
+    :type rect: pygame.Rect
+    """
+    glBegin(GL_QUADS)
+    glVertex2f(rect.left, rect.top)
+    glVertex2f(rect.right, rect.top)
+    glVertex2f(rect.right, rect.bottom)
+    glVertex2f(rect.left, rect.bottom)
+    glEnd()
+
+def draw_pyrect_border(rect):
+    """
+    Función para dibujar el borde de un pygame.Rect con GL_LINES.
+
+    :param rect: El rectángulo cuyo borde se va a dibujar.
+    :type rect: pygame.Rect
+    """
+    glLineWidth(2.0) # Hacer el borde más grueso
+    glBegin(GL_LINE_LOOP)
+    glVertex2f(rect.left, rect.top)
+    glVertex2f(rect.right, rect.top)
+    glVertex2f(rect.right, rect.bottom)
+    glVertex2f(rect.left, rect.bottom)
+    glEnd()
+    glLineWidth(1.0)
