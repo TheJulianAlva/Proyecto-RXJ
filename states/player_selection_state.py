@@ -30,7 +30,7 @@ class PlayerSelectionState(BaseState):
         # 0 = Personaje 0, 120 = Personaje 1, 240 = Personaje 2
         self.target_rotation = 0.0 
 
-        self.character_names = ["Santo", "Alien", "Walter"]
+        self.character_names = ["El Maskara", "Marciana", "Walter"]
         self.banner_color = [0.5, 0.2, 0.2, 0.7]
         self.banner_rect = pygame.Rect(0, 500, 800, 100)
         
