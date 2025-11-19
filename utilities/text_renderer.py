@@ -53,8 +53,7 @@ def draw_text_2d(x, y, text, font_name=DEFAULT_FONT_NAME, size=32, center = Fals
             x -= width / 2
             y -= height / 2
         
-        # El '600' aquí asume una altura de ventana de 600px.
-        glWindowPos2f(x, 600 - y - height) 
+        glWindowPos2f(x, y) 
         glDrawPixels(width, height, GL_RGBA, GL_UNSIGNED_BYTE, text_data)
         
     except Exception as e:

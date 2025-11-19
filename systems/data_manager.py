@@ -1,4 +1,5 @@
 import json
+import os
 
 class DataManager:
     """
@@ -91,3 +92,32 @@ class DataManager:
         """
         print(f"Cargando datos de escena: {scene_name}")
         return self._load_json(f"data/scenes/{scene_name}.json")
+    
+
+    def save_game_data(self, data_dict):
+        """
+        Guarda un diccionario de datos en 'data/save_file.json'.
+        Sobrescribe el archivo anterior.
+        """
+        file_path = "data/save_file.json"
+        try:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                json.dump(data_dict, f, indent=4)
+            print(f"Partida guardada exitosamente en {file_path}")
+            return True
+        except Exception as e:
+            print(f"Error CRÍTICO al guardar partida: {e}")
+            return False
+
+    def load_game_data(self):
+        """
+        Carga los datos de progreso del jugador.
+        Devuelve un diccionario vacío {} si no existe archivo de guardado.
+        """
+        file_path = "data/save_file.json"
+        
+        if not os.path.exists(file_path):
+            print("No se encontró archivo de guardado. Se creará uno nuevo al guardar.")
+            return {} # Retorna vacío para que el juego use valores por defecto
+            
+        return self._load_json(file_path)

@@ -3,8 +3,10 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from systems.data_manager import DataManager
 from systems.input_manager import InputManager
+from systems.texture_manager import TextureManager
 import utilities.text_renderer as TextUtil
-from utilities.basic_objects import draw_pyrect, draw_pyrect_border
+import utilities.basic_objects as Objects
+from game_objects.ui_elements.menu_button import MenuButton
 from states.base_state import BaseState
 
 class MenuState(BaseState):
@@ -12,46 +14,77 @@ class MenuState(BaseState):
     Estado del Menú Principal. Dibuja UI en 2D y maneja
     la navegación del menú (Iniciar Juego, Salir).
     """
-    
     def __init__(self, engine):
         super().__init__(engine)
         self.engine = engine
         self.input_manager = InputManager.instance()
         data_manager = DataManager.instance()
+        texture_manager = TextureManager.instance()
         config = data_manager.get_config()
 
-        display_config = config.get("display", {})
-        self.display_width = display_config.get("width", 800)
-        self.display_height = display_config.get("height", 600)
+        display_config = config.get("rendered_display", {})
+        display_width = display_config.get("width", 1280)
+        display_height = display_config.get("height", 720)
         
         data_menu = data_manager.get_text_dict().get("menu_state", {})
-        self.text_title = data_menu.get("title", "The Mansion Riddle")
-        self.text_start_button = data_menu.get("start_button", "Jugar")
-        self.text_exit_button = data_menu.get("exit_button", "Salir")
+        text_start_button = data_menu.get("start_button", "Jugar")
+        text_exit_button = data_menu.get("exit_button", "Salir")
         
-        # Configuración de botones
-        btn_width, btn_height = 200, 50
-        btn_x = (self.display_width - btn_width) / 2
+        self.texture_background = texture_manager.load_texture(
+            "title-background", 
+            "assets/background/proyecto-rxj-title.png"
+            )
+        self.background_image = pygame.Rect(0, 0, display_width, display_height)
         
-        self.start_button = pygame.Rect(btn_x, 250, btn_width, btn_height)
-        self.exit_button = pygame.Rect(btn_x, 360, btn_width, btn_height)
-        self.selected_button = self.start_button
+        margin_display = 100
+        btn_width, btn_height = 300, 55
+        btn_x = display_width - btn_width - margin_display
         
+        btn_y_exit = display_height - btn_height - margin_display
+        btn_y_start = btn_y_exit - btn_height - 20
+
         # Colores
-        self.clear_color = (0, 0, 0, 255) # Negro
-        self.title_color = (255, 255, 255, 255) # Blanco
-        self.button_text_color = (255, 255, 255) # Blanco
-        self.button_color = (0.0, 0.6, 0.0) # Verde
-        self.button_hover_color = (0.2, 0.8, 0.2) # Verde claro
-        self.button_exit_color = (0.6, 0.0, 0.0) # Rojo
-        self.button_exit_hover_color = (0.8, 0.2, 0.2) # Rojo claro
+        button_color = (90, 130, 70, 255) # Verde
+        button_hover_color = (110, 150, 90, 255) # Verde claro
+        button_border_color = (110, 150, 90, 255) # Verde claro
+        button_text_color = (255, 255, 255, 255) # Blanco
         
-        self.montserrat_font = "montserrat_bold"
-        self.default_font = TextUtil.DEFAULT_FONT_NAME
+        montserrat_font = "montserrat_bold"
+        #default_font = TextUtil.DEFAULT_FONT_NAME
+
+        self.start_button = MenuButton(
+            pos_x=btn_x, 
+            pos_y=btn_y_start,
+            width=btn_width,
+            height=btn_height,
+            color=button_color,
+            hover_color=button_hover_color,
+            border_color=button_border_color,
+            text=text_start_button,
+            text_font=montserrat_font,
+            text_size=24,
+            text_color=button_text_color
+            )
+        
+        self.exit_button = MenuButton(
+            pos_x=btn_x, 
+            pos_y=btn_y_exit,
+            width=btn_width,
+            height=btn_height,
+            color=button_color,
+            hover_color=button_hover_color,
+            border_color=button_border_color,
+            text=text_exit_button,
+            text_font=montserrat_font,
+            text_size=24,
+            text_color=button_text_color
+            )
+        
+        self.selected_button = self.start_button
+        self.selected_button.set_selected(True)
         
         print("MenuState inicializado.")
         print("  -> Usa las flechas para navegar y ENTER para seleccionar.")
-        print("  -> Haz clic en los botones con el mouse.")
 
     def update(self, _delta_time, _event_list):
         from states.player_selection_state import PlayerSelectionState
@@ -60,51 +93,41 @@ class MenuState(BaseState):
         if self.input_manager.was_action_pressed("quit"):
             self.engine.pop_state()
         elif self.input_manager.was_action_pressed("ui_up"):
-            self.selected_button = self.start_button
+            self._toogle_selected_button()
         elif self.input_manager.was_action_pressed("ui_down"):
-            self.selected_button = self.exit_button
+            self._toogle_selected_button()
         elif self.input_manager.was_action_pressed("ui_select"):
             if self.selected_button == self.start_button:
                 self.engine.push_state(PlayerSelectionState(self.engine))
             else:
                 self.engine.pop_state()
 
+    def _toogle_selected_button(self):
+        if self.start_button.is_selected:
+            self.start_button.set_selected(False)
+            self.exit_button.set_selected(True)
+            self.selected_button = self.exit_button
+        elif self.exit_button.is_selected:
+            self.exit_button.set_selected(False)
+            self.start_button.set_selected(True)
+            self.selected_button = self.start_button
+        else:
+            self.exit_button.set_selected(False)
+            self.start_button.set_selected(True)
+            self.selected_button = self.start_button
 
     def draw(self):
         """Dibuja la UI en 2D."""
-        glClearColor(*self.clear_color)
+        glClearColor(0, 0, 0, 255)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         
         self.engine.setup_2d_orthographic()
-        
-        # Dibujar título
-        TextUtil.draw_text_2d(self.display_width/2, 200, self.text_title, self.montserrat_font, size=56, center=True, color=self.title_color)
-        
-        # Dibujar botón Iniciar
-        glColor3fv(self.button_color)
-        if self.selected_button == self.start_button:
-            glColor3f(*self.button_hover_color)
-        draw_pyrect(self.start_button)
-        
-        # Dibujar botón Salir
-        glColor3f(*self.button_exit_color)
-        if self.selected_button == self.exit_button:
-            glColor3f(*self.button_exit_hover_color)
-        draw_pyrect(self.exit_button)
-        
-        # Dibujar bordes de los botones
         glColor3f(1.0, 1.0, 1.0)
-        draw_pyrect_border(self.start_button)
-        draw_pyrect_border(self.exit_button)
-        
-        # Dibujar texto en los botones
-        TextUtil.draw_text_2d(self.start_button.centerx, self.start_button.centery, 
-                       self.text_start_button, self.montserrat_font, size=30, center=True, color=self.button_text_color)
-        TextUtil.draw_text_2d(self.exit_button.centerx, self.exit_button.centery, 
-                       self.text_exit_button, self.montserrat_font, size=30, center=True, color=self.button_text_color)
-        
-        # Dibujar instrucciones
-        TextUtil.draw_text_2d(self.display_width/2, 460, "Usa las flechas o el mouse para navegar", 
-                       self.default_font, size=24, center=True, color=self.button_text_color)
-        TextUtil.draw_text_2d(self.display_width/2, 490, "Presiona ENTER o haz clic para seleccionar", 
-                       self.default_font, size=24, center=True, color=self.button_text_color)
+        glEnable(GL_TEXTURE_2D)
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
+        glBindTexture(GL_TEXTURE_2D, self.texture_background)
+        Objects.draw_crop_pyrect(self.background_image, 1344, 768)
+        glDisable(GL_TEXTURE_2D)
+
+        self.start_button.draw()
+        self.exit_button.draw()

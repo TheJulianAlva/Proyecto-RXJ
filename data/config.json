@@ -1,8 +1,12 @@
 {
     "display": {
-        "width": 800,
-        "height": 600,
+        "width": 1280,
+        "height": 720,
         "fullscreen": false
+    },
+    "rendered_display": {
+        "width": 1280,
+        "height": 720
     },
     "language": "es",
     "audio": {
