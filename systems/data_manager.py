@@ -93,13 +93,12 @@ class DataManager:
         print(f"Cargando datos de escena: {scene_name}")
         return self._load_json(f"data/scenes/{scene_name}.json")
     
-
     def save_game_data(self, data_dict):
         """
-        Guarda un diccionario de datos en 'data/save_file.json'.
+        Guarda un diccionario de datos en 'data/game_config.json'.
         Sobrescribe el archivo anterior.
         """
-        file_path = "data/save_file.json"
+        file_path = "data/game_config.json"
         try:
             with open(file_path, 'w', encoding='utf-8') as f:
                 json.dump(data_dict, f, indent=4)
@@ -114,7 +113,7 @@ class DataManager:
         Carga los datos de progreso del jugador.
         Devuelve un diccionario vacío {} si no existe archivo de guardado.
         """
-        file_path = "data/save_file.json"
+        file_path = "data/game_config.json"
         
         if not os.path.exists(file_path):
             print("No se encontró archivo de guardado. Se creará uno nuevo al guardar.")

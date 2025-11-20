@@ -15,14 +15,21 @@ def main():
     config = data_manager.get_config()
     display_config = config.get("display", {}) 
     display_size = (
-        display_config.get("width", 1280),  # 800 por defecto
-        display_config.get("height", 720)  # 600 por defecto
+        display_config.get("width", 1280),  # 1280 por defecto
+        display_config.get("height", 720)  # 720 por defecto
     )
+    
+    rendered_display_config = config.get("rendered_display", {})
+    rendered_display_size = (
+        rendered_display_config.get("width", 1280),
+        rendered_display_config.get("height", 720)
+    )
+    
     pygame.display.set_mode(display_size, DOUBLEBUF | OPENGL)
     pygame.display.set_caption("Proyecto RXJ")
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    gluPerspective(45, (display_size[0] / display_size[1]), 0.1, 100.0)
+    gluPerspective(45, (rendered_display_size[0] / rendered_display_size[1]), 0.1, 100.0)
     # Materiales: Permite que glColor3f afecte el material
     glEnable(GL_COLOR_MATERIAL)
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)

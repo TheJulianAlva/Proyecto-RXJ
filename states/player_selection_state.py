@@ -29,7 +29,7 @@ class PlayerSelectionState(BaseState):
         
         data_selection = data_manager.get_text_dict().get("selection_state", {})
         self.character_names = data_selection.get("banner_names", ["El Maskara", "Marciana", "Walter"])
-        
+
         self.engine.setup_3d_perspective()
         glEnable(GL_LIGHTING)
         self.character_selection_platform = CharacterSelectionPlatform(0.0, 0.0, 0.0)
@@ -68,8 +68,10 @@ class PlayerSelectionState(BaseState):
             return
         if self.input_manager.was_action_pressed("interact"):
             print(f"Iniciando juego con personaje {self.character_names[self.selected_index]}")
+            player_config = {"character_index": self.selected_index}
+            DataManager.instance().save_game_data(player_config)
             from states.play_state import PlayState
-            self.engine.push_state(PlayState(self.engine))
+            self.engine.change_state(PlayState(self.engine))
         
         if self.input_manager.was_action_pressed("return"):
             self.engine.pop_state()
