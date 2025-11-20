@@ -15,8 +15,8 @@ def main():
     config = data_manager.get_config()
     display_config = config.get("display", {}) 
     display_size = (
-        display_config.get("width", 800),  # 800 por defecto
-        display_config.get("height", 600)  # 600 por defecto
+        display_config.get("width", 1280),  # 800 por defecto
+        display_config.get("height", 720)  # 600 por defecto
     )
     pygame.display.set_mode(display_size, DOUBLEBUF | OPENGL)
     pygame.display.set_caption("Proyecto RXJ")

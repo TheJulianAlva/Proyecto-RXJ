@@ -5,7 +5,6 @@ from utilities import materials as Materials
 
 
 DEFAULT_POSE= {
-
     'pos_x': 0.0,
     'pos_y': 0.0,
     'pos_z': 0.0,
@@ -223,7 +222,7 @@ class SantoSkin:
         gluQuadricDrawStyle(self.quad, GLU_FILL)
         
         self.animation_clock = 0.0
-        self.current_pose = DEFAULT_POSE.copy() # Copia para no modificar el original
+        self.current_pose = DEFAULT_POSE.copy()
         
         quad = gluNewQuadric()
         gluQuadricDrawStyle(quad, GLU_FILL)
@@ -245,8 +244,7 @@ class SantoSkin:
             if state_name in self.animations:
                 self.current_anim_name = state_name
                 self.current_animation = self.animations[state_name]
-                self.animation_clock = 0.0 # Reiniciar animación al cambiar
-                print(f"SantoSkin: Cambio de estado a '{state_name}'")
+                self.animation_clock = 0.0
 
     def update_animation(self, delta_time):
         """Actualiza la interpolación de la pose actual."""

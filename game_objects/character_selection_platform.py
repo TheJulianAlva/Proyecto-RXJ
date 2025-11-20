@@ -2,8 +2,9 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from systems.input_manager import InputManager
 from utilities import materials as Materials
-from game_objects.character_models import alien, walter
 from game_objects.character_models.santo import SantoSkin
+from game_objects.character_models.alien import AlienSkin
+from game_objects.character_models.walter import WalterSkin
 from utilities import basic_objects as Objects
 
 class CharacterSelectionPlatform:
@@ -19,6 +20,8 @@ class CharacterSelectionPlatform:
         self.quad = gluNewQuadric()
         gluQuadricNormals(self.quad, GLU_SMOOTH)
         santo = SantoSkin()
+        alien = AlienSkin()
+        walter = WalterSkin()
         self.characters = [santo, alien, walter]
 
 
@@ -99,11 +102,11 @@ class CharacterSelectionPlatform:
         glPopMatrix()
         glPushMatrix()
         glRotatef(120, 0, 1, 0)
-        glTranslatef(0.0, -0.5, 6.0)
+        glTranslatef(0.0, 0.0, 6.0)
         self.characters[1].draw()
         glPopMatrix()
         glPushMatrix()
         glRotatef(240, 0, 1, 0)
-        glTranslatef(0.0, -0.5, 6.0)
+        glTranslatef(0.0, 0.0, 6.0)
         self.characters[2].draw()
         glPopMatrix()
