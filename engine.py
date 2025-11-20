@@ -19,6 +19,7 @@ Métodos de Control de la Pila:
 - change_state(state):  Reemplaza el estado de la cima (ej. Menú -> Juego).
 
 """
+from systems.data_manager import DataManager
 from states.play_state import PlayState
 from states.menu_state import MenuState
 from OpenGL.GL import *
@@ -29,6 +30,12 @@ class GameEngine:
         self.running = True
         self.state_stack = []
         self.push_state(MenuState(self))
+        data_manager = DataManager.instance()
+        config = data_manager.get_config()
+
+        display_config = config.get("rendered_display", {})
+        self.display_width = display_config.get("width", 1280)
+        self.display_height = display_config.get("height", 720)
         
         print("GameEngine inicializado.")
 
@@ -80,7 +87,7 @@ class GameEngine:
 
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        gluPerspective(45, (800 / 600), 0.1, 100.0)
+        gluPerspective(45, (self.display_width / self.display_height), 0.1, 100.0)
         
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
@@ -96,7 +103,7 @@ class GameEngine:
 
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        gluOrtho2D(0, 800, 600, 0)
+        gluOrtho2D(0, self.display_width, self.display_height, 0)
         
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()

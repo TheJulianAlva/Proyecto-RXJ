@@ -2,7 +2,9 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from systems.input_manager import InputManager
 from utilities import materials as Materials
-from game_objects.character_models import alien, santo, walter
+from game_objects.character_models.santo import SantoSkin
+from game_objects.character_models.alien import AlienSkin
+from game_objects.character_models.walter import WalterSkin
 from utilities import basic_objects as Objects
 
 class CharacterSelectionPlatform:
@@ -17,6 +19,9 @@ class CharacterSelectionPlatform:
         self.input_manager = InputManager.instance()
         self.quad = gluNewQuadric()
         gluQuadricNormals(self.quad, GLU_SMOOTH)
+        santo = SantoSkin()
+        alien = AlienSkin()
+        walter = WalterSkin()
         self.characters = [santo, alien, walter]
 
 
@@ -63,14 +68,14 @@ class CharacterSelectionPlatform:
         glEnable(GL_LIGHT0)
         # Propiedades básicas de la luz (blanca)
         light_ambient = [0.2, 0.2, 0.2, 1.0]
-        light_diffuse = [0.2, 0.2, 0.2, 1.0]
-        light_specular = [0.0, 0.0, 0.0, 1.0]
+        light_diffuse = [0.3, 0.3, 0.3, 1.0]
+        light_specular = [0.05, 0.05, 0.05, 1.0]
         
         glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient)
         glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse)
         glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular)
         
-        light_pos_point = [0.0, 20.0, 16.0, 1.0]
+        light_pos_point = [0.0, 20.0, 16.0, 0.0]
         
         # Configuración del Foco
         spot_dir = [0.0, -1.0, -0.6] # Apuntando hacia abajo y al frente
@@ -86,22 +91,22 @@ class CharacterSelectionPlatform:
         glPushMatrix()
         Materials.apply_material(material=Materials.MAT_METAL)
         glColor3fv(Materials.C_BLUE)
-        Objects.draw_cylinder(quad=self.quad, scale=[10.0, 10.0, 10.0], translate=[0.0, 0.0, 0.0])
-        Objects.draw_partial_disk(quad=self.quad, scale=[10.0, 10.0, 1.0], translate=[0.0, 0.0, 0.0], rotation=[90, 1.0, 0.0, 0.0])
+        #Objects.draw_cylinder(quad=self.quad, scale=[10.0, 10.0, 10.0], translate=[0.0, 0.0, 0.0])
+        #Objects.draw_partial_disk(quad=self.quad, scale=[10.0, 10.0, 1.0], translate=[0.0, 0.0, 0.0], rotation=[90, 1.0, 0.0, 0.0])
         glPopMatrix()
 
     def _draw_characters(self):
         glPushMatrix()
-        glTranslatef(0.0, -0.5, 6.0)
+        glTranslatef(0.0, 0.0, 6.0)
         self.characters[0].draw()
         glPopMatrix()
         glPushMatrix()
         glRotatef(120, 0, 1, 0)
-        glTranslatef(0.0, -0.5, 6.0)
+        glTranslatef(0.0, 0.0, 6.0)
         self.characters[1].draw()
         glPopMatrix()
         glPushMatrix()
         glRotatef(240, 0, 1, 0)
-        glTranslatef(0.0, -0.5, 6.0)
+        glTranslatef(0.0, 0.0, 6.0)
         self.characters[2].draw()
         glPopMatrix()
