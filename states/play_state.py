@@ -7,6 +7,7 @@ from states.base_state import BaseState
 from systems.data_manager import DataManager
 from systems.camera_manager import CameraManager
 from systems.input_manager import InputManager
+from game_objects.level import Level
 from game_objects.character_models.santo import SantoSkin
 from game_objects.character_models.alien import AlienSkin
 from game_objects.character_models.walter import WalterSkin
@@ -25,12 +26,21 @@ class PlayState(BaseState):
         self.player = Player(0, 0, 0, selected_skin)
         self.input_manager = InputManager.instance()
         self.cam_manager = CameraManager.instance()
+        level_data = data_manager._load_json("data/levels/level_1.json")
+        if level_data:
+            self.current_level = Level(level_data)
+        else:
+            print(f"Error Crítico: No se pudieron cargar los datos del nivel...")
+            self.current_level = None
 
     def update(self, delta_time, _event_list):
         if self.input_manager.was_action_pressed("return"):
             self.engine.pop_state()
             return
         self.player.update(delta_time)
+        if self.current_level:
+            self.current_level.update(delta_time)
+
 
     def draw(self):
         _active_cam = self.cam_manager.get_active_camera()
@@ -38,5 +48,7 @@ class PlayState(BaseState):
             _active_cam.apply_view()
         else:
             print("¡Advertencia! No hay cámara activa.")
+        if self.current_level:
+            self.current_level.draw()
         self.player.draw()
         
