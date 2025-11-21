@@ -34,7 +34,8 @@ class CameraManager:
         
         self.cam1 = Camera(position=[10, 15, 10], look_at=[0, 0, 0])
         self.cam2 = Camera(position=[5, 5, -10], look_at=[5, 0, 0])
-        self.cam_default = Camera(position=[0, 15, -15], look_at=[0, 0, 0])
+        # Cámara por defecto alejada para mejor visualización de texturas
+        self.cam_default = Camera(position=[0, 20, -30], look_at=[0, 0, 0])
 
         self.cameras = {} # Diccionario para guardar las cámaras por ID
         self.active_camera = None
