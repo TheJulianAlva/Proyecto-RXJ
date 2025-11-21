@@ -52,7 +52,7 @@ class MenuButton:
 
     def _convert_rgba_color(self, color):
         '''
-        Toma una tupla con valores 0-255 y retorna 
+        Toma una tupla con 4 valores y retorna 
         una tupla con valores flotantes entre 0.0 y 1.0
         '''
         # Si el color ya está en rango 0.0-1.0, devolver tal cual.
@@ -63,7 +63,6 @@ class MenuButton:
             else:
                 return tuple(float(value) for value in color)
         except Exception:
-            # Fallback: devolver gris oscuro
             return (0.2, 0.2, 0.2, 1.0)
 
     def _darken_color(self, color, factor=0.6):

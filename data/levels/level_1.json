@@ -1,0 +1,102 @@
+{
+    "metadata": {
+        "id": "level_1",
+        "name": "Las Estatuas",
+        "description": "Descripción para debug o pantalla de carga",
+        "next_level_id": "level_2"
+    },
+
+    "assets": {
+        "textures": {
+            "tex_floor": "assets/level_1/floor.jpg",
+            "tex_wall_w": "assets/level_1/wall_01.png",
+            "tex_wall_h": "assets/level_1/wall_02.png"
+        },
+        "models": {
+            "mdl_statue": "assets/models/statue.obj",
+            "mdl_pedestal": "assets/models/pedestal.obj"
+        },
+        "sounds": {
+            "bg_music": "assets/sounds/ambience_scary.ogg",
+            "sfx_solve": "assets/sounds/puzzle_solved.wav"
+        }
+    },
+
+    "player_spawn": {
+        "position": [0.0, 0.0, 0.0],
+        "rotation_y": 180.0
+    },
+
+    "lighting": {
+        "ambient_color": [0.2, 0.2, 0.2, 1.0],
+        "lights": [
+            {
+                "id": "main_light",
+                "type": "point", 
+                "position": [0.0, 15.0, 0.0, 1.0],
+                "diffuse": [0.8, 0.8, 0.7, 1.0],
+                "specular": [0.1, 0.1, 0.1, 1.0],
+                "attenuation": [1.0, 0.05, 0.0] 
+            }
+        ]
+    },
+
+    "cameras": [
+        {
+            "id": "cam_1",
+            "position": [20.0, 15.0, 20.0],
+            "look_at": [-10.0, 4.0, 0.0]
+        },
+        {
+            "id": "cam_2",
+            "position": [5.0, 5.0, 5.0],
+            "look_at": [8.0, 1.0, -8.0]
+        }
+    ],
+
+    "triggers": [
+        {
+            "type": "camera_change",
+            "box_min": [4.0, 0.0, -10.0],
+            "box_max": [10.0, 4.0, -4.0],
+            "target_camera_id": "cam_puzzle_view"
+        },
+        {
+            "type": "level_transition",
+            "box_min": [-2.0, 0.0, -15.0],
+            "box_max": [2.0, 4.0, -13.0],
+            "target_level_id": "level_2",
+            "requires_puzzle_solved": true
+        }
+    ],
+
+    "layout": {
+        "floor": {
+            "size": [40.0, 40.0],
+            "texture_id": "tex_floor",
+            "tiling": [4.0, 4.0]
+        },
+        "walls": [
+            { "pos": [-20.0, 5.0, 0.0], "size": [10.0, 1.0, 40.0], "rotation": [90, 0, 0, 1], "texture_id": "tex_wall_h" },
+            { "pos": [0.0, 5.0, -20.0], "size": [40.0, 1.0, 10.0], "rotation": [90, 1, 0, 0], "texture_id": "tex_wall_w" },
+            { "pos": [20.0, 5.0, 0.0],  "size": [10.0, 1.0, 40.0], "rotation": [90, 0, 0, 1], "texture_id": "tex_wall_h" },
+            { "pos": [0.0, 5.0, 20.0],  "size": [40.0, 1.0, 10.0], "rotation": [90, 1, 0, 0], "texture_id": "tex_wall_w" }
+        ],
+        "decorations": [
+             { "pos": [-8, 0, -8], "model_id": "mdl_pedestal", "scale": [1,1,1], "rot": [0,0,0] }
+        ]
+    },
+
+    "puzzle_config": {
+        "type": "StatuePuzzle",
+        "position": [8.0, 0.0, -8.0],
+        "assets_ref": {
+            "statue_model": "mdl_statue",
+            "success_sound": "sfx_solve"
+        },
+        "properties": {
+            "solution_order": [1, 3, 2],
+            "rotation_step": 90.0
+        }
+    }
+}

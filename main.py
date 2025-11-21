@@ -4,7 +4,6 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from engine import GameEngine
 from systems.data_manager import DataManager
-from systems.camera_manager import CameraManager
 from systems.input_manager import InputManager
 from systems.audio_manager import AudioManager
 
@@ -36,16 +35,13 @@ def main():
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
     glEnable(GL_BLEND)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-    cam_manager = CameraManager.instance()
-    cam_manager.load_cameras()
     glEnable(GL_DEPTH_TEST)
 
     input_manager = InputManager.instance()
     input_manager.setup_bindings()
     # Inicializar audio y reproducir sound ambient en loop
     audio_mgr = AudioManager.instance()
-    # Ruta al archivo en assets
-    ambient_path = "assets/audio/ambientSound(1).mp3"
+    ambient_path = "assets/audio/ambientSound.mp3"
     audio_mgr.play_music_loop(ambient_path, loops=-1, volume=0.5)
     # Cargar SFX de pasos para usar en los personajes
     audio_mgr.load_sound("footsteps", "assets/audio/footSteps.mp3")
@@ -53,7 +49,7 @@ def main():
     game_engine = GameEngine()
 
     # Botón transparente en esquina superior derecha (pixels de ventana)
-    display_config = data_manager.get_config().get("display", {})
+    display_config = data_manager.get_config().get("rendered_display", {})
     window_w = display_config.get("width", 1280)
     window_h = display_config.get("height", 720)
     # Tamaño del botón: 48x48 px, margen 10 px

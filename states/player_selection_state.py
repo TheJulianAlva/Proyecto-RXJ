@@ -15,7 +15,7 @@ from utilities.text_renderer import draw_text_2d
 from utilities import basic_objects as Objects
 from game_objects.ui_elements.menu_button import MenuButton
 from game_objects.camera import Camera
-from game_objects.character_selection_platform import CharacterSelectionPlatform
+from game_objects.selection_menu.character_selection_platform import CharacterSelectionPlatform
 
 class PlayerSelectionState(BaseState):
     
@@ -67,7 +67,7 @@ class PlayerSelectionState(BaseState):
         self.fade_speed = 3.0
         self.display_index = 0
         
-        self.background_rect = (38.4, 25.6, 0.0, 9.0, 0.5)
+        self.background_rect = (38.4, 25.6, 0.0, 7.0, -5.0)
         
     
     def update(self, delta_time, _event_list):
