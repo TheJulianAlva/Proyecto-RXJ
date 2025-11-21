@@ -1,5 +1,6 @@
 from OpenGL.GL import *
 from systems.input_manager import InputManager
+from systems.audio_manager import AudioManager
 from utilities import basic_objects as Objects
 import math
 
@@ -14,6 +15,8 @@ class Player:
         self.skin = skin_class()
 
         self.is_walking = False
+        self.was_walking = False
+        self.audio = AudioManager.instance()
 
     def move(self, amount):
         rads = math.radians(self.rotation_y)
@@ -56,6 +59,23 @@ class Player:
             
         if hasattr(self.skin, "update_animation"):
             self.skin.update_animation(delta_time)
+
+        # Manejar SFX de pasos: iniciar/terminar loop cuando cambie el estado
+        if self.is_walking and not self.was_walking:
+            # Empezó a caminar
+            try:
+                # reproducir en loop (si está cargado)
+                self.audio.play_loop_sound("footsteps", volume=0.7)
+            except Exception:
+                pass
+        elif not self.is_walking and self.was_walking:
+            # Dejó de caminar
+            try:
+                self.audio.stop_sound("footsteps")
+            except Exception:
+                pass
+
+        self.was_walking = self.is_walking
         
     def _check_interaction(self):
         print("¡Jugador intentó interactuar!")
