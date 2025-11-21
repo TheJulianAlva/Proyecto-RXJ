@@ -31,30 +31,20 @@ class CameraManager:
         
         print("CameraManager inicializado.")
 
-        
-        self.cam1 = Camera(position=[10, 15, 10], look_at=[0, 0, 0])
-        self.cam2 = Camera(position=[5, 5, -10], look_at=[5, 0, 0])
-        self.cam_default = Camera(position=[0, 15, -15], look_at=[0, 0, 0])
-
         self.cameras = {} # Diccionario para guardar las cámaras por ID
         self.active_camera = None
 
-    def load_cameras(self):
+    def load_cameras(self, level_data):
         """
         Carga y crea todas las instancias de cámara.
         
-        (Más adelante, podrías leer esto desde un archivo JSON, 
-        pero por ahora, las creamos aquí)
         """
-
-        # Las guardamos en el diccionario con un ID de texto
-        self.cameras["camera_1"] = self.cam1
-        self.cameras["camera_2"] = self.cam2
-        self.cameras["camera_default"] = self.cam_default
+        cameras_config = level_data.get("cameras", [])
+        self.cameras = {camera_config.get("id"): Camera(camera_config.get("position", (0, 15, 10)), camera_config.get("look_at", (0, 0, 0))) for camera_config in cameras_config}
         
         print(f"Cargadas {len(self.cameras)} cámaras.")
         
-        self.set_active_camera("camera_default")
+        self.set_active_camera("cam_1")
 
     def set_active_camera(self, camera_id):
         """

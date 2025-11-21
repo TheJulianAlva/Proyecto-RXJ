@@ -29,6 +29,8 @@ class PlayState(BaseState):
         level_data = data_manager._load_json("data/levels/level_1.json")
         if level_data:
             self.current_level = Level(level_data)
+            self.cam_manager.load_cameras(level_data)
+
         else:
             print(f"Error Crítico: No se pudieron cargar los datos del nivel...")
             self.current_level = None

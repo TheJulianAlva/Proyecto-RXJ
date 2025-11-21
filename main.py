@@ -4,7 +4,6 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from engine import GameEngine
 from systems.data_manager import DataManager
-from systems.camera_manager import CameraManager
 from systems.input_manager import InputManager
 
 def main():
@@ -35,8 +34,6 @@ def main():
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
     glEnable(GL_BLEND)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-    cam_manager = CameraManager.instance()
-    cam_manager.load_cameras()
     glEnable(GL_DEPTH_TEST)
 
     input_manager = InputManager.instance()
