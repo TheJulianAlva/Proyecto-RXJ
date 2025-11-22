@@ -39,7 +39,7 @@ class PlayState(BaseState):
         if self.input_manager.was_action_pressed("return"):
             self.engine.pop_state()
             return
-        self.player.update(delta_time)
+        self.player.update(delta_time, self.current_level)
         if self.current_level:
             self.current_level.update(delta_time)
 
