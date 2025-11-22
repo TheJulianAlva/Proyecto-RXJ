@@ -28,15 +28,23 @@
     },
 
     "lighting": {
-        "ambient_color": [0.2, 0.2, 0.2, 1.0],
+        "ambient_color": [0.1, 0.1, 0.1, 1.0],
         "lights": [
             {
                 "id": "main_light",
                 "type": "point", 
-                "position": [0.0, 15.0, 0.0, 1.0],
+                "position": [-19.0, 20.0, -19.0, 1.0],
                 "diffuse": [0.8, 0.8, 0.7, 1.0],
-                "specular": [0.1, 0.1, 0.1, 1.0],
-                "attenuation": [1.0, 0.05, 0.0] 
+                "specular": [0.2, 0.2, 0.2, 1.0],
+                "attenuation": [1.0, 0.05, 0.01] 
+            },
+            {
+                "id": "candle",
+                "type": "point", 
+                "position": [5.0, 1.0, 0.0, 1.0],
+                "diffuse": [1.0, 0.6, 0.5, 1.0],
+                "specular": [0.2, 0.2, 0.2, 1.0],
+                "attenuation": [1.0, 0.05, 0.01] 
             }
         ]
     },
@@ -45,7 +53,7 @@
         {
             "id": "cam_1",
             "position": [20.0, 15.0, 20.0],
-            "look_at": [-10.0, 4.0, 0.0]
+            "look_at": [0.0, 4.0, 2.0]
         },
         {
             "id": "cam_2",
@@ -77,10 +85,10 @@
             "tiling": [4.0, 4.0]
         },
         "walls": [
-            { "pos": [-20.0, 5.0, 0.0], "size": [10.0, 1.0, 40.0], "rotation": [90, 0, 0, 1], "texture_id": "tex_wall_h" },
-            { "pos": [0.0, 5.0, -20.0], "size": [40.0, 1.0, 10.0], "rotation": [90, 1, 0, 0], "texture_id": "tex_wall_w" },
-            { "pos": [20.0, 5.0, 0.0],  "size": [10.0, 1.0, 40.0], "rotation": [90, 0, 0, 1], "texture_id": "tex_wall_h" },
-            { "pos": [0.0, 5.0, 20.0],  "size": [40.0, 1.0, 10.0], "rotation": [90, 1, 0, 0], "texture_id": "tex_wall_w" }
+            { "pos": [-20.0, 7.0, 0.0], "size": [0.5, 14.0, 40.0], "texture_id": "tex_wall_w" },
+            { "pos": [0.0, 7.0, -20.0], "size": [40.0, 14.0, 0.5], "texture_id": "tex_wall_w" },
+            { "pos": [20.0, 7.0, 0.0],  "size": [0.5, 14.0, 40.0], "texture_id": "tex_wall_w" },
+            { "pos": [0.0, 7.0, 20.0],  "size": [40.0, 14.0, 0.5], "texture_id": "tex_wall_w" }
         ],
         "decorations": [
              { "pos": [-8, 0, -8], "model_id": "mdl_pedestal", "scale": [1,1,1], "rot": [0,0,0] }

@@ -43,7 +43,6 @@ class PlayState(BaseState):
         if self.current_level:
             self.current_level.update(delta_time)
 
-
     def draw(self):
         _active_cam = self.cam_manager.get_active_camera()
         if _active_cam:

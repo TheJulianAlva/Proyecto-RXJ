@@ -10,8 +10,8 @@ class Player:
     def __init__(self, x, y, z, skin_class):
         self.position = [x, y, z]
         self.rotation_y = 0.0
-        self.width_collider = 1.0
-        self.depth_collider = 1.0
+        self.width_collider = 1.4
+        self.depth_collider = 1.4
         self.movement_speed = 9.0
         self.rotate_speed = 280
         self.input_manager = InputManager.instance()

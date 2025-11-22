@@ -183,6 +183,72 @@ def draw_cube(size=1.0, scale=[1, 1, 1], translate=[0, 0, 0], rotation=[0, 0, 0,
     glEnd()
     glPopMatrix()
 
+def draw_textured_box(size=[1.0, 1.0, 1.0], translate=[0, 0, 0], rotation=[0, 0, 0, 1], tiling=[1.0, 1.0]):
+    """
+    Dibuja una caja (cuboide) texturizada con dimensiones explícitas.
+    NO usa glScalef, lo que evita problemas de iluminación y texturas estiradas.
+    
+    :param size: Lista [ancho (X), alto (Y), profundidad (Z)].
+    :param tiling: [repeticion_horizontal, repeticion_vertical].
+    """
+    glPushMatrix()
+    glTranslatef(*translate)
+    glRotatef(*rotation)
+
+    sx = size[0] / 2.0
+    sy = size[1] / 2.0
+    sz = size[2] / 2.0
+    
+    u_max = tiling[0]
+    v_max = tiling[1]
+
+    glBegin(GL_QUADS)
+    
+    # --- Cara Frontal (Z+) ---
+    glNormal3f(0.0, 0.0, 1.0)
+    glTexCoord2f(0.0, 0.0);   glVertex3f(-sx, -sy,  sz)
+    glTexCoord2f(u_max, 0.0); glVertex3f( sx, -sy,  sz)
+    glTexCoord2f(u_max, v_max); glVertex3f( sx,  sy,  sz)
+    glTexCoord2f(0.0, v_max); glVertex3f(-sx,  sy,  sz)
+    
+    # --- Cara Trasera (Z-) ---
+    glNormal3f(0.0, 0.0, -1.0)
+    glTexCoord2f(u_max, 0.0); glVertex3f(-sx, -sy, -sz)
+    glTexCoord2f(u_max, v_max); glVertex3f(-sx,  sy, -sz) 
+    glTexCoord2f(0.0, v_max); glVertex3f( sx,  sy, -sz) 
+    glTexCoord2f(0.0, 0.0);   glVertex3f( sx, -sy, -sz) 
+    
+    # --- Cara Derecha (X+) ---
+    glNormal3f(1.0, 0.0, 0.0)
+    glTexCoord2f(0.0, 0.0);   glVertex3f( sx, -sy,  sz)
+    glTexCoord2f(u_max, 0.0); glVertex3f( sx, -sy, -sz)
+    glTexCoord2f(u_max, v_max); glVertex3f( sx,  sy, -sz)
+    glTexCoord2f(0.0, v_max); glVertex3f( sx,  sy,  sz)
+    
+    # --- Cara Izquierda (X-) ---
+    glNormal3f(-1.0, 0.0, 0.0)
+    glTexCoord2f(0.0, 0.0);   glVertex3f(-sx, -sy, -sz)
+    glTexCoord2f(u_max, 0.0); glVertex3f(-sx, -sy,  sz)
+    glTexCoord2f(u_max, v_max); glVertex3f(-sx,  sy,  sz)
+    glTexCoord2f(0.0, v_max); glVertex3f(-sx,  sy, -sz)
+    
+    # --- Cara Superior (Y+) ---
+    glNormal3f(0.0, 1.0, 0.0)
+    glTexCoord2f(0.0, 1.0);   glVertex3f(-sx,  sy, -sz)
+    glTexCoord2f(0.0, 0.0);   glVertex3f(-sx,  sy,  sz)
+    glTexCoord2f(1.0, 0.0);   glVertex3f( sx,  sy,  sz)
+    glTexCoord2f(1.0, 1.0);   glVertex3f( sx,  sy, -sz)
+    
+    # --- Cara Inferior (Y-) ---
+    glNormal3f(0.0, -1.0, 0.0)
+    glTexCoord2f(1.0, 1.0);   glVertex3f(-sx, -sy, -sz)
+    glTexCoord2f(0.0, 1.0);   glVertex3f( sx, -sy, -sz)
+    glTexCoord2f(0.0, 0.0);   glVertex3f( sx, -sy,  sz)
+    glTexCoord2f(1.0, 0.0);   glVertex3f(-sx, -sy,  sz)
+    
+    glEnd()
+    glPopMatrix()
+
 def draw_sphere(quad, scale=[1, 1, 1], translate=[0, 0, 0], rotation=[0, 0, 0, 1],
                 radius=1.0, slices=16, stacks=16):
     """

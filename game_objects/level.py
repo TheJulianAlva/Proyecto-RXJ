@@ -154,9 +154,12 @@ class Level:
                 glColor3f(1.0, 1.0, 1.0)
                 
                 pos = wall.get("pos", [0, 0, 0])
-                size = wall.get("size", [1, 1, 1])
-                rotate = wall.get("rotation", [0, 0, 0, 1])
-                Objects.draw_textured_plane_3d(scale=size, translate=pos, rotation=rotate)
+                size = wall.get("size", [1, 1, 1]) 
+
+                Objects.draw_textured_box(
+                    size=size,
+                    translate=pos
+                )
                 glDisable(GL_TEXTURE_2D)
             else:
                 glColor3f(0.5, 0.5, 0.5)
