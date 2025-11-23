@@ -1,70 +1,71 @@
 from OpenGL.GL import *
+from game_objects.environment.collider import AABB
 
 class TriggerVolume:
     """
-    Define una caja invisible que, cuando el jugador
-    entra en ella, activa un evento (como cambiar la cámara).
+    Define una zona invisible que detecta cuándo el jugador entra en ella.
+    Utiliza AABB para una detección de colisión precisa.
     """
     
-    def __init__(self, min_point, max_point, target_camera_id):
+    def __init__(self, min_point, max_point, target_camera_id=None):
         """
-        Inicializa el volumen.
+        Inicializa el trigger volume.
         
-        :param min_point: Una lista [x, y, z] para la esquina mínima de la caja.
-        :param max_point: Una lista [x, y, z] para la esquina máxima de la caja.
-        :param target_camera_id: El string ID de la cámara que debe activarse.
+        :param min_point: Lista [x, y, z] con las coordenadas mínimas de la caja.
+        :param max_point: Lista [x, y, z] con las coordenadas máximas de la caja.
+        :param target_camera_id: (Opcional) El ID de la cámara que se debe activar.
         """
-        self.min_x = min_point[0]
-        self.min_y = min_point[1]
-        self.min_z = min_point[2]
-        self.max_x = max_point[0]
-        self.max_y = max_point[1]
-        self.max_z = max_point[2]
+        self.aabb = AABB(min_point, max_point)
         
         self.target_camera_id = target_camera_id
-        
-        # Vértices y aristas guardados meramente para depuración
-        # (dibujar temporalmente el área de trigger)
+        self.extra_data = {} # Diccionario para guardar info extra del JSON (ej. sonidos)
 
-        self._vertices = [
-            (self.min_x, self.min_y, self.min_z),
-            (self.max_x, self.min_y, self.min_z),
-            (self.max_x, self.max_y, self.min_z),
-            (self.min_x, self.max_y, self.min_z),
-            (self.min_x, self.min_y, self.max_z),
-            (self.max_x, self.min_y, self.max_z),
-            (self.max_x, self.max_y, self.max_z),
-            (self.min_x, self.max_y, self.max_z)
-        ]
+    def is_player_inside(self, player):
+        """
+        Comprueba si el jugador está tocando o dentro del volumen.
         
-        self._edges = [
-            (0, 1), (1, 2), (2, 3), (3, 0), # Cara trasera
-            (4, 5), (5, 6), (6, 7), (7, 4), # Cara frontal
-            (0, 4), (1, 5), (2, 6), (3, 7)  # Conexiones
-        ]
-
-    def is_player_inside(self, player_pos):
-        """Comprueba si la posición del jugador está dentro de este volumen."""
-        return (self.min_x <= player_pos[0] <= self.max_x and
-                self.min_y <= player_pos[1] <= self.max_y and
-                self.min_z <= player_pos[2] <= self.max_z)
+        :param player: La instancia del objeto Player.
+        :return: True si el jugador está dentro, False en caso contrario.
+        """
+        player_box = player.get_aabb()
+        return self.aabb.check_collision(player_box)
 
     def draw(self):
         """
-        Dibuja el volumen como una caja 'wireframe' (Modo Inmediato).
-        Esto es solo para depuración, para que podamos ver dónde están
-        nuestros triggers.
+        Dibuja el volumen como una caja de alambre (Wireframe) para depuración.
         """
         glPushMatrix()
-        # Dibujamos las líneas de un color brillante (ej. amarillo)
+        
+        glDisable(GL_LIGHTING)
+        glDisable(GL_TEXTURE_2D)
         glColor3f(1.0, 1.0, 0.0)
-
-        # Desactivamos la iluminación para esta parte (si la tuviéramos)
-        # glDisable(GL_LIGHTING) 
+        min_x, max_x = self.aabb.min_x, self.aabb.max_x
+        min_z, max_z = self.aabb.min_z, self.aabb.max_z 
+        
+        y_bottom = 0.0
+        y_top = 5.0
+        
         glBegin(GL_LINES)
-        for edge in self._edges:
-            for vertex_index in edge:
-                glVertex3fv(self._vertices[vertex_index])
+        
+        # --- Líneas de la Base (Y=0) ---
+        glVertex3f(min_x, y_bottom, min_z); glVertex3f(max_x, y_bottom, min_z)
+        glVertex3f(max_x, y_bottom, min_z); glVertex3f(max_x, y_bottom, max_z)
+        glVertex3f(max_x, y_bottom, max_z); glVertex3f(min_x, y_bottom, max_z)
+        glVertex3f(min_x, y_bottom, max_z); glVertex3f(min_x, y_bottom, min_z)
+        
+        # --- Líneas del Techo (Y=5) ---
+        glVertex3f(min_x, y_top, min_z); glVertex3f(max_x, y_top, min_z)
+        glVertex3f(max_x, y_top, min_z); glVertex3f(max_x, y_top, max_z)
+        glVertex3f(max_x, y_top, max_z); glVertex3f(min_x, y_top, max_z)
+        glVertex3f(min_x, y_top, max_z); glVertex3f(min_x, y_top, min_z)
+        
+        # --- Pilares Verticales (Conectando base y techo) ---
+        glVertex3f(min_x, y_bottom, min_z); glVertex3f(min_x, y_top, min_z)
+        glVertex3f(max_x, y_bottom, min_z); glVertex3f(max_x, y_top, min_z)
+        glVertex3f(max_x, y_bottom, max_z); glVertex3f(max_x, y_top, max_z)
+        glVertex3f(min_x, y_bottom, max_z); glVertex3f(min_x, y_top, max_z)
+        
         glEnd()
-        # glEnable(GL_LIGHTING)
+        
+        glEnable(GL_LIGHTING)
         glPopMatrix()
