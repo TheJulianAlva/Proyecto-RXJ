@@ -87,7 +87,7 @@ class GameEngine:
 
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        gluPerspective(45, (self.display_width / self.display_height), 0.1, 100.0)
+        gluPerspective(45, (self.display_width / self.display_height), 4.0, 100.0)
         
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()

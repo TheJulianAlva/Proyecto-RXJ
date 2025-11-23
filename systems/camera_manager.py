@@ -33,6 +33,7 @@ class CameraManager:
 
         self.cameras = {} # Diccionario para guardar las cámaras por ID
         self.active_camera = None
+        self.active_camera_id = None
 
     def load_cameras(self, level_data):
         """
@@ -52,6 +53,7 @@ class CameraManager:
         """
         if camera_id in self.cameras:
             self.active_camera = self.cameras[camera_id]
+            self.active_camera_id = camera_id
             print(f"Cámara activa cambiada a: {camera_id}")
         else:
             print(f"Error: No se encontró la cámara con ID: {camera_id}")
@@ -61,3 +63,9 @@ class CameraManager:
         Devuelve la instancia de la cámara activa actual.
         """
         return self.active_camera
+    
+    def get_active_camera_id(self):
+        """
+        Devuelve el id de la cámara activa actual.
+        """
+        return self.active_camera_id

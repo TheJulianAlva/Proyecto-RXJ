@@ -2,6 +2,7 @@ from OpenGL.GL import *
 from utilities import basic_objects as Objects
 from systems.texture_manager import TextureManager
 # from systems.factories import PuzzleFactory # (Descomentar cuando tengas la fábrica)
+from game_objects.environment.collider import AABB
 
 class Level:
     """
@@ -28,10 +29,26 @@ class Level:
         floor_tex_key = self.layout_data.get("floor", {}).get("texture_id")
         self.floor_texture_id = self.texture_manager.get_texture(floor_tex_key)
         
-        walls_key = self.layout_data.get("walls", [])
-        self.walls_texture_id = [wall.get("texture_id") for wall in walls_key]
+        walls_list = self.layout_data.get("walls", [])
 
+        self.solid_colliders = []
         
+        for wall in walls_list:
+            pos = wall.get("pos", [0, 0, 0])
+            size = wall.get("size", [1, 1, 1])
+            
+            half_size_x = size[0] / 2.0
+            half_size_z = size[2] / 2.0
+            
+            min_point = [pos[0] - half_size_x, pos[2] - half_size_z]
+            max_point = [pos[0] + half_size_x, pos[2] + half_size_z]
+            
+            wall_collider = AABB(min_point, max_point)
+            self.solid_colliders.append(wall_collider)
+            
+        print(f"Nivel generado con {len(self.solid_colliders)} paredes sólidas.")
+
+
         # --- 4. PUZZLE ---
         self.puzzle = None
         if "puzzle_config" in level_data:
@@ -127,7 +144,6 @@ class Level:
             glDisable(GL_TEXTURE_2D)
         
         # --- PAREDES ---
-        # (Optimización: Agrupar paredes por textura para no cambiar estado tanto)
         walls = self.layout_data.get("walls", [])
         for wall in walls:
             tex_id = self.texture_manager.get_texture(wall.get("texture_id"))
@@ -138,9 +154,12 @@ class Level:
                 glColor3f(1.0, 1.0, 1.0)
                 
                 pos = wall.get("pos", [0, 0, 0])
-                size = wall.get("size", [1, 1, 1])
-                rotate = wall.get("rotation", [0, 0, 0, 1])
-                Objects.draw_textured_plane_3d(scale=size, translate=pos, rotation=rotate)
+                size = wall.get("size", [1, 1, 1]) 
+
+                Objects.draw_textured_box(
+                    size=size,
+                    translate=pos
+                )
                 glDisable(GL_TEXTURE_2D)
             else:
                 glColor3f(0.5, 0.5, 0.5)

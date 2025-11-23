@@ -10,8 +10,11 @@ from systems.audio_manager import AudioManager
 def main():
     pygame.init()
     pygame.font.init()
+    # region Instancias Singleton
     data_manager = DataManager.instance()
-
+    input_manager = InputManager.instance()
+    audio_mgr = AudioManager.instance()
+    # endregion
     config = data_manager.get_config()
     display_config = config.get("display", {}) 
     display_size = (
@@ -27,20 +30,13 @@ def main():
     
     pygame.display.set_mode(display_size, DOUBLEBUF | OPENGL)
     pygame.display.set_caption("Proyecto RXJ")
-    glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()
-    gluPerspective(45, (rendered_display_size[0] / rendered_display_size[1]), 0.1, 100.0)
-    # Materiales: Permite que glColor3f afecte el material
     glEnable(GL_COLOR_MATERIAL)
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
     glEnable(GL_BLEND)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-    glEnable(GL_DEPTH_TEST)
 
-    input_manager = InputManager.instance()
     input_manager.setup_bindings()
     # Inicializar audio y reproducir sound ambient en loop
-    audio_mgr = AudioManager.instance()
     ambient_path = "assets/audio/ambientSound.mp3"
     audio_mgr.play_music_loop(ambient_path, loops=-1, volume=0.5)
     # Cargar SFX de pasos para usar en los personajes
@@ -48,14 +44,10 @@ def main():
 
     game_engine = GameEngine()
 
-    # Botón transparente en esquina superior derecha (pixels de ventana)
-    display_config = data_manager.get_config().get("rendered_display", {})
-    window_w = display_config.get("width", 1280)
-    window_h = display_config.get("height", 720)
     # Tamaño del botón: 48x48 px, margen 10 px
     btn_size = 48
     btn_margin = 10
-    btn_rect = (window_w - btn_margin - btn_size, btn_margin, btn_size, btn_size)
+    btn_rect = (rendered_display_size[0] - btn_margin - btn_size, btn_margin, btn_size, btn_size)
 
     clock = pygame.time.Clock()
 
@@ -79,14 +71,6 @@ def main():
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         game_engine.draw()
-
-        # (Opcional) dibujar un borde muy sutil del área del botón para debug
-        # Se hace en modo 2D ortográfico y luego no se ve si alpha=0
-        game_engine.setup_2d_orthographic()
-        # No dibujamos nada visible porque el botón es transparente
-        glLoadIdentity()
-        # Restaurar matrices para 3D siguiente frame
-        game_engine.setup_3d_perspective()
         pygame.display.flip()
     
     pygame.quit()
