@@ -44,11 +44,6 @@ def main():
 
     game_engine = GameEngine()
 
-    # Tamaño del botón: 48x48 px, margen 10 px
-    btn_size = 48
-    btn_margin = 10
-    btn_rect = (rendered_display_size[0] - btn_margin - btn_size, btn_margin, btn_size, btn_size)
-
     clock = pygame.time.Clock()
 
     while game_engine.running:
@@ -57,15 +52,6 @@ def main():
         # --- Manejo de Eventos ---
         events = pygame.event.get()
         input_manager.process_inputs(events)
-        # Manejar clicks en el botón transparente para pausar/reanudar música
-        for ev in events:
-            if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
-                mx, my = ev.pos
-                bx, by, bw, bh = btn_rect
-                # Nota: las coordenadas de Pygame tienen (0,0) en esquina superior izquierda
-                if bx <= mx <= bx + bw and by <= my <= by + bh:
-                    audio_mgr.toggle_music()
-        
         # --- Actualización de Lógica ---
         game_engine.update(delta_time, events)
 

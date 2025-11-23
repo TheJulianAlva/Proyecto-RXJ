@@ -58,10 +58,27 @@ class InputManager:
         self.key_map["return"] = pygame.K_BACKSPACE
         # Pausa del juego
         self.key_map["pause"] = pygame.K_p
+        # Navegacion panel UI
+        self.key_map["panel_left"] = pygame.K_a
+        self.key_map["panel_right"] = pygame.K_d
+        self.key_map["panel_select"] = pygame.K_s
 
         # Inicializa los diccionarios de estado
         held_actions = ["move_forward", "move_backward", "rotate_left", "rotate_right"]
-        pressed_actions = ["ui_up", "ui_down", "ui_left", "ui_right", "ui_select", "interact", "quit", "return", "pause"]
+        pressed_actions = [
+            "ui_up",
+            "ui_down",
+            "ui_left",
+            "ui_right",
+            "ui_select",
+            "interact",
+            "quit",
+            "return",
+            "pause",
+            "panel_left",
+            "panel_right",
+            "panel_select",
+        ]
         
         self.actions_held = {action: False for action in held_actions}
         self.actions_pressed = {action: False for action in pressed_actions}

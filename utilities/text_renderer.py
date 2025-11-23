@@ -6,7 +6,7 @@ FONTS = {
     "montserrat_bold": "fonts/fonts-underline/ttf/MontserratUnderline-Bold.ttf",
 }
 
-DEFAULT_FONT_NAME = None
+DEFAULT_FONT_NAME = "montserrat_bold"
 
 FONT_CACHE = {}
 
@@ -15,6 +15,8 @@ def get_font(font_name=DEFAULT_FONT_NAME, size=32):
     Obtiene una fuente de Pygame del nombre y tamaño especificados.
     Usa un caché para evitar recargar.
     """
+    if not font_name:
+        font_name = DEFAULT_FONT_NAME
     key = (font_name, size)
     
     if key not in FONT_CACHE:

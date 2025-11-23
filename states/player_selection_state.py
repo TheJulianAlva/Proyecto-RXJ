@@ -13,9 +13,9 @@ from systems.input_manager import InputManager
 from systems.texture_manager import TextureManager
 from utilities.text_renderer import draw_text_2d
 from utilities import basic_objects as Objects
-from game_objects.ui_elements.menu_button import MenuButton
 from game_objects.camera import Camera
 from game_objects.selection_menu.character_selection_platform import CharacterSelectionPlatform
+from utilities.instructions_overlay import draw_instructions
 
 class PlayerSelectionState(BaseState):
     
@@ -68,17 +68,22 @@ class PlayerSelectionState(BaseState):
         self.display_index = 0
         
         self.background_rect = (38.4, 25.6, 0.0, 7.0, -5.0)
+        self.instructions_lines = [
+            "Flechas o A/D: Cambiar personaje",
+            "E, Enter o S: Confirmar selección",
+            "Backspace: Volver al menú",
+        ]
         
     
     def update(self, delta_time, _event_list):
         self.platform_rotation = self.character_selection_platform.get_rotation()
         if not self.character_selection_platform.is_moving:
             moved = False
-            if self.input_manager.was_action_pressed("ui_left"):
+            if self.input_manager.was_action_pressed("ui_left") or self.input_manager.was_action_pressed("panel_left"):
                 self.selected_index = (self.selected_index - 1) % 3
                 self.target_rotation += 120.0
                 moved = True
-            elif self.input_manager.was_action_pressed("ui_right"):
+            elif self.input_manager.was_action_pressed("ui_right") or self.input_manager.was_action_pressed("panel_right"):
                 self.selected_index = (self.selected_index + 1) % 3
                 self.target_rotation -= 120.0
                 moved = True
@@ -98,7 +103,11 @@ class PlayerSelectionState(BaseState):
         self.character_selection_platform.update(delta_time)        
         if self.character_selection_platform.is_moving:
             return
-        if self.input_manager.was_action_pressed("interact"):
+        if (
+            self.input_manager.was_action_pressed("interact")
+            or self.input_manager.was_action_pressed("panel_select")
+            or self.input_manager.was_action_pressed("ui_select")
+        ):
             print(f"Iniciando juego con personaje {self.character_names[self.selected_index]}")
             player_config = {"character_index": self.selected_index}
             DataManager.instance().save_game_data(player_config)
@@ -134,6 +143,7 @@ class PlayerSelectionState(BaseState):
         self._draw_background()
         self.engine.setup_2d_orthographic()
         self._draw_banner()
+        draw_instructions(self.display_width, self.display_height, self.instructions_lines)
     
 
     def _draw_banner(self):

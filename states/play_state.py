@@ -13,6 +13,8 @@ from game_objects.character_models.santo import SantoSkin
 from game_objects.character_models.alien import AlienSkin
 from game_objects.character_models.walter import WalterSkin
 from game_objects.player import Player
+from states.pause_state import PauseState
+from utilities.instructions_overlay import draw_instructions
 
 class PlayState(BaseState):
     def __init__(self, engine):
@@ -48,8 +50,19 @@ class PlayState(BaseState):
         # endregion
         self.player = Player(*spawn_pos_player, selected_skin)
         self.player.rotate(spawn_rot_player)
+        self.instructions_lines = [
+            "W/S: Adelantar o retroceder",
+            "A/D: Rotar al personaje",
+            "E: Interactuar",
+            "P: Pausar",
+            "Backspace: Terminar partida",
+        ]
 
     def update(self, delta_time, _event_list):
+        if self.input_manager.was_action_pressed("pause"):
+            self.engine.push_state(PauseState(self.engine))
+            return
+
         if self.input_manager.was_action_pressed("return"):
             self.engine.pop_state()
             return
@@ -75,6 +88,13 @@ class PlayState(BaseState):
             self.current_level.draw()
             #self._draw_debug_triggers()
         self.player.draw()
+
+        self.engine.setup_2d_orthographic()
+        draw_instructions(
+            self.engine.display_width,
+            self.engine.display_height,
+            self.instructions_lines,
+        )
         
     def _draw_debug_triggers(self):
         for trigger in self.trigger_manager.triggers:
