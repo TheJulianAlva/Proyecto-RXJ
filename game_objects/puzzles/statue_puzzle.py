@@ -4,16 +4,18 @@ from systems.texture_manager import TextureManager
 from systems.collision_system import CollisionSystem
 from game_objects.puzzles.statue import Statue
 from game_objects.environment.door import Door
-from game_objects.ui_elements.key_icon import KeyIcon
+from game_objects.ui_elements.text_message import TextMessage
 
 class StatuePuzzle:
     """
     Puzzle que consiste en varias estatuas que deben ser rotadas
     a una orientación específica para resolver el acertijo.
     """
-    def __init__(self, puzzle_data):
+    def __init__(self, puzzle_data, display_width, display_height):
         self.texture_manager = TextureManager.instance()
         self.solved = False
+        self.display_width = display_width
+        self.display_height = display_height
         
         props = puzzle_data.get("properties", {})
         statues_config = props.get("statues", [])
@@ -41,6 +43,7 @@ class StatuePuzzle:
         self.interactables.append(self.door)
         self.interaction_radius = 8.0
         print(f"StatuePuzzle inicializado con {len(self.statues)} estatuas.")
+        self.active_message = None
 
     def update(self, delta_time):
         """
@@ -48,6 +51,8 @@ class StatuePuzzle:
         """
         if self.solved:
             return
+        if self.active_message:
+            self.active_message.update(delta_time)
 
     def can_interact(self, player_pos, player_rotation):
         """
@@ -70,6 +75,8 @@ class StatuePuzzle:
         """
         for interactable in self.interactables:
             interactable.draw()
+        if self.active_message:
+            self.active_message.draw()
 
     def interact(self, player_pos, player_rotation):
         """
@@ -88,11 +95,20 @@ class StatuePuzzle:
         )
         
         if isinstance(target_object, Statue):
-            print(f"Interactuando con: {target_object.name}")
+            self._show_message(f"Interactuando con: {target_object.name}")
         elif isinstance(target_object, Door):
             print("Interactuando con puerta.")
         else:
             print("No hay ninguna estatua enfrente para interactuar.")
 
+        return target_object
+
     def is_completed(self):
         return self.solved
+    
+    def _show_message(self, text):
+            self.active_message = TextMessage(
+            text=text,
+            duration=3.0,
+            y_pos=self.display_height*0.5
+        )

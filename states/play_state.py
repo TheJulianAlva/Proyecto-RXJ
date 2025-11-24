@@ -44,7 +44,7 @@ class PlayState(BaseState):
             spawn_player_config = level_data.get("player_spawn")
             spawn_pos_player = spawn_player_config.get("position", [0, 0, 0])
             spawn_rot_player = spawn_player_config.get("rotation_y", 0)
-            self.current_level = Level(level_data)
+            self.current_level = Level(level_data, self.display_width, self.display_height)
             self.cam_manager.load_cameras(level_data)
             self.trigger_manager.load_triggers(level_data)
             if self.current_level: self.current_puzzle = self.current_level.puzzle
@@ -72,6 +72,7 @@ class PlayState(BaseState):
             )
 
     def update(self, delta_time, _event_list):
+        self.player_can_interact = self.current_puzzle.can_interact(self.player.position, self.player.rotation_y)
         if self.input_manager.was_action_pressed("pause"):
             self.engine.push_state(PauseState(self.engine))
             return
@@ -79,16 +80,15 @@ class PlayState(BaseState):
         if self.input_manager.was_action_pressed("return"):
             self.engine.pop_state()
             return
-        if self.input_manager.was_action_pressed("interact"):
+        if self.input_manager.was_action_pressed("interact") and self.player_can_interact:
             if self.current_level:
                 self.current_level.handle_interaction(self.player.position, self.player.rotation_y)
         self.player.update(delta_time, self.current_level)
         if self.current_level:
             self.current_level.update(delta_time)
             self.update_active_camera()
-
-        self.player_can_interact = self.current_puzzle.can_interact(self.player.position, self.player.rotation_y)
         self.key_interact.update(delta_time)    
+
 
     def update_active_camera(self):
         target_camera = self.trigger_manager.check_triggers(self.player)

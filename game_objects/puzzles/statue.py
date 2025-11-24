@@ -46,6 +46,7 @@ class Statue:
         Dibuja la estatua.
         """
         glPushMatrix()
+        glDisable(GL_LIGHTING)
         glTranslatef(*self.position)
         glColor3f(0.6, 0.6, 0.6)
         Objects.draw_cube(self.size[0], translate=[0, 1.5, 0])
@@ -61,6 +62,7 @@ class Statue:
         glRotatef(*self.rotation)
         Objects.draw_textured_plane_3d(self.size[0]+2, self.size[1], translate= [0.0, offset_y, 0.0], rotation=[90, 1, 0, 0])
         glDisable(GL_TEXTURE_2D)
+        glEnable(GL_LIGHTING)
         glPopMatrix()
         
     def interact(self):

@@ -1,7 +1,6 @@
 from OpenGL.GL import *
 from utilities import basic_objects as Objects
 from systems.texture_manager import TextureManager
-# from systems.factories import PuzzleFactory # (Descomentar cuando tengas la fábrica)
 from game_objects.environment.collider import AABB
 from game_objects.puzzles.statue_puzzle import StatuePuzzle
 
@@ -10,7 +9,7 @@ class Level:
     Clase que construye y renderiza un nivel completo basándose en
     un diccionario de datos (cargado desde un JSON).
     """
-    def __init__(self, level_data):
+    def __init__(self, level_data, display_width, display_height):
         self.data = level_data
         self.texture_manager = TextureManager.instance()
         
@@ -54,7 +53,7 @@ class Level:
         self.puzzle = None
         if "puzzle_config" in level_data:
             puzzle_config = level_data.get("puzzle_config")
-            self.puzzle = StatuePuzzle(puzzle_config)
+            self.puzzle = StatuePuzzle(puzzle_config, display_width, display_height)
             for statue in self.puzzle.statues:
                 self.solid_colliders.append(statue.get_AABB())
             pass
@@ -74,7 +73,8 @@ class Level:
         Delega la acción al puzzle si el jugador está cerca.
         """
         if self.puzzle:
-            self.puzzle.interact(player_pos, player_rotation)
+            interactable_object = self.puzzle.interact(player_pos, player_rotation)
+
 
     def destroy(self):
         """Libera recursos al salir del nivel."""
