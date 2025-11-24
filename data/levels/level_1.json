@@ -103,7 +103,7 @@
             "statues": [
                 { 
                     "id": 1,
-                    "position": [30.0, 0.0, 10.0],
+                    "position": [32.0, 0.0, 10.0],
                     "size": [3.0, 10.0, 3.0],
                     "name": "El Siervo",
                     "phrase": "Soy el Siervo de la Nación. El hombre del centro falta a la verdad...",
@@ -111,7 +111,7 @@
                 },
                 { 
                     "id": 2,
-                    "position": [30.0, 0.0, 0.0],
+                    "position": [32.0, 0.0, 0.0],
                     "size": [3.0, 10.0, 3.0],
                     "name": "El Camaleón",
                     "phrase": "Defendí con honor todo el territorio de la nación. El de la izquierda es el Caudillo...",
@@ -119,7 +119,7 @@
                 },
                 { 
                     "id": 3,
-                    "position": [30.0, 0.0, -10.0],
+                    "position": [32.0, 0.0, -10.0],
                     "size": [3.0, 10.0, 3.0],
                     "name": "El Caudillo",
                     "phrase": "Mi plan no fue de Ayala. El hombre del centro miente...",

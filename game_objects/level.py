@@ -55,6 +55,8 @@ class Level:
         if "puzzle_config" in level_data:
             puzzle_config = level_data.get("puzzle_config")
             self.puzzle = StatuePuzzle(puzzle_config)
+            for statue in self.puzzle.statues:
+                self.solid_colliders.append(statue.get_AABB())
             pass
 
     def update(self, delta_time):
