@@ -48,7 +48,7 @@ class Level:
             self.solid_colliders.append(wall_collider)
             
         print(f"Nivel generado con {len(self.solid_colliders)} paredes sólidas.")
-
+        self.can_interact = False
 
         # --- 4. PUZZLE ---
         self.puzzle = None

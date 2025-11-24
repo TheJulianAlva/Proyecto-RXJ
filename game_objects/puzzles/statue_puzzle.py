@@ -3,6 +3,8 @@ from OpenGL.GLU import *
 from systems.texture_manager import TextureManager
 from systems.collision_system import CollisionSystem
 from game_objects.puzzles.statue import Statue
+from game_objects.environment.door import Door
+from game_objects.ui_elements.key_icon import KeyIcon
 
 class StatuePuzzle:
     """
@@ -16,8 +18,9 @@ class StatuePuzzle:
         props = puzzle_data.get("properties", {})
         statues_config = props.get("statues", [])
             
-        self.statues = [] # Lista de objetos Statue
-        
+        self.statues = []
+        self.interactables = []
+
         for s_data in statues_config:
             statue_position = s_data.get("position", [0, 0, 0])
             asset_name = s_data.get("asset")
@@ -33,8 +36,9 @@ class StatuePuzzle:
                 tex_id=tex_id
             )
             self.statues.append(new_statue)
-            
-        
+            self.interactables.append(new_statue)
+        self.door = Door([-34.5, 5.0, 5.0], [1.0, 10.0, 4.0], [0, 0, 0, 1], self.texture_manager.get_texture("tex_floor"))
+        self.interactables.append(self.door)
         self.interaction_radius = 8.0
         print(f"StatuePuzzle inicializado con {len(self.statues)} estatuas.")
 
@@ -45,15 +49,27 @@ class StatuePuzzle:
         if self.solved:
             return
 
-        for statue in self.statues:
-            statue.update(delta_time)
+    def can_interact(self, player_pos, player_rotation):
+        """
+        Llamado cada frame para mostrar UI de interacción.
+        Determina qué estatua está cerca y muestra su información.
+        """
+        target_statue = CollisionSystem.cast_ray(
+            player_pos, 
+            player_rotation, 
+            self.interactables,
+            max_distance=self.interaction_radius
+        )
+        
+        return True if target_statue else False
 
+        
     def draw(self):
         """
         Dibuja todas las estatuas del puzzle.
         """
-        for statue in self.statues:
-            statue.draw()
+        for interactable in self.interactables:
+            interactable.draw()
 
     def interact(self, player_pos, player_rotation):
         """
@@ -64,15 +80,17 @@ class StatuePuzzle:
             print("El puzzle ya está resuelto.")
             return
 
-        target_statue = CollisionSystem.cast_ray(
+        target_object = CollisionSystem.cast_ray(
             player_pos, 
             player_rotation, 
-            self.statues,
+            self.interactables,
             max_distance=self.interaction_radius
         )
         
-        if target_statue:
-            print(f"Interactuando con: {target_statue.name}")
+        if isinstance(target_object, Statue):
+            print(f"Interactuando con: {target_object.name}")
+        elif isinstance(target_object, Door):
+            print("Interactuando con puerta.")
         else:
             print("No hay ninguna estatua enfrente para interactuar.")
 

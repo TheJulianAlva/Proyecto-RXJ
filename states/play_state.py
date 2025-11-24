@@ -14,6 +14,7 @@ from game_objects.character_models.alien import AlienSkin
 from game_objects.character_models.walter import WalterSkin
 from game_objects.player import Player
 from states.pause_state import PauseState
+from game_objects.ui_elements.key_icon import KeyIcon
 from utilities.instructions_overlay import draw_instructions
 
 class PlayState(BaseState):
@@ -27,6 +28,10 @@ class PlayState(BaseState):
         self.cam_manager = CameraManager.instance()
         self.trigger_manager = TriggerManager.instance()
         # endregion
+        config = data_manager.get_config()
+        display_config = config.get("rendered_display", {})
+        self.display_width = display_config.get("width", 1280)
+        self.display_height = display_config.get("height", 720)
         # region Configuración Player
         player_config = data_manager.load_game_data()
         selected_index = player_config.get("character_index", 0)
@@ -42,19 +47,29 @@ class PlayState(BaseState):
             self.current_level = Level(level_data)
             self.cam_manager.load_cameras(level_data)
             self.trigger_manager.load_triggers(level_data)
+            if self.current_level: self.current_puzzle = self.current_level.puzzle
+                
         else:
             print(f"Error Crítico: No se pudieron cargar los datos del nivel...")
             self.current_level = None
+            self.current_puzzle = None
             spawn_pos_player = [0, 0, 0]
             spawn_rot_player = 0
         # endregion
         self.player = Player(*spawn_pos_player, selected_skin)
         self.player.rotate(spawn_rot_player)
+        self.player_can_interact = False
         self.instructions_lines = [
             "Flechas: Mover a Personaje",
             "E: Interactuar",
             "Esc: Pausar",
         ]
+        self.key_interact = KeyIcon(
+            self.display_width*0.85,
+            self.display_height*0.75,
+            84,
+            "E"
+            )
 
     def update(self, delta_time, _event_list):
         if self.input_manager.was_action_pressed("pause"):
@@ -72,6 +87,9 @@ class PlayState(BaseState):
             self.current_level.update(delta_time)
             self.update_active_camera()
 
+        self.player_can_interact = self.current_puzzle.can_interact(self.player.position, self.player.rotation_y)
+        self.key_interact.update(delta_time)    
+
     def update_active_camera(self):
         target_camera = self.trigger_manager.check_triggers(self.player)
         current_camera = self.cam_manager.get_active_camera_id()
@@ -85,10 +103,11 @@ class PlayState(BaseState):
             _active_cam.apply_view()
         else:
             print("¡Advertencia! No hay cámara activa.")
+        self.player.draw()
         if self.current_level:
             self.current_level.draw()
             #self._draw_debug_triggers()
-        self.player.draw()
+
 
         self.engine.setup_2d_orthographic()
         draw_instructions(
@@ -96,6 +115,8 @@ class PlayState(BaseState):
             self.engine.display_height,
             self.instructions_lines,
         )
+        if self.player_can_interact:
+            self.key_interact.draw()
         
     def _draw_debug_triggers(self):
         for trigger in self.trigger_manager.triggers:

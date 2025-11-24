@@ -27,6 +27,9 @@ class Door:
         max_point = [position[0] + half_x, position[1] + self.size[1], position[2] + half_z]
         self.collider = AABB(min_point, max_point)
 
+    def get_AABB(self):
+        return self.collider
+
     def unlock(self):
         """Permite que la puerta sea usada para salir."""
         self.is_locked = False
