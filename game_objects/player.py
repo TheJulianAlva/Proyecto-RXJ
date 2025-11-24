@@ -90,8 +90,6 @@ class Player:
         # endregion
 
         # region Lógica de Interacción
-        if self.input_manager.was_action_pressed("interact"):
-            self._check_interaction()
         # endregion
 
         # region Lógica de Animación
@@ -119,10 +117,6 @@ class Player:
 
         self.was_walking = self.is_walking
         
-    def _check_interaction(self):
-        print("¡Jugador intentó interactuar!")
-        pass
-
     def draw(self):
         glPushMatrix()
         try:

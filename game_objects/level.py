@@ -3,6 +3,7 @@ from utilities import basic_objects as Objects
 from systems.texture_manager import TextureManager
 # from systems.factories import PuzzleFactory # (Descomentar cuando tengas la fábrica)
 from game_objects.environment.collider import AABB
+from game_objects.puzzles.statue_puzzle import StatuePuzzle
 
 class Level:
     """
@@ -52,7 +53,10 @@ class Level:
         # --- 4. PUZZLE ---
         self.puzzle = None
         if "puzzle_config" in level_data:
-            # self.puzzle = PuzzleFactory.create_puzzle(level_data["puzzle_config"])
+            puzzle_config = level_data.get("puzzle_config")
+            self.puzzle = StatuePuzzle(puzzle_config)
+            for statue in self.puzzle.statues:
+                self.solid_colliders.append(statue.get_AABB())
             pass
 
     def update(self, delta_time):
@@ -63,6 +67,21 @@ class Level:
             if self.puzzle.is_completed():
                 # Aquí podrías disparar un evento o flag
                 pass
+
+    def handle_interaction(self, player_pos, player_rotation):
+        """
+        Llamado por PlayState cuando el jugador pulsa 'Interactuar'.
+        Delega la acción al puzzle si el jugador está cerca.
+        """
+        if self.puzzle:
+            self.puzzle.interact(player_pos, player_rotation)
+
+    def destroy(self):
+        """Libera recursos al salir del nivel."""
+        assets_config = self.data.get("assets", {})
+        for tex_key in assets_config.get("textures", {}).keys():
+            self.texture_manager.unload_texture(tex_key)
+        print("Nivel liberado.")
 
     def draw(self):
         self._setup_lighting()
@@ -164,19 +183,3 @@ class Level:
             else:
                 glColor3f(0.5, 0.5, 0.5)
                 Objects.draw_cube(scale=wall.get("size"), translate=wall.get("pos"))
-
-    def handle_interaction(self, player_pos):
-        """
-        Llamado por PlayState cuando el jugador pulsa 'Interactuar'.
-        Delega la acción al puzzle si el jugador está cerca.
-        """
-        if self.puzzle:
-            # Aquí podrías comprobar distancia: dist(player_pos, self.puzzle.pos) < 2.0
-            self.puzzle.interact()
-
-    def destroy(self):
-        """Libera recursos al salir del nivel."""
-        assets_config = self.data.get("assets", {})
-        for tex_key in assets_config.get("textures", {}).keys():
-            self.texture_manager.unload_texture(tex_key)
-        print("Nivel liberado.")
