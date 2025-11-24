@@ -51,11 +51,9 @@ class PlayState(BaseState):
         self.player = Player(*spawn_pos_player, selected_skin)
         self.player.rotate(spawn_rot_player)
         self.instructions_lines = [
-            "W/S: Adelantar o retroceder",
-            "A/D: Rotar al personaje",
+            "Flechas: Mover a Personaje",
             "E: Interactuar",
-            "P: Pausar",
-            "Backspace: Terminar partida",
+            "Esc: Pausar",
         ]
 
     def update(self, delta_time, _event_list):

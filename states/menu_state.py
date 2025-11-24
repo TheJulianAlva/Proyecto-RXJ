@@ -6,6 +6,7 @@ from systems.input_manager import InputManager
 from systems.texture_manager import TextureManager
 import utilities.text_renderer as TextUtil
 import utilities.basic_objects as Objects
+from game_objects.ui_elements.key_icon import KeyIcon
 from game_objects.ui_elements.menu_button import MenuButton
 from game_objects.ui_elements.animated_selection_panel import AnimatedSelectionPanel
 from utilities.instructions_overlay import draw_instructions
@@ -122,6 +123,11 @@ class MenuState(BaseState):
         
         print("MenuState inicializado.")
         print("  -> Usa las flechas para navegar y ENTER para seleccionar.")
+        
+        # region Icons
+        self.key_up = KeyIcon(self.start_button.rect.left-130, self.start_button.rect.centery-40, 63, "ARROWUP")
+        self.key_down = KeyIcon(self.exit_button.rect.left-130, self.exit_button.rect.centery-23, 63, "ARROWDOWN")
+        # endregion
 
     def _on_panel_selected(self, index, label):
         self._highlight_label = label
@@ -151,6 +157,8 @@ class MenuState(BaseState):
             self.selection_panel.confirm_focus()
 
         self.selection_panel.update(delta_time)
+        self.key_up.update(delta_time)
+        self.key_down.update(delta_time)
 
     def _toogle_selected_button(self):
         if self.start_button.is_selected:
@@ -183,3 +191,5 @@ class MenuState(BaseState):
         self.start_button.draw()
         self.exit_button.draw()
         draw_instructions(self.display_width, self.display_height, self.instructions_lines)
+        self.key_up.draw()
+        self.key_down.draw()

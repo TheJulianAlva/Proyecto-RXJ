@@ -110,7 +110,7 @@ class PauseState(BaseState):
         self._apply_button_focus()
 
         self.instructions_lines = [
-            "P o Esc: Reanudar",
+            "Esc: Reanudar",
             "A/D: Ajustar volumen",
             "Flechas Arriba/Abajo: Cambiar botón",
             "Enter o S: Activar opción",
@@ -124,7 +124,7 @@ class PauseState(BaseState):
         layout = self._compute_layout()
         self._apply_button_focus()
 
-        if self.input_manager.was_action_pressed("pause") or self.input_manager.was_action_pressed("quit"):
+        if self.input_manager.was_action_pressed("pause"):
             self.engine.pop_state()
             return
 

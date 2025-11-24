@@ -42,10 +42,10 @@ class InputManager:
         (En un juego más grande, esto se leería de un archivo de configuración).
         """
         # Acciones Mantenidas (para movimiento)
-        self.key_map["move_forward"] = pygame.K_w
-        self.key_map["move_backward"] = pygame.K_s
-        self.key_map["rotate_left"] = pygame.K_a
-        self.key_map["rotate_right"] = pygame.K_d
+        self.key_map["move_forward"] = pygame.K_UP
+        self.key_map["move_backward"] = pygame.K_DOWN
+        self.key_map["rotate_left"] = pygame.K_LEFT
+        self.key_map["rotate_right"] = pygame.K_RIGHT
         
         # Acciones Presionadas (para eventos únicos)
         self.key_map["ui_up"] = pygame.K_UP
@@ -57,7 +57,7 @@ class InputManager:
         self.key_map["quit"] = pygame.K_ESCAPE
         self.key_map["return"] = pygame.K_BACKSPACE
         # Pausa del juego
-        self.key_map["pause"] = pygame.K_p
+        self.key_map["pause"] = pygame.K_ESCAPE
         # Navegacion panel UI
         self.key_map["panel_left"] = pygame.K_a
         self.key_map["panel_right"] = pygame.K_d
