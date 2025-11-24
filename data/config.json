@@ -12,5 +12,8 @@
     "audio": {
         "master_volume": 0.8,
         "music_volume": 0.5
+    },
+    "ui_icons": {
+        "E": "assets/ui/icon_keys/E.png"
     }
 }

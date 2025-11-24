@@ -14,6 +14,8 @@ from systems.texture_manager import TextureManager
 from utilities.text_renderer import draw_text_2d
 from utilities import basic_objects as Objects
 from game_objects.camera import Camera
+from game_objects.ui_elements.menu_button import MenuButton
+from game_objects.ui_elements.key_icon import KeyIcon
 from game_objects.selection_menu.character_selection_platform import CharacterSelectionPlatform
 from utilities.instructions_overlay import draw_instructions
 
@@ -44,11 +46,13 @@ class PlayerSelectionState(BaseState):
         # 0 = Personaje 0, 120 = Personaje 1, 240 = Personaje 2
         self.target_rotation = 0.0 
 
-        self.banner_color = [0.5, 0.2, 0.2, 0.7]
-        margin = self.display_width * 0.2
-        banner_width = self.display_width - 2 * margin
-        banner_height = margin / 2
-        self.banner_rect = pygame.Rect(margin, self.display_height-margin, banner_width, banner_height)
+        self.banner_color = [0.2, 0.1, 0.05, 0.9]
+        banner_width = self.display_width * 0.4
+        self.banner_rect = pygame.Rect(
+            (self.display_width - banner_width) * 0.5,
+            self.display_height * 0.7,
+            banner_width,
+            self.display_height * 0.18)
         self.montserrat_font = "montserrat_bold"
 
         background_files = [
@@ -73,6 +77,35 @@ class PlayerSelectionState(BaseState):
             "E, Enter o S: Confirmar selección",
             "Backspace: Volver al menú",
         ]
+        
+        
+        self.play_button = MenuButton(
+            self.display_width * 0.8,
+            self.display_height * 0.85,
+            self.display_width * 0.15,
+            self.display_height * 0.1,
+            "Jugar",
+            text_font="montserrat_bold",
+            text_size=36,
+            border_color=(0.1, 0.1, 0.1, 1.0)
+        )
+        
+        self.back_button = MenuButton(
+            self.display_width * 0.05,
+            self.display_height * 0.85,
+            self.display_width * 0.15,
+            self.display_height * 0.1,
+            "Regresar",
+            text_font="montserrat_bold",
+            text_size=36,
+            border_color=(0.1, 0.1, 0.1, 1.0)
+        )
+        # region Icons
+        self.key_play = KeyIcon(self.play_button.rect.left-45, self.play_button.rect.top-45, 63, "E")
+        self.key_return = KeyIcon(self.back_button.rect.right-45, self.back_button.rect.top-45, 63, "BACKSPACE")
+        self.key_left = KeyIcon(self.display_width * 0.1, self.display_height * 0.5, 105, "ARROWLEFT")
+        self.key_right = KeyIcon(self.display_width * 0.9, self.display_height * 0.5, 105, "ARROWRIGHT")
+        # endregion
         
     
     def update(self, delta_time, _event_list):
@@ -117,6 +150,10 @@ class PlayerSelectionState(BaseState):
         if self.input_manager.was_action_pressed("return"):
             self.engine.pop_state()
             return
+        self.key_play.update(delta_time)
+        self.key_return.update(delta_time)
+        self.key_left.update(delta_time)
+        self.key_right.update(delta_time)
     
 
     def _update_background_animation(self, delta_time):
@@ -143,6 +180,13 @@ class PlayerSelectionState(BaseState):
         self._draw_background()
         self.engine.setup_2d_orthographic()
         self._draw_banner()
+        self._draw_title()
+        self.play_button.draw()
+        self.back_button.draw()
+        self.key_play.draw()
+        self.key_return.draw()
+        self.key_left.draw()
+        self.key_right.draw()
         draw_instructions(self.display_width, self.display_height, self.instructions_lines)
     
 
@@ -168,3 +212,8 @@ class PlayerSelectionState(BaseState):
         glColor4f(1.0, 1.0, 1.0, self.fade_alpha)
         Objects.draw_crop_plane_3d(width, height, 1152, 896, translate=[pos_x, pos_y, pos_z], rotation=[90, 1, 0, 0])
         glDisable(GL_TEXTURE_2D)
+        
+    def _draw_title(self):
+        pos_x = self.display_width / 2
+        pos_y = self.display_height * 0.2
+        draw_text_2d(x=pos_x, y=self.display_height-pos_y, text="Selecciona Un Personaje", font_name= self.montserrat_font, size=56, center=True,color=(255, 255, 255, 255))
