@@ -73,9 +73,9 @@ class PlayerSelectionState(BaseState):
         
         self.background_rect = (38.4, 25.6, 0.0, 7.0, -5.0)
         self.instructions_lines = [
-            "Flechas o A/D: Cambiar personaje",
-            "E, Enter o S: Confirmar selección",
-            "Backspace: Volver al menú",
+            "Flechas (<- / ->): Cambiar personaje",
+            "Enter: Jugar",
+            "Esc: Volver al menú",
         ]
         
         
@@ -106,7 +106,6 @@ class PlayerSelectionState(BaseState):
         self.key_left = KeyIcon(self.display_width * 0.1, self.display_height * 0.5, 105, "ARROWLEFT")
         self.key_right = KeyIcon(self.display_width * 0.9, self.display_height * 0.5, 105, "ARROWRIGHT")
         # endregion
-        
     
     def update(self, delta_time, _event_list):
         self.platform_rotation = self.character_selection_platform.get_rotation()
@@ -137,9 +136,8 @@ class PlayerSelectionState(BaseState):
         if self.character_selection_platform.is_moving:
             return
         if (
-            self.input_manager.was_action_pressed("interact")
+            self.input_manager.was_action_pressed("ui_select")
             or self.input_manager.was_action_pressed("panel_select")
-            or self.input_manager.was_action_pressed("ui_select")
         ):
             print(f"Iniciando juego con personaje {self.character_names[self.selected_index]}")
             player_config = {"character_index": self.selected_index}
@@ -147,14 +145,13 @@ class PlayerSelectionState(BaseState):
             from states.play_state import PlayState
             self.engine.change_state(PlayState(self.engine))
         
-        if self.input_manager.was_action_pressed("return"):
+        if self.input_manager.was_action_pressed("quit"):
             self.engine.pop_state()
             return
         self.key_play.update(delta_time)
         self.key_return.update(delta_time)
         self.key_left.update(delta_time)
-        self.key_right.update(delta_time)
-    
+        self.key_right.update(delta_time) 
 
     def _update_background_animation(self, delta_time):
         if self.fade_state == "FADE_OUT":
@@ -189,7 +186,6 @@ class PlayerSelectionState(BaseState):
         self.key_right.draw()
         draw_instructions(self.display_width, self.display_height, self.instructions_lines)
     
-
     def _draw_banner(self):
         """
         Dibuja el banner 2D y el nombre del personaje.
