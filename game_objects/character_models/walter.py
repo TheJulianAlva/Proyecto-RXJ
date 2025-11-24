@@ -34,32 +34,80 @@ DEFAULT_POSE = {
     'mouth_scale_y': 1.0
 }
 
-idle_cycle_anim = [
+expressive_idle_anim = [
     {
         'time': 0.0,
         'pose': {
-            'r_shoulder_lift': 10.0, 
-            'l_shoulder_lift': 10.0, 
-            'torso_lean': -5.0, 
-            'head_tilt': -5.0
+            'pos_y': -0.02,
+            'torso_lean': -4.0,
+            'torso_twist': -3.0,
+            'head_pan': -6.0,
+            'head_tilt': -3.0,
+            'r_shoulder_lift': 6.0,
+            'l_shoulder_lift': 2.0,
+            'r_eyebrow_rotate': -2.0,
+            'l_eyebrow_rotate': 4.0,
+            'mouth_scale_y': 0.85
         }
     },
     {
-        'time': 2.0,
+        'time': 1.4,
         'pose': {
-            'r_shoulder_lift': -5.0, 
-            'l_shoulder_lift': -5.0, 
-            'torso_lean': 5.0, 
-            'head_tilt': 5.0
+            'pos_y': 0.06,
+            'torso_lean': 2.5,
+            'torso_twist': 4.0,
+            'head_pan': 2.0,
+            'head_tilt': 4.5,
+            'r_shoulder_lift': -4.0,
+            'l_shoulder_lift': -6.0,
+            'r_eyebrow_rotate': 10.0,
+            'l_eyebrow_rotate': 12.0,
+            'mouth_scale_y': 1.25
         }
     },
     {
-        'time': 4.0,
+        'time': 2.8,
         'pose': {
-            'r_shoulder_lift': 10.0, 
-            'l_shoulder_lift': 10.0, 
-            'torso_lean': -5.0, 
-            'head_tilt': -5.0
+            'pos_y': 0.0,
+            'torso_lean': 1.0,
+            'torso_twist': 6.0,
+            'head_pan': 8.0,
+            'head_tilt': -4.0,
+            'r_shoulder_lift': 2.0,
+            'l_shoulder_lift': -10.0,
+            'r_eyebrow_rotate': -10.0,
+            'l_eyebrow_rotate': -6.0,
+            'mouth_scale_y': 0.7
+        }
+    },
+    {
+        'time': 4.1,
+        'pose': {
+            'pos_y': 0.04,
+            'torso_lean': -1.5,
+            'torso_twist': -5.0,
+            'head_pan': -4.0,
+            'head_tilt': 6.0,
+            'r_shoulder_lift': -8.0,
+            'l_shoulder_lift': 4.0,
+            'r_eyebrow_rotate': 6.0,
+            'l_eyebrow_rotate': 14.0,
+            'mouth_scale_y': 1.4
+        }
+    },
+    {
+        'time': 5.6,
+        'pose': {
+            'pos_y': -0.02,
+            'torso_lean': -4.0,
+            'torso_twist': -3.0,
+            'head_pan': -6.0,
+            'head_tilt': -3.0,
+            'r_shoulder_lift': 6.0,
+            'l_shoulder_lift': 2.0,
+            'r_eyebrow_rotate': -2.0,
+            'l_eyebrow_rotate': 4.0,
+            'mouth_scale_y': 0.85
         }
     }
 ]
@@ -125,7 +173,12 @@ walk_cycle_anim = [
             'l_hip_forward': -20.0,
             'r_shoulder_lift': -15.0,
             'l_shoulder_lift': 15.0,
-            'torso_twist': -10.0
+            'torso_twist': -10.0,
+            'head_pan': -5.0,
+            'head_tilt': 3.0,
+            'r_eyebrow_rotate': 4.0,
+            'l_eyebrow_rotate': 2.0,
+            'mouth_scale_y': 1.1
         }
     },
     {
@@ -136,7 +189,12 @@ walk_cycle_anim = [
             'l_hip_forward': 20.0,
             'r_shoulder_lift': 15.0,
             'l_shoulder_lift': -15.0,
-            'torso_twist': 10.0
+            'torso_twist': 10.0,
+            'head_pan': 0.0,
+            'head_tilt': -2.5,
+            'r_eyebrow_rotate': -6.0,
+            'l_eyebrow_rotate': -4.0,
+            'mouth_scale_y': 0.8
         }
     },
     {
@@ -147,7 +205,12 @@ walk_cycle_anim = [
             'l_hip_forward': -20.0,
             'r_shoulder_lift': -15.0,
             'l_shoulder_lift': 15.0,
-            'torso_twist': -10.0
+            'torso_twist': -10.0,
+            'head_pan': 6.0,
+            'head_tilt': 2.0,
+            'r_eyebrow_rotate': 2.0,
+            'l_eyebrow_rotate': 6.0,
+            'mouth_scale_y': 1.2
         }
     }
 ]
@@ -162,7 +225,7 @@ class WalterSkin:
         self.current_pose = DEFAULT_POSE.copy()
         
         self.animations = {
-            "idle": clap_cycle_anim,
+            "idle": expressive_idle_anim,
             "walk": walk_cycle_anim
         }
         self.current_anim_name = "idle"

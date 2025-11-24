@@ -4,6 +4,7 @@ Presenta una escena 3D con cámara fija donde el jugador puede
 elegir entre 3 personajes antes de iniciar el juego.
 """
 
+import os
 import pygame
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -11,6 +12,7 @@ from .base_state import BaseState
 from systems.data_manager import DataManager
 from systems.input_manager import InputManager
 from systems.texture_manager import TextureManager
+from systems.audio_manager import AudioManager
 from utilities.text_renderer import draw_text_2d
 from utilities import basic_objects as Objects
 from game_objects.camera import Camera
@@ -26,6 +28,7 @@ class PlayerSelectionState(BaseState):
         self.input_manager = InputManager.instance()
         data_manager = DataManager.instance()
         self.texture_manager = TextureManager.instance()
+        self.audio_manager = AudioManager.instance()
         config = data_manager.get_config()
 
         display_config = config.get("rendered_display", {})
@@ -106,6 +109,9 @@ class PlayerSelectionState(BaseState):
         self.key_left = KeyIcon(self.display_width * 0.1, self.display_height * 0.5, 105, "ARROWLEFT")
         self.key_right = KeyIcon(self.display_width * 0.9, self.display_height * 0.5, 105, "ARROWRIGHT")
         # endregion
+        self._current_audio_key = None
+        self._load_character_audio()
+        self._play_character_audio(self.selected_index)
     
     def update(self, delta_time, _event_list):
         self.platform_rotation = self.character_selection_platform.get_rotation()
@@ -122,6 +128,7 @@ class PlayerSelectionState(BaseState):
             
             if moved and self.fade_state == "IDLE":
                 self.fade_state = "FADE_OUT"
+                self._play_character_audio(self.selected_index)
         self._update_background_animation(delta_time)
 
         if self.platform_rotation - 5 <= self.target_rotation <= self.platform_rotation + 5:
@@ -142,10 +149,12 @@ class PlayerSelectionState(BaseState):
             print(f"Iniciando juego con personaje {self.character_names[self.selected_index]}")
             player_config = {"character_index": self.selected_index}
             DataManager.instance().save_game_data(player_config)
+            self._stop_current_audio()
             from states.play_state import PlayState
             self.engine.change_state(PlayState(self.engine))
         
         if self.input_manager.was_action_pressed("return"):
+            self._stop_current_audio()
             self.engine.pop_state()
             return
         self.key_play.update(delta_time)
@@ -212,3 +221,33 @@ class PlayerSelectionState(BaseState):
         pos_x = self.display_width / 2
         pos_y = self.display_height * 0.2
         draw_text_2d(x=pos_x, y=self.display_height-pos_y, text="Selecciona Un Personaje", font_name= self.montserrat_font, size=56, center=True,color=(255, 255, 255, 255))
+
+    def _load_character_audio(self):
+        base_path = os.path.join("assets", "audio", "select_character")
+        audio_map = {
+            0: ("santo_theme", "el-santo.mp3"),
+            1: ("marciana_theme", "marciana.mp3"),
+            2: ("walter_theme", "breaking-bad-intro.mp3"),
+        }
+        self.character_audio_keys = {}
+        for index, (audio_key, filename) in audio_map.items():
+            full_path = os.path.join(base_path, filename)
+            self.character_audio_keys[index] = audio_key
+            self.audio_manager.load_sound(audio_key, full_path)
+
+    def _stop_current_audio(self):
+        if self._current_audio_key:
+            self.audio_manager.stop_sound(self._current_audio_key)
+            self._current_audio_key = None
+
+    def _play_character_audio(self, index):
+        audio_key = self.character_audio_keys.get(index)
+        if not audio_key:
+            return
+
+        if self._current_audio_key and self._current_audio_key != audio_key:
+            self.audio_manager.stop_sound(self._current_audio_key)
+
+        channel = self.audio_manager.play_sound(audio_key, loops=0, volume=0.9)
+        if channel:
+            self._current_audio_key = audio_key

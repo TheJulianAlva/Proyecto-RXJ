@@ -8,7 +8,6 @@ import utilities.text_renderer as TextUtil
 import utilities.basic_objects as Objects
 from game_objects.ui_elements.key_icon import KeyIcon
 from game_objects.ui_elements.menu_button import MenuButton
-from game_objects.ui_elements.animated_selection_panel import AnimatedSelectionPanel
 from utilities.instructions_overlay import draw_instructions
 from states.base_state import BaseState
 
@@ -88,37 +87,10 @@ class MenuState(BaseState):
         self.selected_button = self.start_button
         self.selected_button.set_selected(True)
 
-        panel_title = data_menu.get("highlight_title", "Destacados")
-        panel_labels = list(data_menu.get("highlight_options", [
-            "Explorar",
-            "Desafios",
-            "Galeria",
-        ]))
-        while len(panel_labels) < 3:
-            panel_labels.append(f"Opcion {len(panel_labels) + 1}")
-        panel_labels = tuple(panel_labels[:3])
-
-        panel_width = int(display_width * 0.4)
-        panel_height = int(display_height * 0.55)
-        panel_margin = 60
-        panel_x = panel_margin
-        panel_y = display_height - panel_height - panel_margin
-
-        self.selection_panel = AnimatedSelectionPanel(
-            topleft=(panel_x, panel_y),
-            size=(panel_width, panel_height),
-            labels=panel_labels,
-            title=panel_title,
-            on_select=self._on_panel_selected,
-        )
-        self._highlight_label = self.selection_panel.get_selected_label()
-
         self.instructions_lines = [
             "Enter: Confirmar botón seleccionado",
             "Esc: Salir del juego",
             "Flechas Arriba/Abajo: Cambiar botón",
-            "A/D: Cambiar panel destacado",
-            "S (dos veces): Intercambiar panel destacado",
         ]
         
         print("MenuState inicializado.")
@@ -128,10 +100,6 @@ class MenuState(BaseState):
         self.key_up = KeyIcon(self.start_button.rect.left-130, self.start_button.rect.centery-40, 63, "ARROWUP")
         self.key_down = KeyIcon(self.exit_button.rect.left-130, self.exit_button.rect.centery-23, 63, "ARROWDOWN")
         # endregion
-
-    def _on_panel_selected(self, index, label):
-        self._highlight_label = label
-        print(f"Panel destacado seleccionado ({index}): {label}")
 
     def update(self, delta_time, event_list):
         from states.player_selection_state import PlayerSelectionState
@@ -149,14 +117,6 @@ class MenuState(BaseState):
             else:
                 self.engine.pop_state()
 
-        if self.input_manager.was_action_pressed("panel_left"):
-            self.selection_panel.focus_previous()
-        if self.input_manager.was_action_pressed("panel_right"):
-            self.selection_panel.focus_next()
-        if self.input_manager.was_action_pressed("panel_select"):
-            self.selection_panel.confirm_focus()
-
-        self.selection_panel.update(delta_time)
         self.key_up.update(delta_time)
         self.key_down.update(delta_time)
 
@@ -187,7 +147,6 @@ class MenuState(BaseState):
         Objects.draw_crop_pyrect(self.background_image, 1344, 768)
         glDisable(GL_TEXTURE_2D)
 
-        self.selection_panel.draw()
         self.start_button.draw()
         self.exit_button.draw()
         draw_instructions(self.display_width, self.display_height, self.instructions_lines)

@@ -17,12 +17,14 @@ class Statue:
         :param tex_id: ID de OpenGL de la textura cargada.
         """
         self.id = id
-        self.position = position
+        self.position = list(position)
         self.rotation = rotation
         self.size = size
         self.name = name
         self.phrase = phrase
         self.tex_id = tex_id
+        self.default_base_color = (0.6, 0.6, 0.6)
+        self.highlight_color = None
         
         half_x = size[0] / 2.0
         half_z = size[2] / 2.0
@@ -48,8 +50,10 @@ class Statue:
         glPushMatrix()
         glDisable(GL_LIGHTING)
         glTranslatef(*self.position)
-        glColor3f(0.6, 0.6, 0.6)
+        base_color = self.highlight_color if self.highlight_color else self.default_base_color
+        glColor3f(*base_color)
         Objects.draw_cube(self.size[0], translate=[0, 1.5, 0])
+        glColor3f(*self.default_base_color)
         
         if self.tex_id != -1:
             glEnable(GL_TEXTURE_2D)
@@ -64,6 +68,20 @@ class Statue:
         glDisable(GL_TEXTURE_2D)
         glEnable(GL_LIGHTING)
         glPopMatrix()
+
+    def set_position(self, new_position):
+        """Actualiza la posición y su collider asociado."""
+        self.position = list(new_position)
+        half_x = self.size[0] / 2.0
+        half_z = self.size[2] / 2.0
+        self.collider.min_x = self.position[0] - half_x
+        self.collider.max_x = self.position[0] + half_x
+        self.collider.min_z = self.position[2] - half_z
+        self.collider.max_z = self.position[2] + half_z
+
+    def set_highlight_color(self, color):
+        """Define el color de resaltado de la base (None para desactivar)."""
+        self.highlight_color = color
         
     def interact(self):
         """
