@@ -3,7 +3,7 @@ from OpenGL.GL import *
 
 # --- 1. Diccionario de Fuentes ---
 FONTS = {
-    "montserrat_bold": "fonts/fonts-underline/ttf/MontserratUnderline-Bold.ttf",
+    "montserrat_bold": "fonts/Montserrat-Thin.ttf",
 }
 
 DEFAULT_FONT_NAME = "montserrat_bold"

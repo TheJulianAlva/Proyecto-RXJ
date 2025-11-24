@@ -11,6 +11,9 @@
             "tex_floor": "assets/level_1/floor.jpg",
             "tex_wall_w": "assets/level_1/wall_01.png",
             "tex_wall_h": "assets/level_1/wall_02.png",
+            "tex_siervo": "",
+            "tex_camaleon": "",
+            "tex_caudillo": "",
             "tex_statue_siervo": "assets/level_1/statues/el_siervo.png",
             "tex_statue_camaleon": "assets/level_1/statues/el_camaleon.png",
             "tex_statue_caudillo": "assets/level_1/statues/el_caudillo.png"
@@ -100,6 +103,14 @@
         },
         "properties": {
             "solution_order": [1, 2, 3],
+            "panel_config": {
+                "title": "Acomoda correctamente",
+                "items":[
+                    {"id": 3, "name": "El Caudillo", "asset": "tex_camaleon"},
+                    {"id": 1, "name": "El Siervo", "asset": "tex_siervo"},
+                    {"id": 2, "name": "El Camaleon", "asset": "tex_caudillo"}
+                ]
+            },
             "statues": [
                 { 
                     "id": 1,
