@@ -5,7 +5,10 @@ from systems.collision_system import CollisionSystem
 from game_objects.puzzles.statue import Statue
 from game_objects.environment.door import Door
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 from game_objects.ui_elements.text_message import TextMessage
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 
@@ -117,12 +120,18 @@ class StatuePuzzle:
         
         if isinstance(target_object, Statue):
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             self._show_message(f"Interactuando con: {target_object.name}")
 =======
+=======
+>>>>>>> Stashed changes
             if self.solved:
                 print("El acertijo ya está resuelto. No necesitas mover más las estatuas.")
                 return
             self._handle_statue_selection(target_object)
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         elif isinstance(target_object, Door):
             if self.solved:
@@ -137,6 +146,7 @@ class StatuePuzzle:
     def is_completed(self):
         return self.solved
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     
     def _show_message(self, text):
             self.active_message = TextMessage(
@@ -145,6 +155,8 @@ class StatuePuzzle:
             y_pos=self.display_height*0.5
         )
 =======
+=======
+>>>>>>> Stashed changes
 
     def _statue_key(self, statue):
         return statue.name.lower().replace(" ", "_")
@@ -222,5 +234,9 @@ class StatuePuzzle:
             if statue is self.selected_statue:
                 statue.set_highlight_color(self.selection_highlight_color)
             else:
+<<<<<<< Updated upstream
+                statue.set_highlight_color(None)
+>>>>>>> Stashed changes
+=======
                 statue.set_highlight_color(None)
 >>>>>>> Stashed changes
