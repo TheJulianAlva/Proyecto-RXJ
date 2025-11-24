@@ -145,7 +145,7 @@ class PlayerSelectionState(BaseState):
             from states.play_state import PlayState
             self.engine.change_state(PlayState(self.engine))
         
-        if self.input_manager.was_action_pressed("quit"):
+        if self.input_manager.was_action_pressed("return"):
             self.engine.pop_state()
             return
         self.key_play.update(delta_time)
@@ -173,7 +173,6 @@ class PlayerSelectionState(BaseState):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         self.camera.apply_view()
         self.character_selection_platform.draw()
-        #Materials.apply_material(Materials.MAT_METAL)
         self._draw_background()
         self.engine.setup_2d_orthographic()
         self._draw_banner()
