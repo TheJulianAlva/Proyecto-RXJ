@@ -5,6 +5,7 @@ from game_objects.puzzles.statue import Statue
 from game_objects.puzzles.pedestal import Pedestal
 from game_objects.environment.door import Door
 from game_objects.ui_elements.text_message import TextMessage
+from game_objects.ui_elements.board_message import BoardMessage
 
 class StatuePuzzle:
     def __init__(self, puzzle_data, display_width=800, display_height=600):
@@ -28,7 +29,7 @@ class StatuePuzzle:
             new_pedestal = Pedestal(
                 position=pos,
                 size=pedestal_data.get("size", [1.0, 1.0, 1.0]),
-                phrase=pedestal_data.get("phrase", ""),
+                phrase=pedestal_data.get("phrase", []),
                 correct_statue_id=pedestal_data.get("correct_statue_id"),
                 tex_id=pedestal_tex
             )
@@ -95,9 +96,8 @@ class StatuePuzzle:
             self._handle_statue_selection(target)
 
         elif isinstance(target, Door):
-            if self.solved:
-                if target.interact(): return "LEVEL_COMPLETE"
-            else:
+            self._check_solution()
+            if not self.solved:
                 self._show_message("La puerta está cerrada. La historia debe ser corregida.")
         
         return target
@@ -107,7 +107,8 @@ class StatuePuzzle:
         if not target: return None
 
         elif isinstance(target, Pedestal):
-            self._show_message(f"Inscripción: \"{target.phrase}\"")
+            message = ["Hay una inscripción en el pedestal..."] + target.phrase
+            self._show_board_message(message, font_size=20)
 
         return target
 
@@ -129,7 +130,7 @@ class StatuePuzzle:
         else:
             self._swap_statues(self.selected_statue, statue)
             self.selected_statue = None
-            self._check_solution()
+
 
     def _swap_statues(self, statue_1, statue_2):
         index_1 = self.current_statues_order.index(statue_1)
@@ -157,5 +158,8 @@ class StatuePuzzle:
             self.door.unlock()
             self._show_message("¡Click! La historia está en orden. La puerta se abre.")
 
-    def _show_message(self, text):
-        self.active_message = TextMessage(text, duration=5.0, y_pos=800, font_size=28)
+    def _show_message(self, text, font_size=28):
+        self.active_message = TextMessage(text, duration=5.0, y_pos=self.display_height*0.15, font_size=24)
+
+    def _show_board_message(self, text, font_size=20):
+        self.active_message = BoardMessage(text, y_pos=self.display_height*0.25, font_size=font_size)

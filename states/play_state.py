@@ -67,7 +67,13 @@ class PlayState(BaseState):
         ]
         self.key_interact = KeyIcon(
             self.display_width*0.85,
-            self.display_height*0.75,
+            self.display_height*0.65,
+            84,
+            "E"
+            )
+        self.key_read = KeyIcon(
+            self.display_width*0.85,
+            self.display_height*0.80,
             84,
             "E"
             )
@@ -93,6 +99,7 @@ class PlayState(BaseState):
             self.current_level.update(delta_time)
             self.update_active_camera()
         self.key_interact.update(delta_time)    
+        self.key_read.update(delta_time)    
 
 
     def update_active_camera(self):
@@ -122,6 +129,9 @@ class PlayState(BaseState):
         )
         if self.player_can_touch_interact:
             self.key_interact.draw()
+        if self.player_can_read_interact:
+            self.key_read.draw()
+
         
     def _draw_debug_triggers(self):
         for trigger in self.trigger_manager.triggers:
