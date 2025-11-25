@@ -17,6 +17,14 @@ class StatuePuzzle:
         
         props = puzzle_data.get("properties", {})
         
+        # region Cargar intro
+        self.text_intro = puzzle_data.get("intro_dialog", [])
+        self.is_intro_playing = False
+        self.intro_index = 0
+        self.intro_timer = 0.0
+        self.intro_padding = 0.5 # Tiempo de espera entre mensajes
+        # endregion
+
         # region Instancias Pedestals
         pedestals_conf = props.get("pedestals", [])
         self.pedestals = []
@@ -80,17 +88,38 @@ class StatuePuzzle:
         print("Puzzle Histórico cargado.")
 
     def update(self, delta_time):
-        if self.active_message: self.active_message.update(delta_time)
+        if self.active_message:
+            self.active_message.update(delta_time)
+            if not self.active_message.is_active:
+                self.active_message = None
+
+        if self.is_intro_playing:
+            if self.active_message is None:
+                self.intro_timer += delta_time
+                
+                if self.intro_timer >= self.intro_padding:
+                    if self.intro_index < len(self.text_intro):
+                        lines = self.text_intro[self.intro_index]
+                        self._show_board_message(lines, font_size=22, duration= 11.0)
+                        
+                        self.intro_index += 1
+                        self.intro_timer = 0.0
+                    else:
+                        self.is_intro_playing = False
+                        print("Intro finalizada.")
 
     def draw(self):
+        if self.active_message: self.active_message.draw()
         for obj in self.touch_interactables:
             if obj != self.selected_statue:
                 obj.draw()
         for obj in self.read_interactables:
             obj.draw()
-        if self.active_message: self.active_message.draw()
+        
 
     def interact(self, player_pos, player_rot):
+        if self.is_intro_playing:
+            return None
         target = CollisionSystem.cast_ray(player_pos, player_rot, self.touch_interactables, self.interaction_radius)
         if not target: return None
 
@@ -105,6 +134,8 @@ class StatuePuzzle:
         return target
 
     def read_interact(self, player_pos, player_rot):
+        if self.is_intro_playing:
+            return None
         target = CollisionSystem.cast_ray(player_pos, player_rot, self.read_interactables, self.interaction_radius)
         if not target: return None
 
@@ -115,10 +146,14 @@ class StatuePuzzle:
         return target
 
     def can_touch_interact(self, player_pos, player_rot):
+        if self.is_intro_playing:
+            return False
         target = CollisionSystem.cast_ray(player_pos, player_rot, self.touch_interactables, self.interaction_radius)
         return True if target else False
     
     def can_read_interact(self, player_pos, player_rot):
+        if self.is_intro_playing:
+            return False
         target = CollisionSystem.cast_ray(player_pos, player_rot, self.read_interactables, self.interaction_radius)
         return True if target else False
 
@@ -163,7 +198,10 @@ class StatuePuzzle:
     def _show_message(self, text, font_size=28):
         self.active_message = TextMessage(text, duration=5.0, y_pos=self.display_height*0.15, font_size=24)
 
-    def _show_board_message(self, text, font_size=20):
-        self.active_message = BoardMessage(text, y_pos=self.display_height*0.25, font_size=font_size)
+    def _show_board_message(self, text, font_size=20, duration=5.0):
+        self.active_message = BoardMessage(text, y_pos=self.display_height*0.15, font_size=font_size, duration=duration)
 
-    
+    def play_intro(self):
+        self.is_intro_playing = True
+
+

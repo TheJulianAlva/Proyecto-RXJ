@@ -177,6 +177,25 @@
                     "asset": "tex_floor"
                 }
             ]
-        }
+        },
+        "intro_dialog": [
+            [
+                "(Voz saliendo desde una bocina)...",
+                "¿Ya despertaste? Bien.",
+                "Te preguntarás por qué estás aquí. Olvidaste tu origen, y sin historia, no hay futuro."
+            ],
+            [
+                "Observa. Héroes de la nación, perdidos y fuera de lugar, igual que tú.",
+                "Para salir, debes arreglar este desastre."
+            ],
+            [
+                "Las placas en los pedestales revelan la verdad que ignoras.",
+                "Acércate a una estatua, elegirla (E) y ve a otra para intercambiarlas."
+            ],
+            [
+                "Ordena la historia y la puerta se abrirá. Si fallas, serás parte del olvido...",
+                "Empieza."
+            ]
+        ]
     }
 }

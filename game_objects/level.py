@@ -57,6 +57,7 @@ class Level:
             for statue in self.puzzle.statues:
                 self.solid_colliders.append(statue.get_AABB())
             pass
+        if self.puzzle: self.puzzle.play_intro()
 
     def update(self, delta_time):
         # Actualizar el puzzle si existe
