@@ -54,6 +54,7 @@ class InputManager:
         self.key_map["ui_right"] = pygame.K_RIGHT
         self.key_map["ui_select"] = pygame.K_RETURN
         self.key_map["interact"] = pygame.K_e
+        self.key_map["read"] = pygame.K_l
         self.key_map["quit"] = pygame.K_ESCAPE
         self.key_map["return"] = pygame.K_BACKSPACE
         # Pausa del juego
@@ -72,6 +73,7 @@ class InputManager:
             "ui_right",
             "ui_select",
             "interact",
+            "read",
             "quit",
             "return",
             "pause",

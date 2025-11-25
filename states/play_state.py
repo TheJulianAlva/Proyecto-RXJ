@@ -85,6 +85,9 @@ class PlayState(BaseState):
         if self.input_manager.was_action_pressed("interact") and self.player_can_touch_interact:
             if self.current_level:
                 self.current_level.handle_interaction(self.player.position, self.player.rotation_y)
+        if self.input_manager.was_action_pressed("read") and self.player_can_read_interact:
+            if self.current_level:
+                self.current_level.handle_read_interaction(self.player.position, self.player.rotation_y)
         self.player.update(delta_time, self.current_level)
         if self.current_level:
             self.current_level.update(delta_time)
