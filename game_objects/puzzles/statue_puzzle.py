@@ -86,6 +86,8 @@ class StatuePuzzle:
         for obj in self.touch_interactables:
             if obj != self.selected_statue:
                 obj.draw()
+        for obj in self.read_interactables:
+            obj.draw()
         if self.active_message: self.active_message.draw()
 
     def interact(self, player_pos, player_rot):
@@ -163,3 +165,5 @@ class StatuePuzzle:
 
     def _show_board_message(self, text, font_size=20):
         self.active_message = BoardMessage(text, y_pos=self.display_height*0.25, font_size=font_size)
+
+    

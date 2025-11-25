@@ -45,9 +45,8 @@ class Pedestal:
             glColor3f(0.6, 0.6, 0.6)
 
         glDisable(GL_LIGHTING)
-        glTranslatef(*self.position)
-        base_color = self.highlight_color if self.highlight_color else self.default_base_color
-        glColor3f(*base_color)
+        base_color = self.default_base_color
+        glColor3fv(base_color)
         Objects.draw_textured_box(self.size, translate=self.position)
         glDisable(GL_TEXTURE_2D)
         glEnable(GL_LIGHTING)
