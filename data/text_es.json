@@ -10,12 +10,15 @@
         ]
     },
     "selection_state": {
-        "banner_names": [
-            "El Maskara",
-            "Marciana",
-            "Walter"
-        ],
-        "confirm_button": "Seleccionar"
+        "title": "Selecciona un personaje",
+        "banner_names": ["El Maskara", "Marciana", "Walter"],
+        "confirm_button": "Seleccionar",
+        "exit_button": "Regresar",
+        "instructions_lines": [
+            "Flechas (<- / ->): Cambiar personaje",
+            "Enter: Jugar",
+            "Esc: Volver al menú"
+        ]
     },
     "pause_state": {
         "resume_button": "Reanudar",

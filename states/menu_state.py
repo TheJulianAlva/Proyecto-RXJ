@@ -101,7 +101,7 @@ class MenuState(BaseState):
         # endregion
         self.background_image = pygame.Rect(0, 0, self.display_width, self.display_height)
         print("MenuState inicializado.")
-        self.audio_manager.play_music_loop(menu_music, volume=0.1)
+        self.audio_manager.play_music_loop(menu_music, volume=0.4)
 
     def update(self, delta_time, _event_list):
         from states.player_selection_state import PlayerSelectionState
@@ -114,6 +114,7 @@ class MenuState(BaseState):
             self._toogle_selected_button()
         elif self.input_manager.was_action_pressed("ui_select"):
             self.audio_manager.play_sound("confirm_button_selected")
+            self.audio_manager.stop_music()
             if self.selected_button == self.start_button:
                 self.engine.push_state(PlayerSelectionState(self.engine))
             else:

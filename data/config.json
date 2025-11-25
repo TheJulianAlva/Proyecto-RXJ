@@ -25,6 +25,22 @@
                     "confirm_button_selected": "assets/audio/ui/confirm_button_selected.ogg"
                 }
             }
+        },
+        "player_selection_state": {
+            "assets": {
+                "textures": {
+                    "bg_selection_0": "assets/background/menu_selection_0.png",
+                    "bg_selection_1": "assets/background/menu_selection_1.png",
+                    "bg_selection_2": "assets/background/menu_selection_2.png"
+                },
+                "sounds": {
+                    "toogle_button_selected": "assets/audio/ui/toggle_button_selected.ogg",
+                    "confirm_button_selected": "assets/audio/ui/confirm_button_selected.ogg",
+                    "audio_selection_0": "assets/audio/select_character/el_maskara_sound.mp3",
+                    "audio_selection_1": "assets/audio/select_character/marciana_sound.mp3",
+                    "audio_selection_2": "assets/audio/select_character/walter_sound.mp3"
+                }
+            }
         }
     },
     "ui_icons": {
