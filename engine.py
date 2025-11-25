@@ -29,15 +29,17 @@ class GameEngine:
     def __init__(self):
         self.running = True
         self.state_stack = []
-        self.push_state(MenuState(self))
+        
         data_manager = DataManager.instance()
         config = data_manager.get_config()
-
         display_config = config.get("rendered_display", {})
         self.display_width = display_config.get("width", 1280)
         self.display_height = display_config.get("height", 720)
         
         print("GameEngine inicializado.")
+        
+        self.push_state(MenuState(self))
+
 
     def update(self, delta_time, event_list):
         if self.state_stack:

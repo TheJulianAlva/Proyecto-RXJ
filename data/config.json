@@ -13,6 +13,20 @@
         "master_volume": 0.8,
         "music_volume": 0.2
     },
+    "states": {
+        "menu_state": {
+            "assets": {
+                "textures": {
+                    "texture_background": "assets/background/proyecto-rxj-title.png"
+                },
+                "music": "assets/audio/background_music.mp3",
+                "sounds": {
+                    "toogle_button_selected": "assets/audio/ui/toggle_button_selected.ogg",
+                    "confirm_button_selected": "assets/audio/ui/confirm_button_selected.ogg"
+                }
+            }
+        }
+    },
     "ui_icons": {
         "E": "assets/ui/icon_keys/E.png",
         "L": "assets/ui/icon_keys/L.png",
