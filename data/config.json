@@ -11,10 +11,12 @@
     "language": "es",
     "audio": {
         "master_volume": 0.8,
-        "music_volume": 0.5
+        "music_volume": 0.2
     },
     "ui_icons": {
         "E": "assets/ui/icon_keys/E.png",
+        "L": "assets/ui/icon_keys/L.png",
+        "M": "assets/ui/icon_keys/M.png",
         "ARROWLEFT": "assets/ui/icon_keys/ARROWLEFT.png",
         "ARROWRIGHT": "assets/ui/icon_keys/ARROWRIGHT.png",
         "ARROWUP": "assets/ui/icon_keys/ARROWUP.png",
