@@ -100,7 +100,7 @@ class StatuePuzzle:
                 if self.intro_timer >= self.intro_padding:
                     if self.intro_index < len(self.text_intro):
                         lines = self.text_intro[self.intro_index]
-                        self._show_board_message(lines, font_size=22, duration= 11.0)
+                        self._show_board_message(lines, font_size=22, duration= 8.0)
                         
                         self.intro_index += 1
                         self.intro_timer = 0.0
