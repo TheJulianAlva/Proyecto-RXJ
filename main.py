@@ -13,19 +13,13 @@ def main():
     # region Instancias Singleton
     data_manager = DataManager.instance()
     input_manager = InputManager.instance()
-    audio_mgr = AudioManager.instance()
+    audio_manager = AudioManager.instance()
     # endregion
     config = data_manager.get_config()
     display_config = config.get("display", {}) 
     display_size = (
         display_config.get("width", 1280),  # 1280 por defecto
         display_config.get("height", 720)  # 720 por defecto
-    )
-    
-    rendered_display_config = config.get("rendered_display", {})
-    rendered_display_size = (
-        rendered_display_config.get("width", 1280),
-        rendered_display_config.get("height", 720)
     )
     
     pygame.display.set_mode(display_size, DOUBLEBUF | OPENGL)
@@ -38,9 +32,9 @@ def main():
     input_manager.setup_bindings()
     # Inicializar audio y reproducir sound ambient en loop
     ambient_path = "assets/audio/ambientSound.mp3"
-    audio_mgr.play_music_loop(ambient_path, loops=-1, volume=0.5)
+    audio_manager.play_music_loop(ambient_path, loops=-1, volume=0.5)
     # Cargar SFX de pasos para usar en los personajes
-    audio_mgr.load_sound("footsteps", "assets/audio/footSteps.mp3")
+    audio_manager.load_sound("footsteps", "assets/audio/footSteps.mp3")
 
     game_engine = GameEngine()
 

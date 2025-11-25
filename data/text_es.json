@@ -2,7 +2,12 @@
     "menu_state": {
         "title": "The Mansion Riddle",
         "start_button": "Jugar",
-        "exit_button": "Salir"
+        "exit_button": "Salir",
+        "instructions_lines": [
+            "Enter: Confirmar",
+            "Esc: Salir del juego",
+            "Flechas Arriba/Abajo: Cambiar botón"
+        ]
     },
     "selection_state": {
         "banner_names": [
