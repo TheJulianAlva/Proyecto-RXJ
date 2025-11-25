@@ -63,9 +63,6 @@ class Level:
         if self.puzzle:
             self.puzzle.update(delta_time)
             
-            if self.puzzle.is_completed():
-                # Aquí podrías disparar un evento o flag
-                pass
 
     def handle_interaction(self, player_pos, player_rotation):
         """
@@ -73,8 +70,15 @@ class Level:
         Delega la acción al puzzle si el jugador está cerca.
         """
         if self.puzzle:
-            interactable_object = self.puzzle.interact(player_pos, player_rotation)
+            self.puzzle.interact(player_pos, player_rotation)
 
+    def handle_read_interaction(self, player_pos, player_rotation):
+        """
+        Llamado por PlayState cuando el jugador pulsa 'Interactuar'.
+        Delega la acción al puzzle si el jugador está cerca.
+        """
+        if self.puzzle:
+            self.puzzle.read_interact(player_pos, player_rotation)
 
     def destroy(self):
         """Libera recursos al salir del nivel."""
@@ -86,10 +90,8 @@ class Level:
     def draw(self):
         self._setup_lighting()
 
-        # --- ESCENARIO ---
         self._draw_layout()
         
-        # --- PUZZLE ---
         if self.puzzle:
             self.puzzle.draw()
 

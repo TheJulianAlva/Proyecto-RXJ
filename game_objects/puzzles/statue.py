@@ -7,7 +7,7 @@ class Statue:
     Representa una estatua u objeto interactuable en el mundo.
     Combina representación visual (draw) con lógica física (AABB).
     """
-    def __init__(self, id, position, size, rotation, name, phrase, tex_id):
+    def __init__(self, id, position, size, rotation, name, tex_id):
         """
         :param position: Lista [x, y, z] de la posición central.
         :param rotation: Lista [ángulo, eje_x, eje_y, eje_z] para glRotatef.
@@ -21,7 +21,6 @@ class Statue:
         self.rotation = rotation
         self.size = size
         self.name = name
-        self.phrase = phrase
         self.tex_id = tex_id
         self.default_base_color = (0.6, 0.6, 0.6)
         self.highlight_color = None
@@ -50,11 +49,6 @@ class Statue:
         glPushMatrix()
         glDisable(GL_LIGHTING)
         glTranslatef(*self.position)
-        base_color = self.highlight_color if self.highlight_color else self.default_base_color
-        glColor3f(*base_color)
-        Objects.draw_cube(self.size[0], translate=[0, 1.5, 0])
-        glColor3f(*self.default_base_color)
-        
         if self.tex_id != -1:
             glEnable(GL_TEXTURE_2D)
             glBindTexture(GL_TEXTURE_2D, self.tex_id)
@@ -64,7 +58,7 @@ class Statue:
             glColor3f(0.6, 0.6, 0.6)
         offset_y = self.size[0] + self.size[1] / 2
         glRotatef(*self.rotation)
-        Objects.draw_textured_plane_3d(self.size[0]+2, self.size[1], translate= [0.0, offset_y, 0.0], rotation=[90, 1, 0, 0])
+        Objects.draw_textured_plane_3d(self.size[0]+2, self.size[1], rotation=[90, 1, 0, 0])
         glDisable(GL_TEXTURE_2D)
         glEnable(GL_LIGHTING)
         glPopMatrix()
@@ -87,5 +81,4 @@ class Statue:
         """
         Método opcional para manejar la interacción.
         """
-        print(f"[{self.name}]: {self.phrase}")
-        # Aquí podrías disparar un evento de UI para mostrar el texto en pantalla
+        print(f"[{self.name}]")

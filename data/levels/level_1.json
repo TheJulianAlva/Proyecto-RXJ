@@ -102,39 +102,79 @@
             "success_sound": "sfx_solve"
         },
         "properties": {
-            "solution_order": [1, 2, 3],
-            "panel_config": {
-                "title": "Acomoda correctamente",
-                "items":[
-                    {"id": 3, "name": "El Caudillo", "asset": "tex_camaleon"},
-                    {"id": 1, "name": "El Siervo", "asset": "tex_siervo"},
-                    {"id": 2, "name": "El Camaleon", "asset": "tex_caudillo"}
-                ]
+            "validate_on_exit": true, 
+            "solution_order": [2, 1, 3], 
+            "door_config": {
+                "position": [-34.5, 5.0, 5.0],
+                "size": [1.0, 10.0, 4.0],
+                "rotation": [0, 0, 0, 1],
+                "texture_asset": "tex_wall_h",
+                "is_locked": true
             },
             "statues": [
                 { 
                     "id": 1,
-                    "position": [32.0, 0.0, 10.0],
+                    "position": [32.0, 8.0, 10.0],
                     "size": [3.0, 10.0, 3.0],
+                    "rotation": [90, 0, 1, 0],
+                    "initial_slot": 0,
                     "name": "El Siervo",
-                    "phrase": "Soy el Siervo de la Nación. El hombre del centro falta a la verdad...",
                     "asset": "tex_statue_siervo"
                 },
                 { 
                     "id": 2,
-                    "position": [32.0, 0.0, 0.0],
+                    "position": [32.0, 8.0, 0.0],
                     "size": [3.0, 10.0, 3.0],
+                    "rotation": [90, 0, 1, 0],
+                    "initial_slot": 1,
                     "name": "El Camaleón",
-                    "phrase": "Defendí con honor todo el territorio de la nación. El de la izquierda es el Caudillo...",
                     "asset": "tex_statue_camaleon"
                 },
                 { 
                     "id": 3,
-                    "position": [32.0, 0.0, -10.0],
+                    "position": [32.0, 8.0, -10.0],
                     "size": [3.0, 10.0, 3.0],
+                    "rotation": [90, 0, 1, 0],
+                    "initial_slot": 2,
                     "name": "El Caudillo",
-                    "phrase": "Mi plan no fue de Ayala. El hombre del centro miente...",
                     "asset": "tex_statue_caudillo"
+                }
+            ],
+            "pedestals": [
+                { 
+                    "correct_statue_id": 3,
+                    "position": [32.0, 0.0, 10.0],
+                    "size": [3.0, 3.0, 3.0],
+                    "statue_offset": 5.0,
+                    "phrase": [
+                        "Aquí se alza el grito del sur. No buscaba poder,",
+                        "sino justicia para el campo.",
+                        "Su lema fue 'Tierra y Libertad'"
+                    ],
+                    "asset": "tex_floor"
+                },
+                { 
+                    "correct_statue_id": 1,
+                    "position": [32.0, 0.0, 0.0],
+                    "size": [3.0, 3.0, 3.0],
+                    "statue_offset": 5.0,
+                    "phrase": [
+                        "Aquí se alza quien rechazó títulos de nobleza para ser llamado 'Siervo'.",
+                        "Su pluma escribió los Sentimientos de la Nación"
+                    ],
+                    "asset": "tex_floor"
+                },
+                { 
+                    "correct_statue_id": 2,
+                    "position": [32.0, 0.0, -10.0],
+                    "size": [3.0, 3.0, 3.0],
+                    "statue_offset": 5.0,
+                    "phrase": [
+                        "Aquí se alza la ambición que costó la mitad de un país.",
+                        "Once veces ocupó la silla presidencial, y en su sombra,",
+                        "el territorio se desvaneció."
+                    ],
+                    "asset": "tex_floor"
                 }
             ]
         }

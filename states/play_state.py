@@ -58,7 +58,8 @@ class PlayState(BaseState):
         # endregion
         self.player = Player(*spawn_pos_player, selected_skin)
         self.player.rotate(spawn_rot_player)
-        self.player_can_interact = False
+        self.player_can_touch_interact = False
+        self.player_can_read_interact = False
         self.instructions_lines = [
             "Flechas: Mover a Personaje",
             "E: Interactuar",
@@ -72,7 +73,8 @@ class PlayState(BaseState):
             )
 
     def update(self, delta_time, _event_list):
-        self.player_can_interact = self.current_puzzle.can_interact(self.player.position, self.player.rotation_y)
+        self.player_can_touch_interact = self.current_puzzle.can_touch_interact(self.player.position, self.player.rotation_y)
+        self.player_can_read_interact = self.current_puzzle.can_read_interact(self.player.position, self.player.rotation_y)
         if self.input_manager.was_action_pressed("pause"):
             self.engine.push_state(PauseState(self.engine))
             return
@@ -80,7 +82,7 @@ class PlayState(BaseState):
         if self.input_manager.was_action_pressed("return"):
             self.engine.pop_state()
             return
-        if self.input_manager.was_action_pressed("interact") and self.player_can_interact:
+        if self.input_manager.was_action_pressed("interact") and self.player_can_touch_interact:
             if self.current_level:
                 self.current_level.handle_interaction(self.player.position, self.player.rotation_y)
         self.player.update(delta_time, self.current_level)
@@ -115,7 +117,7 @@ class PlayState(BaseState):
             self.engine.display_height,
             self.instructions_lines,
         )
-        if self.player_can_interact:
+        if self.player_can_touch_interact:
             self.key_interact.draw()
         
     def _draw_debug_triggers(self):
