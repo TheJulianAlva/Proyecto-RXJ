@@ -8,6 +8,7 @@ from systems.data_manager import DataManager
 from systems.camera_manager import CameraManager
 from systems.trigger_manager import TriggerManager
 from systems.input_manager import InputManager
+from systems.audio_manager import AudioManager
 from game_objects.level import Level
 from game_objects.character_models.santo import SantoSkin
 from game_objects.character_models.alien import AlienSkin
@@ -28,6 +29,7 @@ class PlayState(BaseState):
         self.input_manager = InputManager.instance()
         self.cam_manager = CameraManager.instance()
         self.trigger_manager = TriggerManager.instance()
+        self.audio_manager = AudioManager.instance()
         # endregion
         config = data_manager.get_config()
         display_config = config.get("rendered_display", {})
@@ -56,6 +58,11 @@ class PlayState(BaseState):
             self.current_puzzle = None
             spawn_pos_player = [0, 0, 0]
             spawn_rot_player = 0
+        # endregion
+        # region Instancia Music
+        data_assets_play = config.get("states", {}).get("play_state", {}).get("assets")
+        play_music = data_assets_play.get("music")
+        self.audio_manager.play_music_loop(play_music, volume=0.6)
         # endregion
         self.player = Player(*spawn_pos_player, selected_skin)
         self.player.rotate(spawn_rot_player)
@@ -103,6 +110,7 @@ class PlayState(BaseState):
             border_color=(0, 0, 0, 0)
         )
         # endregion
+
     def update(self, delta_time, _event_list):
         self.player_can_touch_interact = self.current_puzzle.can_touch_interact(self.player.position, self.player.rotation_y)
         self.player_can_read_interact = self.current_puzzle.can_read_interact(self.player.position, self.player.rotation_y)
