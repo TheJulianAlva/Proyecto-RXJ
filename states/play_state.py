@@ -15,6 +15,7 @@ from game_objects.character_models.walter import WalterSkin
 from game_objects.player import Player
 from states.pause_state import PauseState
 from game_objects.ui_elements.key_icon import KeyIcon
+from game_objects.ui_elements.menu_button import MenuButton
 from utilities.instructions_overlay import draw_instructions
 
 class PlayState(BaseState):
@@ -62,22 +63,46 @@ class PlayState(BaseState):
         self.player_can_read_interact = False
         self.instructions_lines = [
             "Flechas: Mover a Personaje",
-            "E: Interactuar",
+            "M: Interactuar",
+            "L: Leer",
             "Esc: Pausar",
         ]
+        # region Instancias UI
         self.key_interact = KeyIcon(
             self.display_width*0.85,
             self.display_height*0.65,
             84,
-            "E"
+            "M"
             )
         self.key_read = KeyIcon(
             self.display_width*0.85,
             self.display_height*0.80,
             84,
-            "E"
+            "L"
             )
-
+        self.button_interact = MenuButton(
+            self.display_width*0.72,
+            self.display_height*0.68,
+            self.display_width*0.1,
+            self.display_height*0.05,
+            text= "Interactuar",
+            text_font="montserrat_bold",
+            text_size=28,
+            color=(0, 0, 0, 0),
+            border_color=(0, 0, 0, 0)
+        )
+        self.button_read = MenuButton(
+            self.display_width*0.72,
+            self.display_height*0.83,
+            self.display_width*0.1,
+            self.display_height*0.05,
+            text= "Leer",
+            text_font="montserrat_bold",
+            text_size=28,
+            color=(0, 0, 0, 0),
+            border_color=(0, 0, 0, 0)
+        )
+        # endregion
     def update(self, delta_time, _event_list):
         self.player_can_touch_interact = self.current_puzzle.can_touch_interact(self.player.position, self.player.rotation_y)
         self.player_can_read_interact = self.current_puzzle.can_read_interact(self.player.position, self.player.rotation_y)
@@ -129,8 +154,10 @@ class PlayState(BaseState):
         )
         if self.player_can_touch_interact:
             self.key_interact.draw()
+            self.button_interact.draw()
         if self.player_can_read_interact:
             self.key_read.draw()
+            self.button_read.draw()
 
         
     def _draw_debug_triggers(self):

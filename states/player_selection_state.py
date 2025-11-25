@@ -104,8 +104,8 @@ class PlayerSelectionState(BaseState):
             border_color=(0.1, 0.1, 0.1, 1.0)
         )
         # region Icons
-        self.key_play = KeyIcon(self.play_button.rect.left-45, self.play_button.rect.top-45, 63, "E")
-        self.key_return = KeyIcon(self.back_button.rect.right-45, self.back_button.rect.top-45, 63, "BACKSPACE")
+        self.key_play = KeyIcon(self.play_button.rect.left-45, self.play_button.rect.top-45, 63, "ENTER")
+        self.key_return = KeyIcon(self.back_button.rect.right-45, self.back_button.rect.top-45, 42, "BACKSPACE")
         self.key_left = KeyIcon(self.display_width * 0.1, self.display_height * 0.5, 105, "ARROWLEFT")
         self.key_right = KeyIcon(self.display_width * 0.9, self.display_height * 0.5, 105, "ARROWRIGHT")
         # endregion
