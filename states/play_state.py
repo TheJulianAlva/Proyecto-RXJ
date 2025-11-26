@@ -34,9 +34,8 @@ class PlayState(BaseState):
         self.audio_manager = AudioManager.instance()
         # endregion
         config = self.data_manager.get_config()
-        display_config = config.get("rendered_display", {})
-        self.display_width = display_config.get("width", 1280)
-        self.display_height = display_config.get("height", 720)
+        self.display_width = self.engine.display_width
+        self.display_height = self.engine.display_height
         
         # region Configuración Player
         player_config = self.data_manager.load_game_data()
@@ -70,10 +69,7 @@ class PlayState(BaseState):
         self.player_can_touch_interact = False
         self.player_can_read_interact = False
         self.instructions_lines = [
-            "Flechas: Mover a Personaje",
-            "M: Interactuar",
-            "L: Leer",
-            "Esc: Pausar",
+            "Objetivo: Acomoda las estatuas en sus respectivos pedestales..."
         ]
         # region Instancias UI
         self.key_interact = KeyIcon(
@@ -167,6 +163,7 @@ class PlayState(BaseState):
                 # Juego completado
                 def transition_to_complete():
                     self.audio_manager.stop_music()
+                    self.camera_recording_mask_video.release()
                     self.engine.change_state(GameCompleteState(self.engine))
                 
                 self.fade_transition.start_transition(
@@ -191,6 +188,7 @@ class PlayState(BaseState):
             return
 
         if self.input_manager.was_action_pressed("return"):
+            self.camera_recording_mask_video.release()
             self.engine.pop_state()
             return
             
@@ -207,7 +205,6 @@ class PlayState(BaseState):
         if self.current_level:
             self.current_level.update(delta_time)
             self.update_active_camera()
-            
         self.key_interact.update(delta_time)    
         self.key_read.update(delta_time)    
 
@@ -228,7 +225,6 @@ class PlayState(BaseState):
         if self.current_level:
             self.current_level.draw()
             #self._draw_debug_triggers()
-
 
         self.engine.setup_2d_orthographic()
         draw_instructions(

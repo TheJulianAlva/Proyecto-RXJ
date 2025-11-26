@@ -161,7 +161,8 @@ class Level:
             glColor3f(1.0, 1.0, 1.0) 
             
             floor_size = self.layout_data.get("floor", {}).get("size", [10, 10])
-            Objects.draw_textured_plane_3d(size_x=floor_size[0], size_z=floor_size[1])
+            floor_tiling = self.layout_data.get("floor",{}).get("tiling", [1.0, 1.0])
+            Objects.draw_textured_plane_3d(size_x=floor_size[0], size_z=floor_size[1], tiling=floor_tiling)
             
             glDisable(GL_TEXTURE_2D)
         

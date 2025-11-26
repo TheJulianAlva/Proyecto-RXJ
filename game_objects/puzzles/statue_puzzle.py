@@ -88,7 +88,7 @@ class StatuePuzzle:
         self.touch_interactables = self.statues + [self.door]
         self.read_interactables = self.pedestals
         self.interaction_radius = 8.0
-        print("Puzzle Histórico cargado.")
+        print("Puzzle cargado.")
 
     def update(self, delta_time):
         if self.active_message:
