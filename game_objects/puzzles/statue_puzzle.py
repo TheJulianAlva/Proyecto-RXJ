@@ -12,6 +12,7 @@ class StatuePuzzle:
         self.texture_manager = TextureManager.instance()
         self.display_width, self.display_height = display_width, display_height
         self.solved = False
+        self.level_complete = False
         self.active_message = None
         self.selected_statue = None
         
@@ -128,7 +129,9 @@ class StatuePuzzle:
 
         elif isinstance(target, Door):
             self._check_solution()
-            if not self.solved:
+            if self.solved:
+                self.level_complete = True
+            else:
                 self._show_message("La puerta está cerrada. La historia debe ser corregida.")
         
         return target
