@@ -186,3 +186,4 @@ class Level:
             else:
                 glColor3f(0.5, 0.5, 0.5)
                 Objects.draw_cube(scale=wall.get("size"), translate=wall.get("pos"))
+        
