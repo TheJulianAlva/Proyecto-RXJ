@@ -231,6 +231,7 @@ class PlayState(BaseState):
             self.engine.display_width,
             self.engine.display_height,
             self.instructions_lines,
+            font_name="montserrat_semibold"
         )
         if self.player_can_touch_interact:
             self.key_interact.draw()
