@@ -58,8 +58,11 @@ class PlayState(BaseState):
         # Cargar el nivel inicial
         self.load_level(initial_level)
         
-        # region Instancia Music
+        # region Instancia Sounds
         data_assets_play = config.get("states", {}).get("play_state", {}).get("assets")
+        sound_assets = data_assets_play.get("sounds").items()
+        for sound_name, sound_path in sound_assets:
+            self.audio_manager.load_sound(sound_name, sound_path)
         play_music = data_assets_play.get("music")
         self.audio_manager.play_music_loop(play_music, volume=0.6)
         # endregion

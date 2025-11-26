@@ -89,9 +89,8 @@ class GameCompleteState(BaseState):
         if self.input_manager.was_action_pressed("ui_select") or \
            self.input_manager.was_action_pressed("quit"):
             self.audio_manager.stop_music()
-            while len(self.engine.state_stack) > 0:
+            while len(self.engine.state_stack) > 1:
                 self.engine.pop_state()
-            self.engine.push_state(MenuState(self.engine))
             
         self.key_enter.update(delta_time)
 
@@ -103,11 +102,11 @@ class GameCompleteState(BaseState):
         self.engine.setup_2d_orthographic()
         
         # Título principal
-        title_y = self.display_height * 0.25
+        title_y = self.display_height * 0.85
         TextUtil.draw_text_2d(
-            self.title,
             self.display_width / 2,
             title_y,
+            self.title,
             font_name="montserrat_bold",
             size=64,
             color=(255, 215, 0, 255),
@@ -115,13 +114,13 @@ class GameCompleteState(BaseState):
         )
         
         # Mensajes
-        message_start_y = self.display_height * 0.3
+        message_start_y = self.display_height * 0.7
         line_height = 40
         for i, line in enumerate(self.message_lines):
             TextUtil.draw_text_2d(
-                self.display_width / 2,
-                message_start_y - (i * line_height),
-                line,
+                x=self.display_width / 2,
+                y=message_start_y - (i * line_height),
+                text=line,
                 font_name="montserrat_bold",
                 size=28,
                 color=(255, 255, 255, 255),

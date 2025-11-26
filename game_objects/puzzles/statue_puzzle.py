@@ -1,5 +1,6 @@
 from OpenGL.GL import *
 from systems.texture_manager import TextureManager
+from systems.audio_manager import AudioManager
 from systems.collision_system import CollisionSystem
 from game_objects.puzzles.statue import Statue
 from game_objects.puzzles.pedestal import Pedestal
@@ -10,6 +11,7 @@ from game_objects.ui_elements.board_message import BoardMessage
 class StatuePuzzle:
     def __init__(self, puzzle_data, display_width=800, display_height=600):
         self.texture_manager = TextureManager.instance()
+        self.audio_manager = AudioManager.instance()
         self.display_width, self.display_height = display_width, display_height
         self.solved = False
         self.level_complete = False
@@ -125,11 +127,13 @@ class StatuePuzzle:
         if not target: return None
 
         if isinstance(target, Statue):
+            self.audio_manager.play_sound("statue_moving")
             self._handle_statue_selection(target)
 
         elif isinstance(target, Door):
             self._check_solution()
             if self.solved:
+                self.audio_manager.play_sound("door_opening")
                 self.level_complete = True
             else:
                 self._show_message("La puerta está cerrada. La historia debe ser corregida.")
