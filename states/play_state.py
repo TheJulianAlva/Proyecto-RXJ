@@ -208,7 +208,6 @@ class PlayState(BaseState):
         self.key_interact.update(delta_time)    
         self.key_read.update(delta_time)    
 
-
     def update_active_camera(self):
         target_camera = self.trigger_manager.check_triggers(self.player)
         current_camera = self.cam_manager.get_active_camera_id()

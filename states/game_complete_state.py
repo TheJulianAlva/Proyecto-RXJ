@@ -104,26 +104,28 @@ class GameCompleteState(BaseState):
         
         # Título principal
         title_y = self.display_height * 0.25
-        TextUtil.draw_centered_text(
+        TextUtil.draw_text_2d(
             self.title,
             self.display_width / 2,
             title_y,
             font_name="montserrat_bold",
-            font_size=64,
-            color=(255, 215, 0, 255)
+            size=64,
+            color=(255, 215, 0, 255),
+            center=True
         )
         
         # Mensajes
-        message_start_y = self.display_height * 0.4
+        message_start_y = self.display_height * 0.3
         line_height = 40
         for i, line in enumerate(self.message_lines):
-            TextUtil.draw_centered_text(
-                line,
+            TextUtil.draw_text_2d(
                 self.display_width / 2,
-                message_start_y + (i * line_height),
+                message_start_y - (i * line_height),
+                line,
                 font_name="montserrat_bold",
-                font_size=28,
-                color=(255, 255, 255, 255)
+                size=28,
+                color=(255, 255, 255, 255),
+                center=True
             )
         
         # Botón y tecla

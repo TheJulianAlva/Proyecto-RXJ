@@ -196,7 +196,6 @@ class StatuePuzzle:
         if correct_count == len(self.pedestals):
             self.solved = True
             self.door.unlock()
-            self._show_message("¡Click! La historia está en orden. La puerta se abre.")
 
     def _show_message(self, text, font_size=28):
         self.active_message = TextMessage(text, duration=5.0, y_pos=self.display_height*0.15, font_size=24)
