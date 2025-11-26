@@ -34,8 +34,6 @@ class MenuState(BaseState):
         text_start_button = data_text_menu.get("start_button", "Jugar")
         text_exit_button = data_text_menu.get("exit_button", "Salir")
         
-        self.instructions_lines = data_text_menu.get("instructions_lines", [])
-        
         data_assets_menu = data_manager.get_config().get("states", {}).get("menu_state",{}).get("assets", {})
         self.textures = data_assets_menu.get("textures", {}).items()
         for texture_key, texture_path in self.textures:
@@ -62,7 +60,7 @@ class MenuState(BaseState):
         button_border_color = (110, 150, 90, 130) # Verde claro
         button_text_color = (255, 255, 255, 255) # Blanco
         
-        montserrat_font = "montserrat_bold"
+        button_font = "montserrat_semibold"
 
         self.start_button = MenuButton(
             pos_x=btn_x, 
@@ -73,7 +71,7 @@ class MenuState(BaseState):
             hover_color=button_hover_color,
             border_color=button_border_color,
             text=text_start_button,
-            text_font=montserrat_font,
+            text_font=button_font,
             text_size=24,
             text_color=button_text_color
             )
@@ -87,7 +85,7 @@ class MenuState(BaseState):
             hover_color=button_hover_color,
             border_color=button_border_color,
             text=text_exit_button,
-            text_font=montserrat_font,
+            text_font=button_font,
             text_size=24,
             text_color=button_text_color
             )
@@ -156,7 +154,6 @@ class MenuState(BaseState):
         # region UI
         self.start_button.draw()
         self.exit_button.draw()
-        draw_instructions(self.display_width, self.display_height, self.instructions_lines)
         self.key_up.draw()
         self.key_down.draw()
         self.key_enter.draw()

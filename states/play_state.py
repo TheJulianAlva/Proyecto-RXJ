@@ -65,7 +65,7 @@ class PlayState(BaseState):
         play_music = data_assets_play.get("music")
         self.audio_manager.play_music_loop(play_music, volume=0.6)
         # endregion
-        
+        self.button_font = "montserrat_semibold"
         self.player_can_touch_interact = False
         self.player_can_read_interact = False
         self.instructions_lines = [
@@ -90,18 +90,18 @@ class PlayState(BaseState):
             self.display_width*0.1,
             self.display_height*0.05,
             text= "Interactuar",
-            text_font="montserrat_bold",
+            text_font=self.button_font,
             text_size=28,
             color=(0, 0, 0, 0),
             border_color=(0, 0, 0, 0)
         )
         self.button_read = MenuButton(
-            self.display_width*0.72,
+            self.display_width*0.74,
             self.display_height*0.83,
-            self.display_width*0.1,
+            self.display_width*0.08,
             self.display_height*0.05,
             text= "Leer",
-            text_font="montserrat_bold",
+            text_font=self.button_font,
             text_size=28,
             color=(0, 0, 0, 0),
             border_color=(0, 0, 0, 0)
@@ -188,7 +188,6 @@ class PlayState(BaseState):
             return
 
         if self.input_manager.was_action_pressed("return"):
-            self.camera_recording_mask_video.release()
             self.engine.pop_state()
             return
             
@@ -231,7 +230,7 @@ class PlayState(BaseState):
             self.engine.display_width,
             self.engine.display_height,
             self.instructions_lines,
-            font_name="montserrat_semibold"
+            font_name=self.button_font
         )
         if self.player_can_touch_interact:
             self.key_interact.draw()

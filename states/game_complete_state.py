@@ -75,7 +75,7 @@ class GameCompleteState(BaseState):
         self.title = "¡FELICIDADES!"
         self.message_lines = [
             "Has completado todos los niveles",
-            "y restaurado la historia de México.",
+            "y conseguido escapar de la mansión.",
             "",
             "Gracias por jugar."
         ]
@@ -107,7 +107,7 @@ class GameCompleteState(BaseState):
             self.display_width / 2,
             title_y,
             self.title,
-            font_name="montserrat_bold",
+            font_name="montserrat_semibold",
             size=64,
             color=(255, 215, 0, 255),
             center=True
@@ -121,7 +121,7 @@ class GameCompleteState(BaseState):
                 x=self.display_width / 2,
                 y=message_start_y - (i * line_height),
                 text=line,
-                font_name="montserrat_bold",
+                font_name="montserrat_light",
                 size=28,
                 color=(255, 255, 255, 255),
                 center=True
