@@ -42,7 +42,7 @@ class PlayState(BaseState):
         selected_skin = skins[selected_index]
         # endregion
         # region Instancia Level
-        level_data = data_manager._load_json("data/levels/level_1.json")
+        level_data = data_manager._load_json("data/levels/level_2.json")
         if level_data:
             spawn_player_config = level_data.get("player_spawn")
             spawn_pos_player = spawn_player_config.get("position", [0, 0, 0])
