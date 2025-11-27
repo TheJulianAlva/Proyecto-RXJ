@@ -115,7 +115,7 @@ class PlayerSelectionState(BaseState):
         self.key_right = KeyIcon(self.display_width * 0.9, self.display_height * 0.5, 105, "ARROWRIGHT")
         # endregion
         
-        self.audio_manager.play_sound(self.background_sounds[self.selected_index], volume=0.5)
+        self.audio_manager.play_sound(self.background_sounds[self.selected_index], volume=0.4)
     
     def update(self, delta_time, _event_list):
         # region Movimiento

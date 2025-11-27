@@ -30,11 +30,6 @@ def main():
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
     input_manager.setup_bindings()
-    # Inicializar audio y reproducir sound ambient en loop
-    ambient_path = "assets/audio/ambientSound.mp3"
-    audio_manager.play_music_loop(ambient_path, loops=-1, volume=0.5)
-    # Cargar SFX de pasos para usar en los personajes
-    audio_manager.load_sound("footsteps", "assets/audio/footSteps.mp3")
 
     game_engine = GameEngine()
 

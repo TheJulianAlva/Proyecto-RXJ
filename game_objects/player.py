@@ -19,7 +19,7 @@ class Player:
 
         self.is_walking = False
         self.was_walking = False
-        self.audio = AudioManager.instance()
+        self.audio_manager = AudioManager.instance()
 
     def get_aabb(self):
         """
@@ -105,12 +105,12 @@ class Player:
         # region Lógica de Sonido
         if self.is_walking and not self.was_walking:
             try:
-                self.audio.play_loop_sound("footsteps", volume=0.5)
+                self.audio_manager.play_loop_sound("footsteps", volume=0.5)
             except Exception:
                 pass
         elif not self.is_walking and self.was_walking:
             try:
-                self.audio.stop_sound("footsteps")
+                self.audio_manager.stop_sound("footsteps")
             except Exception:
                 pass
         # endregion

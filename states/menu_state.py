@@ -102,7 +102,7 @@ class MenuState(BaseState):
         self.audio_manager.play_music_loop(menu_music, volume=0.4)
 
     def update(self, delta_time, _event_list):
-        from states.player_selection_state import PlayerSelectionState
+        from states.intro_state import IntroState
         
         if self.input_manager.was_action_pressed("quit"):
             self.engine.pop_state()
@@ -114,7 +114,7 @@ class MenuState(BaseState):
             self.audio_manager.play_sound("confirm_button_selected")
             self.audio_manager.stop_music()
             if self.selected_button == self.start_button:
-                self.engine.push_state(PlayerSelectionState(self.engine))
+                self.engine.push_state(IntroState(self.engine))
             else:
                 self.engine.pop_state()
         # region UI

@@ -50,6 +50,7 @@
                 "sounds": {
                     "toogle_button_selected": "assets/audio/ui/toggle_button_selected.ogg",
                     "confirm_button_selected": "assets/audio/ui/confirm_button_selected.ogg",
+                    "footsteps": "assets/audio/footsteps.ogg",
                     "statue_moving": "assets/audio/level/statue_moving.ogg",
                     "door_opening": "assets/audio/level/door_opening.ogg"
                 }
