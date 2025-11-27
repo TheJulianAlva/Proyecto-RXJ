@@ -163,7 +163,6 @@ class PlayState(BaseState):
                 # Juego completado
                 def transition_to_complete():
                     self.audio_manager.stop_music()
-                    self.camera_recording_mask_video.release()
                     self.engine.change_state(GameCompleteState(self.engine))
                 
                 self.fade_transition.start_transition(
@@ -209,6 +208,7 @@ class PlayState(BaseState):
 
     def update_active_camera(self):
         target_camera = self.trigger_manager.check_triggers(self.player)
+        if not target_camera: print("SIN CAMARA")
         current_camera = self.cam_manager.get_active_camera_id()
         if target_camera != current_camera:
             self.cam_manager.set_active_camera(target_camera)

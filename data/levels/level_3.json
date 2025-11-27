@@ -3,7 +3,7 @@
         "id": "level_3",
         "name": "La Brújula del Explorador",
         "description": "Orienta los monumentos del mundo según su dirección cardinal correcta",
-        "next_level_id": "level_1"
+        "next_level_id": "game_complete"
     },
 
     "assets": {
@@ -12,7 +12,8 @@
             "tex_wall_w": "assets/level_3/wall_01.png",
             "tex_wall_h": "assets/level_3/wall_02.png",
             "tex_door": "assets/level_3/door.png",
-            "tex_compass_rose": "assets/level_3/compass_rose.jpg",
+            "tex_pedestal": "assets/level_1/pedestal.png",
+            "tex_compass_rose": "assets/level_3/compass.png",
             "tex_statue_eiffel": "assets/level_3/statues/Eiffel_tower.png",
             "tex_statue_pyramids": "assets/level_3/statues/Piramid.png",
             "tex_statue_liberty": "assets/level_3/statues/Statue-of-liberty.png",
@@ -60,8 +61,8 @@
         },
         {
             "id": "cam_2",
-            "position": [0.0, 18.0, 20.0],
-            "look_at": [25.0, 5.0, 0.0]
+            "position": [-5.0, 20.0, 20.0],
+            "look_at": [20.0, 5.0, -3.0]
         }
     ],
 
@@ -84,7 +85,7 @@
         "floor": {
             "size": [70.0, 40.0],
             "texture_id": "tex_floor",
-            "tiling": [4.0, 4.0]
+            "tiling": [7.0, 4.0]
         },
         "walls": [
             { "pos": [-35.0, 10.0, 0.0], "size": [0.5, 20.0, 40.0], "texture_id": "tex_wall_w" },
@@ -108,7 +109,7 @@
             "solution_order": [1, 2, 3, 4],
             "door_config": {
                 "position": [-34.5, 5.0, 5.0],
-                "size": [1.0, 10.0, 5.0],
+                "size": [1.0, 14.0, 10.0],
                 "rotation": [0, 0, 0, 1],
                 "texture_asset": "tex_door",
                 "is_locked": true
@@ -117,36 +118,36 @@
                 { 
                     "id": 1,
                     "position": [17.5, 8.0, 12.0],
-                    "size": [3.0, 10.0, 3.0],
-                    "rotation": [0, 0, 1, 0],
-                    "initial_slot": 0,
+                    "size": [3.0, 8.0, 3.0],
+                    "rotation": [-45, 0, 1, 0],
+                    "initial_slot": 3,
                     "name": "Torre Eiffel",
                     "asset": "tex_statue_eiffel"
                 },
                 { 
                     "id": 2,
                     "position": [29.5, 8.0, 0.0],
-                    "size": [3.0, 10.0, 3.0],
-                    "rotation": [0, 0, 1, 0],
-                    "initial_slot": 1,
+                    "size": [3.0, 8.0, 3.0],
+                    "rotation": [-45, 0, 1, 0],
+                    "initial_slot": 0,
                     "name": "Pirámides de Egipto",
                     "asset": "tex_statue_pyramids"
                 },
                 { 
                     "id": 3,
                     "position": [5.5, 8.0, 0.0],
-                    "size": [3.0, 10.0, 3.0],
-                    "rotation": [0, 0, 1, 0],
-                    "initial_slot": 2,
+                    "size": [3.0, 8.0, 3.0],
+                    "rotation": [-45, 0, 1, 0],
+                    "initial_slot": 1,
                     "name": "Estatua de la Libertad",
                     "asset": "tex_statue_liberty"
                 },
                 { 
                     "id": 4,
                     "position": [17.5, 8.0, -12.0],
-                    "size": [3.0, 10.0, 3.0],
-                    "rotation": [0, 0, 1, 0],
-                    "initial_slot": 3,
+                    "size": [3.0, 8.0, 3.0],
+                    "rotation": [-45, 0, 1, 0],
+                    "initial_slot": 2,
                     "name": "Gran Muralla China",
                     "asset": "tex_statue_great_wall"
                 }
@@ -154,12 +155,12 @@
             "pedestals": [
                 { 
                     "correct_statue_id": 1,
-                    "position": [17.5, 1.5, 12.0],
+                    "position": [17.5, 1.5, 15.0],
                     "size": [3.0, 3.0, 3.0],
                     "statue_offset": 6.5,
                     "cardinal_direction": "Norte",
                     "phrase": [
-                        "NORTE - El símbolo de la luz, la cultura y la elegancia.",
+                        "NORTE",
                         "Esta torre de hierro se alza en el corazón de Europa,",
                         "mirando hacia el norte del mundo conocido."
                     ],
@@ -167,12 +168,12 @@
                 },
                 { 
                     "correct_statue_id": 2,
-                    "position": [29.5, 1.5, 0.0],
+                    "position": [32.5, 1.5, 0.0],
                     "size": [3.0, 3.0, 3.0],
                     "statue_offset": 6.5,
                     "cardinal_direction": "Este",
                     "phrase": [
-                        "ESTE - Las tumbas eternas de los faraones.",
+                        "ESTE",
                         "Desde África, estas maravillas miran hacia el amanecer,",
                         "donde el sol nace cada mañana sobre el desierto."
                     ],
@@ -180,12 +181,12 @@
                 },
                 { 
                     "correct_statue_id": 3,
-                    "position": [5.5, 1.5, 0.0],
+                    "position": [3.5, 1.5, 0.0],
                     "size": [3.0, 3.0, 3.0],
                     "statue_offset": 6.5,
                     "cardinal_direction": "Oeste",
                     "phrase": [
-                        "OESTE - La antorcha de la libertad ilumina el nuevo mundo.",
+                        "OESTE",
                         "Desde América, esta dama contempla el atardecer,",
                         "donde el sol se oculta sobre el océano Atlántico."
                     ],
@@ -193,12 +194,12 @@
                 },
                 { 
                     "correct_statue_id": 4,
-                    "position": [17.5, 1.5, -12.0],
+                    "position": [17.5, 1.5, -15.0],
                     "size": [3.0, 3.0, 3.0],
                     "statue_offset": 6.5,
                     "cardinal_direction": "Sur",
                     "phrase": [
-                        "SUR - El dragón milenario que protege el imperio.",
+                        "SUR",
                         "Esta muralla serpentea por las montañas de Asia,",
                         "extendiéndose hacia el sur del continente."
                     ],
@@ -207,7 +208,7 @@
             ],
             "compass_floor": {
                 "position": [17.5, 0.01, 0.0],
-                "size": [26.0, 26.0],
+                "size": [24.0, 24.0],
                 "texture_id": "tex_compass_rose",
                 "rotation": [0, 1, 0, 0],
                 "name": "Rosa de los Vientos",
@@ -216,21 +217,13 @@
         },
         "intro_dialog": [
             [
-                "Bienvenido, explorador. Has llegado a la Sala de Orientación.",
-                "Ante ti, una Rosa de los Vientos en el suelo marca las direcciones cardinales.",
-                "Cuatro monumentos legendarios aguardan ser ubicados en su dirección correcta."
+                "Estás cerca, muy cerca. Puedo sentir tu ansiedad;",
+                "solo un paso más te separa de la libertad."
             ],
             [
-                "Recuerda las pistas del viejo explorador:",
-                "'Las Pirámides están al Este, donde nace el sol.'",
-                "'La Libertad al Oeste, donde se oculta.'",
-                "'La elegancia mira al Norte, y el dragón vigila el Sur.'"
-            ],
-            [
-                "Usa 'E' para seleccionar un monumento, luego acércate a otro para intercambiarlos.",
-                "Colócalos en los pedestales cardinales correctos.",
-                "Si un monumento está en el lugar equivocado, el pedestal vibrará rechazándolo.",
-                "Orienta el mundo correctamente para continuar tu viaje."
+                "Pero de nada sirve saber historia si no sabes dónde estás parado.",
+                "En el suelo hay una brújula, y a su alrededor,",
+                "cuatro Maravillas del Mundo esperan ser encontradas."
             ]
         ]
     }
