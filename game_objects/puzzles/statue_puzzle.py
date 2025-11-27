@@ -196,10 +196,10 @@ class StatuePuzzle:
             self._show_message("¡Click! La historia está en orden. La puerta se abre.")
 
     def _show_message(self, text, font_size=28):
-        self.active_message = TextMessage(text, duration=5.0, y_pos=self.display_height*0.15, font_size=24)
+        self.active_message = TextMessage(text, duration=5.0, y_pos=self.display_height*0.15, font_size=24, text_color=(255, 255, 0, 255))
 
     def _show_board_message(self, text, font_size=20, duration=5.0):
-        self.active_message = BoardMessage(text, y_pos=self.display_height*0.15, font_size=font_size, duration=duration)
+        self.active_message = BoardMessage(text, y_pos=self.display_height*0.15, font_size=font_size, duration=duration, text_color=(255, 255, 0, 255))
 
     def play_intro(self):
         self.is_intro_playing = True
