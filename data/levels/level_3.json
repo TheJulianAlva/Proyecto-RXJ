@@ -1,0 +1,237 @@
+{
+    "metadata": {
+        "id": "level_3",
+        "name": "La Brújula del Explorador",
+        "description": "Orienta los monumentos del mundo según su dirección cardinal correcta",
+        "next_level_id": "level_1"
+    },
+
+    "assets": {
+        "textures": {
+            "tex_floor": "assets/level_3/floor.jpg",
+            "tex_wall_w": "assets/level_3/wall_01.png",
+            "tex_wall_h": "assets/level_3/wall_02.png",
+            "tex_door": "assets/level_3/door.png",
+            "tex_compass_rose": "assets/level_3/compass_rose.jpg",
+            "tex_statue_eiffel": "assets/level_3/statues/Eiffel_tower.png",
+            "tex_statue_pyramids": "assets/level_3/statues/Piramid.png",
+            "tex_statue_liberty": "assets/level_3/statues/Statue-of-liberty.png",
+            "tex_statue_great_wall": "assets/level_3/statues/the-great-wall-of-china.jpg"
+        },
+        "sounds": {
+            "bg_music": "assets/sounds/ambience_exploration.ogg",
+            "sfx_solve": "assets/sounds/puzzle_solved.wav",
+            "sfx_reject": "assets/sounds/statue_reject.wav"
+        }
+    },
+
+    "player_spawn": {
+        "position": [-25.0, 0.0, 15.0],
+        "rotation_y": 180.0
+    },
+
+    "lighting": {
+        "ambient_color": [0.3, 0.3, 0.35, 1.0],
+        "lights": [
+            {
+                "id": "light_01",
+                "type": "point", 
+                "position": [-20.0, 15.0, 0.0, 1.0],
+                "diffuse": [0.8, 0.8, 0.9, 1.0],
+                "specular": [0.4, 0.4, 0.5, 1.0],
+                "attenuation": [1.0, 0.05, 0.01] 
+            },
+            {
+                "id": "light_02",
+                "type": "point", 
+                "position": [15.0, 15.0, 0.0, 1.0],
+                "diffuse": [1.0, 1.0, 1.0, 1.0],
+                "specular": [0.3, 0.3, 0.3, 1.0],
+                "attenuation": [1.0, 0.01, 0.001] 
+            }
+        ]
+    },
+
+    "cameras": [
+        {
+            "id": "cam_1",
+            "position": [10.0, 18.0, 20.0],
+            "look_at": [-20.0, 5.0, -5.0]
+        },
+        {
+            "id": "cam_2",
+            "position": [0.0, 18.0, 20.0],
+            "look_at": [25.0, 5.0, 0.0]
+        }
+    ],
+
+    "triggers": [
+        {
+            "type": "camera_change",
+            "box_min": [-35.0, 0.0, -20.0],
+            "box_max": [0.0, 1.0, 20.0],
+            "target_camera_id": "cam_1"
+        },
+        {
+            "type": "camera_change",
+            "box_min": [0.0, 0.0, -20.0],
+            "box_max": [35.0, 1.0, 20.0],
+            "target_camera_id": "cam_2"
+        }
+    ],
+
+    "layout": {
+        "floor": {
+            "size": [70.0, 40.0],
+            "texture_id": "tex_floor",
+            "tiling": [4.0, 4.0]
+        },
+        "walls": [
+            { "pos": [-35.0, 10.0, 0.0], "size": [0.5, 20.0, 40.0], "texture_id": "tex_wall_w" },
+            { "pos": [0.0, 10.0, -20.0], "size": [70.0, 20.0, 0.5], "texture_id": "tex_wall_w" },
+            { "pos": [35.0, 10.0, 0.0],  "size": [0.5, 20.0, 40.0], "texture_id": "tex_wall_w" },
+            { "pos": [0.0, 10.0, 20.0],  "size": [70.0, 20.0, 0.5], "texture_id": "tex_wall_w" }
+        ],
+        "decorations": [
+             { "pos": [0, 0, 0], "model_id": "mdl_compass_center", "scale": [1,1,1], "rot": [0,0,0] }
+        ]
+    },
+
+    "puzzle_config": {
+        "type": "StatuePuzzle",
+        "assets_ref": {
+            "success_sound": "sfx_solve",
+            "reject_sound": "sfx_reject"
+        },
+        "properties": {
+            "validate_on_exit": true,
+            "solution_order": [1, 2, 3, 4],
+            "door_config": {
+                "position": [-34.5, 5.0, 5.0],
+                "size": [1.0, 10.0, 5.0],
+                "rotation": [0, 0, 0, 1],
+                "texture_asset": "tex_door",
+                "is_locked": true
+            },
+            "statues": [
+                { 
+                    "id": 1,
+                    "position": [17.5, 8.0, 12.0],
+                    "size": [3.0, 10.0, 3.0],
+                    "rotation": [0, 0, 1, 0],
+                    "initial_slot": 0,
+                    "name": "Torre Eiffel",
+                    "asset": "tex_statue_eiffel"
+                },
+                { 
+                    "id": 2,
+                    "position": [29.5, 8.0, 0.0],
+                    "size": [3.0, 10.0, 3.0],
+                    "rotation": [0, 0, 1, 0],
+                    "initial_slot": 1,
+                    "name": "Pirámides de Egipto",
+                    "asset": "tex_statue_pyramids"
+                },
+                { 
+                    "id": 3,
+                    "position": [5.5, 8.0, 0.0],
+                    "size": [3.0, 10.0, 3.0],
+                    "rotation": [0, 0, 1, 0],
+                    "initial_slot": 2,
+                    "name": "Estatua de la Libertad",
+                    "asset": "tex_statue_liberty"
+                },
+                { 
+                    "id": 4,
+                    "position": [17.5, 8.0, -12.0],
+                    "size": [3.0, 10.0, 3.0],
+                    "rotation": [0, 0, 1, 0],
+                    "initial_slot": 3,
+                    "name": "Gran Muralla China",
+                    "asset": "tex_statue_great_wall"
+                }
+            ],
+            "pedestals": [
+                { 
+                    "correct_statue_id": 1,
+                    "position": [17.5, 1.5, 12.0],
+                    "size": [3.0, 3.0, 3.0],
+                    "statue_offset": 6.5,
+                    "cardinal_direction": "Norte",
+                    "phrase": [
+                        "NORTE - El símbolo de la luz, la cultura y la elegancia.",
+                        "Esta torre de hierro se alza en el corazón de Europa,",
+                        "mirando hacia el norte del mundo conocido."
+                    ],
+                    "asset": "tex_floor"
+                },
+                { 
+                    "correct_statue_id": 2,
+                    "position": [29.5, 1.5, 0.0],
+                    "size": [3.0, 3.0, 3.0],
+                    "statue_offset": 6.5,
+                    "cardinal_direction": "Este",
+                    "phrase": [
+                        "ESTE - Las tumbas eternas de los faraones.",
+                        "Desde África, estas maravillas miran hacia el amanecer,",
+                        "donde el sol nace cada mañana sobre el desierto."
+                    ],
+                    "asset": "tex_floor"
+                },
+                { 
+                    "correct_statue_id": 3,
+                    "position": [5.5, 1.5, 0.0],
+                    "size": [3.0, 3.0, 3.0],
+                    "statue_offset": 6.5,
+                    "cardinal_direction": "Oeste",
+                    "phrase": [
+                        "OESTE - La antorcha de la libertad ilumina el nuevo mundo.",
+                        "Desde América, esta dama contempla el atardecer,",
+                        "donde el sol se oculta sobre el océano Atlántico."
+                    ],
+                    "asset": "tex_floor"
+                },
+                { 
+                    "correct_statue_id": 4,
+                    "position": [17.5, 1.5, -12.0],
+                    "size": [3.0, 3.0, 3.0],
+                    "statue_offset": 6.5,
+                    "cardinal_direction": "Sur",
+                    "phrase": [
+                        "SUR - El dragón milenario que protege el imperio.",
+                        "Esta muralla serpentea por las montañas de Asia,",
+                        "extendiéndose hacia el sur del continente."
+                    ],
+                    "asset": "tex_floor"
+                }
+            ],
+            "compass_floor": {
+                "position": [17.5, 0.01, 0.0],
+                "size": [26.0, 26.0],
+                "texture_id": "tex_compass_rose",
+                "rotation": [0, 1, 0, 0],
+                "name": "Rosa de los Vientos",
+                "description": "Una brújula gigante en el suelo marca las direcciones cardinales"
+            }
+        },
+        "intro_dialog": [
+            [
+                "Bienvenido, explorador. Has llegado a la Sala de Orientación.",
+                "Ante ti, una Rosa de los Vientos en el suelo marca las direcciones cardinales.",
+                "Cuatro monumentos legendarios aguardan ser ubicados en su dirección correcta."
+            ],
+            [
+                "Recuerda las pistas del viejo explorador:",
+                "'Las Pirámides están al Este, donde nace el sol.'",
+                "'La Libertad al Oeste, donde se oculta.'",
+                "'La elegancia mira al Norte, y el dragón vigila el Sur.'"
+            ],
+            [
+                "Usa 'E' para seleccionar un monumento, luego acércate a otro para intercambiarlos.",
+                "Colócalos en los pedestales cardinales correctos.",
+                "Si un monumento está en el lugar equivocado, el pedestal vibrará rechazándolo.",
+                "Orienta el mundo correctamente para continuar tu viaje."
+            ]
+        ]
+    }
+}

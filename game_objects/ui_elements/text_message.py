@@ -10,12 +10,13 @@ class TextMessage:
     Muestra un mensaje de texto temporal en pantalla con un fondo semitransparente.
     Incluye animación de entrada/salida (fade o slide) y movimiento suave.
     """
-    def __init__(self, text, duration=3.0, y_pos=100, font_name="montserrat_bold", font_size=32):
+    def __init__(self, text, duration=3.0, y_pos=100, font_name="montserrat_bold", font_size=32, text_color=(255, 255, 255, 255)):
         """
         :param text: El mensaje a mostrar.
         :param duration: Tiempo en segundos antes de desaparecer.
         :param y_pos: Posición vertical base (desde arriba).
         :param font_size: Tamaño de la fuente.
+        :param text_color: Color del texto (R, G, B, A).
         """
         data_manager = DataManager.instance()
         config = data_manager.get_config()
@@ -27,8 +28,8 @@ class TextMessage:
         # Configuración Visual
         self.base_y = y_pos
         self.font_size = font_size
-        self.bg_color = (0.0, 0.0, 0.0, 0.7) # Negro semitransparente
-        self.text_color = (255, 255, 255, 255)
+        self.bg_color = (0.0, 0.0, 0.0, 1.0) # Negro opaco
+        self.text_color = text_color
         self.border_color = (0.8, 0.8, 0.8, 1.0)
         
         # Configuración de Animación

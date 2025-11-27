@@ -202,10 +202,10 @@ class StatuePuzzle:
             self.door.unlock()
 
     def _show_message(self, text, font_size=28):
-        self.active_message = TextMessage(text, duration=5.0, y_pos=self.display_height*0.15, font_size=24, font_name="montserrat_light")
+        self.active_message = TextMessage(text, duration=5.0, y_pos=self.display_height*0.15, font_size=24, font_name="montserrat_light", text_color=(255, 255, 0, 255))
 
     def _show_board_message(self, text, font_size=20, duration=5.0):
-        self.active_message = BoardMessage(text, y_pos=self.display_height*0.15, font_size=font_size, duration=duration, font_name="montserrat_light")
+        self.active_message = BoardMessage(text, y_pos=self.display_height*0.15, font_size=font_size, duration=duration, font_name="montserrat_light", text_color=(255, 255, 0, 255))
 
     def play_intro(self):
         self.is_intro_playing = True

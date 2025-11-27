@@ -165,6 +165,25 @@ class Level:
             Objects.draw_textured_plane_3d(size_x=floor_size[0], size_z=floor_size[1], tiling=floor_tiling)
             
             glDisable(GL_TEXTURE_2D)
+
+        compass_config = self.data.get("puzzle_config", {}).get("properties", {}).get("compass_floor")
+        if compass_config:
+            tex_id = self.texture_manager.get_texture(compass_config.get("texture_id", "tex_compass_rose"))
+            if tex_id != -1:
+                glEnable(GL_TEXTURE_2D)
+                glBindTexture(GL_TEXTURE_2D, tex_id)
+                glColor3f(1.0, 1.0, 1.0)
+
+                pos = compass_config.get("position", [32.0, 0.01, 0.0])
+                size = compass_config.get("size", [10.0, 10.0])
+                Objects.draw_textured_plane_3d(
+                    size_x=size[0],
+                    size_z=size[1],
+                    translate=pos,
+                    rotation=[0.0, 0.0, 0.0, 1.0],
+                )
+
+                glDisable(GL_TEXTURE_2D)
         
         # --- PAREDES ---
         walls = self.layout_data.get("walls", [])
