@@ -1,5 +1,6 @@
 from OpenGL.GL import *
 from systems.texture_manager import TextureManager
+from systems.audio_manager import AudioManager
 from systems.collision_system import CollisionSystem
 from game_objects.puzzles.statue import Statue
 from game_objects.puzzles.pedestal import Pedestal
@@ -10,8 +11,10 @@ from game_objects.ui_elements.board_message import BoardMessage
 class StatuePuzzle:
     def __init__(self, puzzle_data, display_width=800, display_height=600):
         self.texture_manager = TextureManager.instance()
+        self.audio_manager = AudioManager.instance()
         self.display_width, self.display_height = display_width, display_height
         self.solved = False
+        self.level_complete = False
         self.active_message = None
         self.selected_statue = None
         
@@ -85,7 +88,7 @@ class StatuePuzzle:
         self.touch_interactables = self.statues + [self.door]
         self.read_interactables = self.pedestals
         self.interaction_radius = 8.0
-        print("Puzzle Histórico cargado.")
+        print("Puzzle cargado.")
 
     def update(self, delta_time):
         if self.active_message:
@@ -124,11 +127,15 @@ class StatuePuzzle:
         if not target: return None
 
         if isinstance(target, Statue):
+            self.audio_manager.play_sound("statue_moving")
             self._handle_statue_selection(target)
 
         elif isinstance(target, Door):
             self._check_solution()
-            if not self.solved:
+            if self.solved:
+                self.audio_manager.play_sound("door_opening")
+                self.level_complete = True
+            else:
                 self._show_message("La puerta está cerrada. La historia debe ser corregida.")
         
         return target
@@ -193,13 +200,12 @@ class StatuePuzzle:
         if correct_count == len(self.pedestals):
             self.solved = True
             self.door.unlock()
-            self._show_message("¡Click! La historia está en orden. La puerta se abre.")
 
     def _show_message(self, text, font_size=28):
-        self.active_message = TextMessage(text, duration=5.0, y_pos=self.display_height*0.15, font_size=24, text_color=(255, 255, 0, 255))
+        self.active_message = TextMessage(text, duration=5.0, y_pos=self.display_height*0.15, font_size=24, font_name="montserrat_light", text_color=(255, 255, 0, 255))
 
     def _show_board_message(self, text, font_size=20, duration=5.0):
-        self.active_message = BoardMessage(text, y_pos=self.display_height*0.15, font_size=font_size, duration=duration, text_color=(255, 255, 0, 255))
+        self.active_message = BoardMessage(text, y_pos=self.display_height*0.15, font_size=font_size, duration=duration, font_name="montserrat_light", text_color=(255, 255, 0, 255))
 
     def play_intro(self):
         self.is_intro_playing = True

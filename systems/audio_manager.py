@@ -108,6 +108,18 @@ class AudioManager:
             print(f"AudioManager: Error cargando SFX {file_path}: {e}")
             return None
 
+    def unload_sound(self, name: str):
+        """
+        Descarga un efecto de sonido de la memoria y detiene su reproducción si está activo.
+        Útil para liberar memoria cuando un sonido ya no se necesita.
+        """
+        self.stop_sound(name)
+        
+        if name in self.sounds:
+            del self.sounds[name]
+
+
+
     def play_sound(self, name: str, loops: int = 0, volume: float = 1.0):
         """Reproduce un SFX por nombre. 'loops' permite repetir varias veces."""
         snd = self.sounds.get(name)

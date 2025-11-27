@@ -207,7 +207,7 @@
             ],
             "compass_floor": {
                 "position": [17.5, 0.01, 0.0],
-                "size": [30.0, 30.0],
+                "size": [26.0, 26.0],
                 "texture_id": "tex_compass_rose",
                 "rotation": [0, 1, 0, 0],
                 "name": "Rosa de los Vientos",
