@@ -10,12 +10,13 @@ class BoardMessage:
     Muestra un panel con MULTIPLES líneas de texto.
     Incluye animación de entrada/salida y fondo semitransparente.
     """
-    def __init__(self, text_lines, duration=5.0, y_pos=100, font_name="montserrat_bold", font_size=24):
+    def __init__(self, text_lines, duration=5.0, y_pos=100, font_name="montserrat_bold", font_size=24, text_color=(255, 255, 255, 255)):
         """
         :param text_lines: Lista de strings ["Línea 1", "Línea 2"].
         :param duration: Tiempo en segundos antes de desaparecer.
         :param y_pos: Posición vertical base (desde arriba).
         :param font_size: Tamaño de la fuente.
+        :param text_color: Color del texto (R, G, B, A).
         """
         data_manager = DataManager.instance()
         config = data_manager.get_config()
@@ -30,8 +31,8 @@ class BoardMessage:
         self.font_size = font_size
         self.line_spacing = 1.2 # Espaciado entre líneas (multiplicador de altura de fuente)
         
-        self.bg_color = (0.0, 0.0, 0.0, 0.8) # Negro un poco más opaco
-        self.text_color = (255, 255, 255, 255)
+        self.bg_color = (0.0, 0.0, 0.0, 1.0) # Negro opaco
+        self.text_color = text_color
         self.border_color = (0.8, 0.8, 0.8, 1.0)
         
         # Configuración de Animación

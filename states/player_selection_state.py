@@ -58,7 +58,6 @@ class PlayerSelectionState(BaseState):
         self.text_title = data_text_selection.get("title", "Selecciona")
         self.text_play_button = data_text_selection.get("confirm_button", "Jugar")
         self.text_exit_button = data_text_selection.get("exit_button", "Regresar")
-        self.instructions_lines = data_text_selection.get("instructions_lines", [])
         # endregion
 
         self.character_selection_platform = CharacterSelectionPlatform(0.0, 0.0, 0.0)
@@ -68,6 +67,8 @@ class PlayerSelectionState(BaseState):
         self.platform_rotation = 0.0
         self.target_rotation = 0.0 
 
+        self.title_font = "montserrat_semibold"
+        self.button_font = "montserrat_bold"
         self.banner_color = [0.1, 0.1, 0.05, 0.95]
         banner_width = self.display_width * 0.35
         self.banner_rect = pygame.Rect(
@@ -82,8 +83,8 @@ class PlayerSelectionState(BaseState):
             self.display_width * 0.15,
             self.display_height * 0.1,
             self.text_play_button,
-            text_font="montserrat_bold",
-            text_size=36,
+            text_font=self.button_font,
+            text_size=24,
             border_color=(0.1, 0.1, 0.1, 1.0)
         )
         
@@ -93,8 +94,8 @@ class PlayerSelectionState(BaseState):
             self.display_width * 0.15,
             self.display_height * 0.1,
             self.text_exit_button,
-            text_font="montserrat_bold",
-            text_size=36,
+            text_font=self.button_font,
+            text_size=24,
             border_color=(0.1, 0.1, 0.1, 1.0)
         )
         
@@ -114,7 +115,7 @@ class PlayerSelectionState(BaseState):
         self.key_right = KeyIcon(self.display_width * 0.9, self.display_height * 0.5, 105, "ARROWRIGHT")
         # endregion
         
-        self.audio_manager.play_sound(self.background_sounds[self.selected_index], volume=0.5)
+        self.audio_manager.play_sound(self.background_sounds[self.selected_index], volume=0.4)
     
     def update(self, delta_time, _event_list):
         # region Movimiento
@@ -198,7 +199,6 @@ class PlayerSelectionState(BaseState):
         self._draw_banner()
         self._draw_title()
         self._draw_icons()
-        draw_instructions(self.display_width, self.display_height, self.instructions_lines)
     
     def _draw_banner(self):
         """
@@ -211,7 +211,7 @@ class PlayerSelectionState(BaseState):
         nombre_actual = self.character_names[self.selected_index]
         pos_x = self.display_width / 2
         pos_y = self.banner_rect.top + self.banner_rect.height / 2
-        draw_text_2d(x=pos_x, y=self.display_height-pos_y, text=nombre_actual, size=48, center=True,color=(255, 255, 255, 255))
+        draw_text_2d(x=pos_x, y=self.display_height-pos_y, text=nombre_actual, size=48, font_name=self.title_font, center=True,color=(255, 255, 255, 255))
     
     def _draw_background(self):
         width, height, pos_x, pos_y, pos_z = self.background_rect
@@ -225,8 +225,8 @@ class PlayerSelectionState(BaseState):
         
     def _draw_title(self):
         pos_x = self.display_width / 2
-        pos_y = self.display_height * 0.2
-        draw_text_2d(x=pos_x, y=self.display_height-pos_y, text="Selecciona Un Personaje", size=56, center=True,color=(255, 255, 255, 255))
+        pos_y = self.display_height * 0.1
+        draw_text_2d(x=pos_x, y=self.display_height-pos_y, text="Selecciona Un Personaje", size=56, font_name=self.title_font,center=True,color=(255, 255, 255, 255))
 
     def _draw_icons(self):
         self.play_button.draw()

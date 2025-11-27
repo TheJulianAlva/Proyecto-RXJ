@@ -4,6 +4,8 @@ from OpenGL.GL import *
 # --- 1. Diccionario de Fuentes ---
 FONTS = {
     "montserrat_bold": "fonts/Montserrat-Thin.ttf",
+    "montserrat_light": "fonts/Montserrat-Light.ttf",
+    "montserrat_semibold": "fonts/Montserrat-SemiBold.ttf"
 }
 
 DEFAULT_FONT_NAME = "montserrat_bold"
