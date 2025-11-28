@@ -117,6 +117,7 @@ class PlayState(BaseState):
             self.current_level.destroy()
             self.current_level = None
             self.current_puzzle = None
+            self.trigger_manager.unload_triggers()
         
         level_path = f"data/levels/{level_id}.json"
         level_data = self.data_manager._load_json(level_path)
@@ -223,7 +224,7 @@ class PlayState(BaseState):
         self.player.draw()
         if self.current_level:
             self.current_level.draw()
-            #self._draw_debug_triggers()
+            self._draw_debug_triggers()
 
         self.engine.setup_2d_orthographic()
         draw_instructions(

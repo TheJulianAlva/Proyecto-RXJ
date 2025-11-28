@@ -58,3 +58,6 @@ class TriggerManager:
             if trigger.is_player_inside(player):
                 return trigger.target_camera_id
         return None
+
+    def unload_triggers(self):
+        self.triggers = []

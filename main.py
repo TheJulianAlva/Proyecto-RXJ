@@ -18,8 +18,8 @@ def main():
     config = data_manager.get_config()
     display_config = config.get("display", {}) 
     display_size = (
-        display_config.get("width", 1280),  # 1280 por defecto
-        display_config.get("height", 720)  # 720 por defecto
+        display_config.get("width", 1280),
+        display_config.get("height", 720)
     )
     
     pygame.display.set_mode(display_size, DOUBLEBUF | OPENGL)
