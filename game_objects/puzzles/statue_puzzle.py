@@ -189,6 +189,10 @@ class StatuePuzzle:
         statue_2.set_position(list(self.slots_positions[index_1]))
         
         self._show_message("Estatuas intercambiadas.")
+        
+        # Verificar si el puzzle está resuelto después del intercambio
+        if not self.solved:
+            self._check_solution_after_swap()
 
     def _check_solution(self):
         correct_count = 0
@@ -200,6 +204,20 @@ class StatuePuzzle:
         if correct_count == len(self.pedestals):
             self.solved = True
             self.door.unlock()
+
+    def _check_solution_after_swap(self):
+        """Verifica si el puzzle está resuelto después de intercambiar estatuas."""
+        correct_count = 0
+        for i, pedestal in enumerate(self.pedestals):
+            statue_on_top = self.current_statues_order[i]
+            if statue_on_top.id == pedestal.correct_statue_id:
+                correct_count += 1
+        
+        if correct_count == len(self.pedestals):
+            self.solved = True
+            self.audio_manager.play_sound("win_effect")
+            self.door.unlock()
+            self._show_message("¡Excelente! Has resuelto el puzzle correctamente.")
 
     def _show_message(self, text, font_size=28):
         self.active_message = TextMessage(text, duration=5.0, y_pos=self.display_height*0.15, font_size=24, font_name="montserrat_light", text_color=(255, 255, 0, 255))
