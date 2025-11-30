@@ -5,7 +5,6 @@
         "description": "Orienta los monumentos del mundo según su dirección cardinal correcta",
         "next_level_id": "game_complete"
     },
-
     "assets": {
         "textures": {
             "tex_floor": "assets/level_3/floor.jpg",
@@ -25,79 +24,223 @@
             "sfx_reject": "assets/sounds/statue_reject.wav"
         }
     },
-
     "player_spawn": {
-        "position": [-25.0, 0.0, 15.0],
+        "position": [
+            -25.0,
+            0.0,
+            15.0
+        ],
         "rotation_y": 180.0
     },
-
     "lighting": {
-        "ambient_color": [0.3, 0.3, 0.35, 1.0],
+        "ambient_color": [
+            0.3,
+            0.3,
+            0.35,
+            1.0
+        ],
         "lights": [
             {
                 "id": "light_01",
-                "type": "point", 
-                "position": [-20.0, 15.0, 0.0, 1.0],
-                "diffuse": [0.8, 0.8, 0.9, 1.0],
-                "specular": [0.4, 0.4, 0.5, 1.0],
-                "attenuation": [1.0, 0.05, 0.01] 
+                "type": "point",
+                "position": [
+                    -20.0,
+                    15.0,
+                    0.0,
+                    1.0
+                ],
+                "diffuse": [
+                    0.8,
+                    0.8,
+                    0.9,
+                    1.0
+                ],
+                "specular": [
+                    0.4,
+                    0.4,
+                    0.5,
+                    1.0
+                ],
+                "attenuation": [
+                    1.0,
+                    0.05,
+                    0.01
+                ]
             },
             {
                 "id": "light_02",
-                "type": "point", 
-                "position": [15.0, 15.0, 0.0, 1.0],
-                "diffuse": [1.0, 1.0, 1.0, 1.0],
-                "specular": [0.3, 0.3, 0.3, 1.0],
-                "attenuation": [1.0, 0.01, 0.001] 
+                "type": "point",
+                "position": [
+                    15.0,
+                    15.0,
+                    0.0,
+                    1.0
+                ],
+                "diffuse": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specular": [
+                    0.3,
+                    0.3,
+                    0.3,
+                    1.0
+                ],
+                "attenuation": [
+                    1.0,
+                    0.01,
+                    0.001
+                ]
             }
         ]
     },
-
     "cameras": [
         {
             "id": "cam_1",
-            "position": [10.0, 18.0, 20.0],
-            "look_at": [-20.0, 5.0, -5.0]
+            "position": [
+                5.0,
+                18.0,
+                20.0
+            ],
+            "look_at": [
+                -30.0,
+                5.0,
+                0.0
+            ]
         },
         {
             "id": "cam_2",
-            "position": [-5.0, 20.0, 20.0],
-            "look_at": [20.0, 5.0, -3.0]
+            "position": [
+                -13.0,
+                22.0,
+                20.0
+            ],
+            "look_at": [
+                20.0,
+                5.0,
+                -3.0
+            ]
         }
     ],
-
     "triggers": [
         {
             "type": "camera_change",
-            "box_min": [-35.0, 0.0, -20.0],
-            "box_max": [0.0, 1.0, 20.0],
+            "box_min": [
+                -35.0,
+                0.0,
+                -20.0
+            ],
+            "box_max": [
+                -5.0,
+                1.0,
+                20.0
+            ],
             "target_camera_id": "cam_1"
         },
         {
             "type": "camera_change",
-            "box_min": [0.0, 0.0, -20.0],
-            "box_max": [35.0, 1.0, 20.0],
+            "box_min": [
+                -5.0,
+                0.0,
+                -20.0
+            ],
+            "box_max": [
+                35.0,
+                1.0,
+                20.0
+            ],
             "target_camera_id": "cam_2"
         }
     ],
-
     "layout": {
         "floor": {
-            "size": [70.0, 40.0],
+            "size": [
+                70.0,
+                40.0
+            ],
             "texture_id": "tex_floor",
-            "tiling": [7.0, 4.0]
+            "tiling": [
+                7.0,
+                4.0
+            ]
         },
         "walls": [
-            { "pos": [-35.0, 10.0, 0.0], "size": [0.5, 20.0, 40.0], "texture_id": "tex_wall_w" },
-            { "pos": [0.0, 10.0, -20.0], "size": [70.0, 20.0, 0.5], "texture_id": "tex_wall_w" },
-            { "pos": [35.0, 10.0, 0.0],  "size": [0.5, 20.0, 40.0], "texture_id": "tex_wall_w" },
-            { "pos": [0.0, 10.0, 20.0],  "size": [70.0, 20.0, 0.5], "texture_id": "tex_wall_w" }
+            {
+                "pos": [
+                    -35.0,
+                    10.0,
+                    0.0
+                ],
+                "size": [
+                    0.5,
+                    20.0,
+                    40.0
+                ],
+                "texture_id": "tex_wall_w"
+            },
+            {
+                "pos": [
+                    0.0,
+                    10.0,
+                    -20.0
+                ],
+                "size": [
+                    70.0,
+                    20.0,
+                    0.5
+                ],
+                "texture_id": "tex_wall_w"
+            },
+            {
+                "pos": [
+                    35.0,
+                    10.0,
+                    0.0
+                ],
+                "size": [
+                    0.5,
+                    20.0,
+                    40.0
+                ],
+                "texture_id": "tex_wall_w"
+            },
+            {
+                "pos": [
+                    0.0,
+                    10.0,
+                    20.0
+                ],
+                "size": [
+                    70.0,
+                    20.0,
+                    0.5
+                ],
+                "texture_id": "tex_wall_w"
+            }
         ],
         "decorations": [
-             { "pos": [0, 0, 0], "model_id": "mdl_compass_center", "scale": [1,1,1], "rot": [0,0,0] }
+            {
+                "pos": [
+                    0,
+                    0,
+                    0
+                ],
+                "model_id": "mdl_compass_center",
+                "scale": [
+                    1,
+                    1,
+                    1
+                ],
+                "rot": [
+                    0,
+                    0,
+                    0
+                ]
+            }
         ]
     },
-
     "puzzle_config": {
         "type": "StatuePuzzle",
         "assets_ref": {
@@ -106,57 +249,135 @@
         },
         "properties": {
             "validate_on_exit": true,
-            "solution_order": [1, 2, 3, 4],
+            "solution_order": [
+                1,
+                2,
+                3,
+                4
+            ],
             "door_config": {
-                "position": [-34.5, 5.0, 5.0],
-                "size": [1.0, 14.0, 10.0],
-                "rotation": [0, 0, 0, 1],
+                "position": [
+                    -34.5,
+                    5.0,
+                    5.0
+                ],
+                "size": [
+                    1.0,
+                    14.0,
+                    10.0
+                ],
+                "rotation": [
+                    0,
+                    0,
+                    0,
+                    1
+                ],
                 "texture_asset": "tex_door",
                 "is_locked": true
             },
             "statues": [
-                { 
+                {
                     "id": 1,
-                    "position": [17.5, 8.0, 12.0],
-                    "size": [3.0, 8.0, 3.0],
-                    "rotation": [-45, 0, 1, 0],
+                    "position": [
+                        17.5,
+                        8.0,
+                        12.0
+                    ],
+                    "size": [
+                        3.0,
+                        8.0,
+                        3.0
+                    ],
+                    "rotation": [
+                        -45,
+                        0,
+                        1,
+                        0
+                    ],
                     "initial_slot": 3,
                     "name": "Torre Eiffel",
                     "asset": "tex_statue_eiffel"
                 },
-                { 
+                {
                     "id": 2,
-                    "position": [29.5, 8.0, 0.0],
-                    "size": [3.0, 8.0, 3.0],
-                    "rotation": [-45, 0, 1, 0],
+                    "position": [
+                        29.5,
+                        8.0,
+                        0.0
+                    ],
+                    "size": [
+                        3.0,
+                        8.0,
+                        3.0
+                    ],
+                    "rotation": [
+                        -45,
+                        0,
+                        1,
+                        0
+                    ],
                     "initial_slot": 0,
                     "name": "Pirámides de Egipto",
                     "asset": "tex_statue_pyramids"
                 },
-                { 
+                {
                     "id": 3,
-                    "position": [5.5, 8.0, 0.0],
-                    "size": [3.0, 8.0, 3.0],
-                    "rotation": [-45, 0, 1, 0],
+                    "position": [
+                        5.5,
+                        8.0,
+                        0.0
+                    ],
+                    "size": [
+                        3.0,
+                        8.0,
+                        3.0
+                    ],
+                    "rotation": [
+                        -45,
+                        0,
+                        1,
+                        0
+                    ],
                     "initial_slot": 1,
                     "name": "Estatua de la Libertad",
                     "asset": "tex_statue_liberty"
                 },
-                { 
+                {
                     "id": 4,
-                    "position": [17.5, 8.0, -12.0],
-                    "size": [3.0, 8.0, 3.0],
-                    "rotation": [-45, 0, 1, 0],
+                    "position": [
+                        17.5,
+                        8.0,
+                        -12.0
+                    ],
+                    "size": [
+                        3.0,
+                        8.0,
+                        3.0
+                    ],
+                    "rotation": [
+                        -45,
+                        0,
+                        1,
+                        0
+                    ],
                     "initial_slot": 2,
                     "name": "Gran Muralla China",
                     "asset": "tex_statue_great_wall"
                 }
             ],
             "pedestals": [
-                { 
+                {
                     "correct_statue_id": 1,
-                    "position": [17.5, 1.5, 15.0],
-                    "size": [3.0, 3.0, 3.0],
+                    "position": [
+                        17.5,
+                        1.5,
+                        15.0
+                    ],
+                    "size": [
+                        3.0,
+                        3.0,
+                        3.0
+                    ],
                     "statue_offset": 6.5,
                     "cardinal_direction": "Norte",
                     "phrase": [
@@ -166,10 +387,18 @@
                     ],
                     "asset": "tex_floor"
                 },
-                { 
+                {
                     "correct_statue_id": 2,
-                    "position": [32.5, 1.5, 0.0],
-                    "size": [3.0, 3.0, 3.0],
+                    "position": [
+                        32.5,
+                        1.5,
+                        0.0
+                    ],
+                    "size": [
+                        3.0,
+                        3.0,
+                        3.0
+                    ],
                     "statue_offset": 6.5,
                     "cardinal_direction": "Este",
                     "phrase": [
@@ -179,10 +408,18 @@
                     ],
                     "asset": "tex_floor"
                 },
-                { 
+                {
                     "correct_statue_id": 3,
-                    "position": [3.5, 1.5, 0.0],
-                    "size": [3.0, 3.0, 3.0],
+                    "position": [
+                        3.5,
+                        1.5,
+                        0.0
+                    ],
+                    "size": [
+                        3.0,
+                        3.0,
+                        3.0
+                    ],
                     "statue_offset": 6.5,
                     "cardinal_direction": "Oeste",
                     "phrase": [
@@ -192,10 +429,18 @@
                     ],
                     "asset": "tex_floor"
                 },
-                { 
+                {
                     "correct_statue_id": 4,
-                    "position": [17.5, 1.5, -15.0],
-                    "size": [3.0, 3.0, 3.0],
+                    "position": [
+                        17.5,
+                        1.5,
+                        -15.0
+                    ],
+                    "size": [
+                        3.0,
+                        3.0,
+                        3.0
+                    ],
                     "statue_offset": 6.5,
                     "cardinal_direction": "Sur",
                     "phrase": [
@@ -207,10 +452,22 @@
                 }
             ],
             "compass_floor": {
-                "position": [17.5, 0.01, 0.0],
-                "size": [24.0, 24.0],
+                "position": [
+                    17.5,
+                    0.01,
+                    0.0
+                ],
+                "size": [
+                    24.0,
+                    24.0
+                ],
                 "texture_id": "tex_compass_rose",
-                "rotation": [0, 1, 0, 0],
+                "rotation": [
+                    0,
+                    1,
+                    0,
+                    0
+                ],
                 "name": "Rosa de los Vientos",
                 "description": "Una brújula gigante en el suelo marca las direcciones cardinales"
             }

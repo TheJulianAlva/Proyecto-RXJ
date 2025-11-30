@@ -19,12 +19,14 @@ from game_objects.ui_elements.key_icon import KeyIcon
 from game_objects.ui_elements.menu_button import MenuButton
 from utilities.instructions_overlay import draw_instructions
 from utilities.fade_transition import FadeTransition
-from states.game_complete_state import GameCompleteState
+from states.outro_state import OutroState
 
 class PlayState(BaseState):
-    def __init__(self, engine, initial_level="level_1"):
+    def __init__(self, engine, initial_level="level_3"):
         super().__init__(engine)
         self.engine = engine
+        self.display_width = self.engine.display_width
+        self.display_height = self.engine.display_height
         self.engine.setup_3d_perspective()
         # region Instancias Singleton
         self.data_manager = DataManager.instance()
@@ -33,9 +35,6 @@ class PlayState(BaseState):
         self.trigger_manager = TriggerManager.instance()
         self.audio_manager = AudioManager.instance()
         # endregion
-        config = self.data_manager.get_config()
-        self.display_width = self.engine.display_width
-        self.display_height = self.engine.display_height
         
         # region Configuración Player
         player_config = self.data_manager.load_game_data()
@@ -58,6 +57,7 @@ class PlayState(BaseState):
         self.load_level(initial_level)
         
         # region Instancia Sounds
+        config = self.data_manager.get_config()
         data_assets_play = config.get("states", {}).get("play_state", {}).get("assets")
         sound_assets = data_assets_play.get("sounds").items()
         for sound_name, sound_path in sound_assets:
@@ -106,6 +106,9 @@ class PlayState(BaseState):
             color=(0, 0, 0, 0),
             border_color=(0, 0, 0, 0)
         )
+        self.instructions_timer = 0
+        self.instructions_duration = 30.0
+        self.show_instructions = False
         # endregion
         
     def load_level(self, level_id):
@@ -164,7 +167,7 @@ class PlayState(BaseState):
                 # Juego completado
                 def transition_to_complete():
                     self.audio_manager.stop_music()
-                    self.engine.change_state(GameCompleteState(self.engine))
+                    self.engine.change_state(OutroState(self.engine))
                 
                 self.fade_transition.start_transition(
                     on_fade_out_complete=transition_to_complete
@@ -186,10 +189,6 @@ class PlayState(BaseState):
         if self.input_manager.was_action_pressed("pause"):
             self.engine.push_state(PauseState(self.engine))
             return
-
-        if self.input_manager.was_action_pressed("return"):
-            self.engine.pop_state()
-            return
             
         if self.input_manager.was_action_pressed("interact") and self.player_can_touch_interact:
             if self.current_level:
@@ -205,11 +204,11 @@ class PlayState(BaseState):
             self.current_level.update(delta_time)
             self.update_active_camera()
         self.key_interact.update(delta_time)    
-        self.key_read.update(delta_time)    
+        self.key_read.update(delta_time)
+        self.update_instructions_timer(delta_time)
 
     def update_active_camera(self):
         target_camera = self.trigger_manager.check_triggers(self.player)
-        if not target_camera: print("SIN CAMARA")
         current_camera = self.cam_manager.get_active_camera_id()
         if target_camera != current_camera:
             self.cam_manager.set_active_camera(target_camera)
@@ -224,27 +223,34 @@ class PlayState(BaseState):
         self.player.draw()
         if self.current_level:
             self.current_level.draw()
-            self._draw_debug_triggers()
+            #self._draw_debug_triggers()
 
         self.engine.setup_2d_orthographic()
-        draw_instructions(
-            self.engine.display_width,
-            self.engine.display_height,
-            self.instructions_lines,
-            font_name=self.button_font
-        )
+        if self.show_instructions:
+            draw_instructions(
+                self.engine.display_width,
+                self.engine.display_height,
+                self.instructions_lines,
+                font_name=self.button_font
+            )
         if self.player_can_touch_interact:
             self.key_interact.draw()
             self.button_interact.draw()
         if self.player_can_read_interact:
             self.key_read.draw()
             self.button_read.draw()
+
         
         # Dibujar el fade si está activo
         if self.fade_transition.is_active():
             self.fade_transition.draw()
 
-        
+    def update_instructions_timer(self, delta_time):
+        self.instructions_timer += delta_time
+        if self.instructions_timer >= self.instructions_duration:
+            self.instructions_timer = 0
+            self.show_instructions = not self.show_instructions
+
     def _draw_debug_triggers(self):
         for trigger in self.trigger_manager.triggers:
             trigger.draw()

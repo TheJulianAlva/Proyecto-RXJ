@@ -12,7 +12,7 @@ class FadeTransition:
     FADING_IN = 2
     COMPLETE = 3
     
-    def __init__(self, display_width, display_height, fade_speed=1.5):
+    def __init__(self, display_width, display_height, fade_speed=2.0):
         """
         Args:
             display_width: Ancho de la pantalla
