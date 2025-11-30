@@ -44,8 +44,7 @@
         },
         "play_state": {
             "assets": {
-                "textures": {
-                },
+                "textures": {},
                 "music": "assets/audio/background_music.mp3",
                 "sounds": {
                     "toogle_button_selected": "assets/audio/ui/toggle_button_selected.ogg",
@@ -53,6 +52,7 @@
                     "footsteps": "assets/audio/footsteps.ogg",
                     "statue_moving": "assets/audio/level/statue_moving.ogg",
                     "door_opening": "assets/audio/level/door_opening.ogg",
+                    "door_locked": "assets/audio/level/door_locked.ogg",
                     "win_effect": "assets/audio/level/win_effect.mp3"
                 }
             }

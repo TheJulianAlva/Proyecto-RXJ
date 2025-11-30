@@ -106,6 +106,9 @@ class PlayState(BaseState):
             color=(0, 0, 0, 0),
             border_color=(0, 0, 0, 0)
         )
+        self.instructions_timer = 0
+        self.instructions_duration = 30.0
+        self.show_instructions = False
         # endregion
         
     def load_level(self, level_id):
@@ -205,11 +208,11 @@ class PlayState(BaseState):
             self.current_level.update(delta_time)
             self.update_active_camera()
         self.key_interact.update(delta_time)    
-        self.key_read.update(delta_time)    
+        self.key_read.update(delta_time)
+        self.update_instructions_timer(delta_time)
 
     def update_active_camera(self):
         target_camera = self.trigger_manager.check_triggers(self.player)
-        if not target_camera: print("SIN CAMARA")
         current_camera = self.cam_manager.get_active_camera_id()
         if target_camera != current_camera:
             self.cam_manager.set_active_camera(target_camera)
@@ -224,27 +227,34 @@ class PlayState(BaseState):
         self.player.draw()
         if self.current_level:
             self.current_level.draw()
-            self._draw_debug_triggers()
+            #self._draw_debug_triggers()
 
         self.engine.setup_2d_orthographic()
-        draw_instructions(
-            self.engine.display_width,
-            self.engine.display_height,
-            self.instructions_lines,
-            font_name=self.button_font
-        )
+        if self.show_instructions:
+            draw_instructions(
+                self.engine.display_width,
+                self.engine.display_height,
+                self.instructions_lines,
+                font_name=self.button_font
+            )
         if self.player_can_touch_interact:
             self.key_interact.draw()
             self.button_interact.draw()
         if self.player_can_read_interact:
             self.key_read.draw()
             self.button_read.draw()
+
         
         # Dibujar el fade si está activo
         if self.fade_transition.is_active():
             self.fade_transition.draw()
 
-        
+    def update_instructions_timer(self, delta_time):
+        self.instructions_timer += delta_time
+        if self.instructions_timer >= self.instructions_duration:
+            self.instructions_timer = 0
+            self.show_instructions = not self.show_instructions
+
     def _draw_debug_triggers(self):
         for trigger in self.trigger_manager.triggers:
             trigger.draw()

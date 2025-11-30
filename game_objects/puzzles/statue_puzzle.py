@@ -126,7 +126,7 @@ class StatuePuzzle:
         target = CollisionSystem.cast_ray(player_pos, player_rot, self.touch_interactables, self.interaction_radius)
         if not target: return None
 
-        if isinstance(target, Statue):
+        if isinstance(target, Statue) and not self.solved:
             self.audio_manager.play_sound("statue_moving")
             self._handle_statue_selection(target)
 
@@ -136,6 +136,7 @@ class StatuePuzzle:
                 self.audio_manager.play_sound("door_opening")
                 self.level_complete = True
             else:
+                self.audio_manager.play_sound("door_locked")
                 self._show_message("La puerta está cerrada. La historia debe ser corregida.")
         
         return target
@@ -146,7 +147,7 @@ class StatuePuzzle:
         target = CollisionSystem.cast_ray(player_pos, player_rot, self.read_interactables, self.interaction_radius)
         if not target: return None
 
-        elif isinstance(target, Pedestal):
+        elif isinstance(target, Pedestal) and not self.solved:
             message = ["Hay una inscripción en el pedestal..."] + target.phrase
             self._show_board_message(message, font_size=20)
 
