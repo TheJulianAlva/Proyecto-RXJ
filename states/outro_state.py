@@ -20,9 +20,9 @@ class OutroState(BaseState):
         self.input_manager = InputManager.instance()
         self.audio_manager = AudioManager.instance()
 
-        video_path = "assets/video/intro_video.mp4"
-        self.audio_name = "intro_audio"
-        audio_path = "assets/audio/intro_audio.ogg"
+        video_path = "assets/video/outro_video.mp4"
+        self.audio_name = "outro_audio"
+        audio_path = "assets/audio/outro_audio.mp3"
         self.video = VideoPlayer(video_path, width=self.width*0.9, height=self.height, loop=False)
         self.audio_manager.load_sound(self.audio_name, audio_path)
         self.audio_manager.play_sound(self.audio_name, volume=0.5)
