@@ -75,8 +75,8 @@ class PauseState(BaseState):
             text="Reanudar",
             text_font="montserrat_bold",
             text_size=26,
-            color=(68, 124, 86, 255),
-            hover_color=(98, 154, 116, 255),
+            color=(98, 154, 116, 255),
+            hover_color=(68, 124, 86, 255), 
             border_color=(180, 224, 188, 255),
             text_color=(255, 255, 255, 255),
         )
@@ -89,8 +89,8 @@ class PauseState(BaseState):
             text="Salir al menu",
             text_font="montserrat_bold",
             text_size=26,
-            color=(84, 92, 132, 255),
-            hover_color=(114, 122, 162, 255),
+            color=(114, 122, 162, 255),
+            hover_color=(84, 92, 132, 255), 
             border_color=(194, 198, 236, 255),
             text_color=(255, 255, 255, 255),
         )
@@ -111,9 +111,9 @@ class PauseState(BaseState):
 
         self.instructions_lines = [
             "Esc: Reanudar",
-            "A/D: Ajustar volumen",
-            "Flechas Arriba/Abajo: Cambiar botón",
-            "Enter o S: Activar opción",
+            "Flechas Arriba/Abajo: Ajustar volumen",
+            "Flechas < , > : Cambiar botón",
+            "Enter: Activar opción",
         ]
 
     def update(self, delta_time, event_list):
@@ -129,23 +129,23 @@ class PauseState(BaseState):
             return
 
         if (
-            self.input_manager.was_action_pressed("ui_up")
-            or self.input_manager.was_action_pressed("ui_down")
+            self.input_manager.was_action_pressed("ui_left")
+            or self.input_manager.was_action_pressed("ui_right")
         ):
             self.button_focus_index = (self.button_focus_index + 1) % len(self.buttons)
             self._apply_button_focus()
 
-        if self.input_manager.was_action_pressed("panel_left"):
+        if self.input_manager.was_action_pressed("ui_down"):
             self._adjust_volume(-0.05)
             layout = self._compute_layout()
             self._apply_button_focus()
 
-        if self.input_manager.was_action_pressed("panel_right"):
+        if self.input_manager.was_action_pressed("ui_up"):
             self._adjust_volume(0.05)
             layout = self._compute_layout()
             self._apply_button_focus()
 
-        if self.input_manager.was_action_pressed("ui_select") or self.input_manager.was_action_pressed("panel_select"):
+        if self.input_manager.was_action_pressed("ui_select"):
             if self.button_focus_index == 0:
                 self.engine.pop_state()
             else:

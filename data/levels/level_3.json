@@ -17,11 +17,6 @@
             "tex_statue_pyramids": "assets/level_3/statues/Piramid.png",
             "tex_statue_liberty": "assets/level_3/statues/Statue-of-liberty.png",
             "tex_statue_great_wall": "assets/level_3/statues/the-great-wall-of-china.jpg"
-        },
-        "sounds": {
-            "bg_music": "assets/sounds/ambience_exploration.ogg",
-            "sfx_solve": "assets/sounds/puzzle_solved.wav",
-            "sfx_reject": "assets/sounds/statue_reject.wav"
         }
     },
     "player_spawn": {
@@ -219,34 +214,10 @@
                 ],
                 "texture_id": "tex_wall_w"
             }
-        ],
-        "decorations": [
-            {
-                "pos": [
-                    0,
-                    0,
-                    0
-                ],
-                "model_id": "mdl_compass_center",
-                "scale": [
-                    1,
-                    1,
-                    1
-                ],
-                "rot": [
-                    0,
-                    0,
-                    0
-                ]
-            }
         ]
     },
     "puzzle_config": {
         "type": "StatuePuzzle",
-        "assets_ref": {
-            "success_sound": "sfx_solve",
-            "reject_sound": "sfx_reject"
-        },
         "properties": {
             "validate_on_exit": true,
             "solution_order": [

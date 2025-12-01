@@ -22,7 +22,7 @@ from utilities.fade_transition import FadeTransition
 from states.outro_state import OutroState
 
 class PlayState(BaseState):
-    def __init__(self, engine, initial_level="level_3"):
+    def __init__(self, engine, initial_level="level_1"):
         super().__init__(engine)
         self.engine = engine
         self.display_width = self.engine.display_width

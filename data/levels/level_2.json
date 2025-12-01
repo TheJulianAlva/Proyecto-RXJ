@@ -16,10 +16,6 @@
             "tex_statue_corea": "assets/level_2/statues/corea.png",
             "tex_statue_francia": "assets/level_2/statues/francia.png",
             "tex_statue_ecuador": "assets/level_2/statues/ecuador.png"
-        },
-        "sounds": {
-            "bg_music": "assets/sounds/ambience_scary.ogg",
-            "sfx_solve": "assets/sounds/puzzle_solved.wav"
         }
     },
     "player_spawn": {
@@ -297,33 +293,10 @@
                 ],
                 "texture_id": "tex_wall_w"
             }
-        ],
-        "decorations": [
-            {
-                "pos": [
-                    -8,
-                    0,
-                    -8
-                ],
-                "model_id": "mdl_pedestal",
-                "scale": [
-                    1,
-                    1,
-                    1
-                ],
-                "rot": [
-                    0,
-                    0,
-                    0
-                ]
-            }
         ]
     },
     "puzzle_config": {
         "type": "StatuePuzzle",
-        "assets_ref": {
-            "success_sound": "sfx_solve"
-        },
         "properties": {
             "validate_on_exit": true,
             "solution_order": [
@@ -525,7 +498,7 @@
             ],
             [
                 "Lee el nombre del país en cada pedestal y busca su insignia correcta.",
-                "!Demuestra que conoces el mundo¡"
+                "¡Demuestra que conoces el mundo!"
             ]
         ]
     }
