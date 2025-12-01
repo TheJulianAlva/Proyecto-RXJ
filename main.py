@@ -15,15 +15,29 @@ def main():
     input_manager = InputManager.instance()
     audio_manager = AudioManager.instance()
     # endregion
+    
+    # Obtener información de la pantalla del usuario
+    display_info = pygame.display.Info()
+    screen_width = display_info.current_w
+    screen_height = display_info.current_h
+    
     config = data_manager.get_config()
     display_config = config.get("display", {}) 
+    desired_width = display_config.get("width", 1280)
+    desired_height = display_config.get("height", 720)
+    
+    # Ajustar automáticamente al tamaño de la pantalla si es necesario
     display_size = (
-        display_config.get("width", 1280),
-        display_config.get("height", 720)
+        min(desired_width, screen_width),
+        min(desired_height, screen_height)
     )
     
+    # Log si se ajustó la resolución
+    if display_size[0] != desired_width or display_size[1] != desired_height:
+        print(f"Resolución ajustada: {desired_width}x{desired_height} -> {display_size[0]}x{display_size[1]}")
+    
     pygame.display.set_mode(display_size, DOUBLEBUF | OPENGL)
-    pygame.display.set_caption("Proyecto RXJ")
+    pygame.display.set_caption("The Mansion Riddle")
     glEnable(GL_COLOR_MATERIAL)
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
     glEnable(GL_BLEND)

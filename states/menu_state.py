@@ -42,7 +42,7 @@ class MenuState(BaseState):
         for sound_key, sound_path in data_assets_menu.get("sounds", {}).items():
             self.audio_manager.load_sound(sound_key, sound_path)
             
-        menu_music = data_assets_menu.get("music")
+        self.menu_music = data_assets_menu.get("music")
         self.background_texture = self.texture_manager.get_texture("texture_background")
         # endregion
 
@@ -99,10 +99,12 @@ class MenuState(BaseState):
         # endregion
         self.background_image = pygame.Rect(0, 0, self.display_width, self.display_height)
         print("MenuState inicializado.")
-        self.audio_manager.play_music_loop(menu_music, volume=0.4)
+        self.audio_manager.play_music_loop(self.menu_music, volume=0.4)
 
     def update(self, delta_time, _event_list):
         from states.intro_state import IntroState
+        if not self.audio_manager.is_music_playing():
+            self.audio_manager.play_music_loop(self.menu_music, volume=0.4)
         
         if self.input_manager.was_action_pressed("quit"):
             self.engine.pop_state()
@@ -123,6 +125,7 @@ class MenuState(BaseState):
         self.key_enter.update(delta_time)
         # endregion
 
+
     def _toogle_selected_button(self):
         self.audio_manager.play_sound("toogle_button_selected")
         if self.start_button.is_selected:
@@ -138,6 +141,7 @@ class MenuState(BaseState):
             self.start_button.set_selected(True)
             self.selected_button = self.start_button
         self.key_enter.set_position(self.selected_button.rect.right-21, self.selected_button.rect.centery-42)
+        
 
     def draw(self):
         """Dibuja la UI en 2D."""

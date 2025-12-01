@@ -74,10 +74,10 @@ class GameCompleteState(BaseState):
         # Mensajes de victoria
         self.title = "¡FELICIDADES!"
         self.message_lines = [
-            "Has completado todos los niveles",
-            "y conseguido escapar de la mansión.",
+            "Has conseguido escapar de la mansión.",
             "",
-            "Gracias por jugar."
+            "Gracias por jugar.",
+            "- Equipo RXJ -"
         ]
         
         print("GameCompleteState inicializado.")

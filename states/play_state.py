@@ -167,6 +167,7 @@ class PlayState(BaseState):
                 # Juego completado
                 def transition_to_complete():
                     self.audio_manager.stop_music()
+                    self.audio_manager.stop_sound("footsteps")
                     self.engine.change_state(OutroState(self.engine))
                 
                 self.fade_transition.start_transition(
@@ -226,7 +227,7 @@ class PlayState(BaseState):
             #self._draw_debug_triggers()
 
         self.engine.setup_2d_orthographic()
-        if self.show_instructions:
+        if self.show_instructions and not self.current_puzzle.solved:
             draw_instructions(
                 self.engine.display_width,
                 self.engine.display_height,
