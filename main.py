@@ -36,7 +36,8 @@ def main():
     # Log si se ajustó la resolución
     if display_size[0] != desired_width or display_size[1] != desired_height:
         print(f"Resolución ajustada: {desired_width}x{desired_height} -> {display_size[0]}x{display_size[1]}")
-    
+    icono = pygame.image.load("assets/icon.png")
+    pygame.display.set_icon(icono)
     pygame.display.set_mode(display_size, DOUBLEBUF | OPENGL)
     pygame.display.set_caption("The Mansion Riddle")
     glEnable(GL_COLOR_MATERIAL)
